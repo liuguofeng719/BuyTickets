@@ -117,7 +117,13 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
                         btn_gopay.setTag(itemData.getOrderNumber());
                         tv_goDateTime.setText(itemData.getGoDate());
                         if (itemData.getIsPaid()) {
-                            btn_gopay.setText("已支付");
+                            btn_gopay.setText("退票");
+                            btn_gopay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            });
                         } else {
                             btn_gopay.setOnClickListener(new View.OnClickListener() {
                                 @Override
