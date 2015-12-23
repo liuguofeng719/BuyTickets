@@ -70,10 +70,10 @@ public class AddPassengerActivity extends BaseActivity {
                         @Override
                         public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                Toast.makeText(AddPassengerActivity.this, "乘客添加成功", Toast.LENGTH_SHORT).show();
+                                CommonUtils.make(AddPassengerActivity.this, "添加乘客成功");
                                 finish();
                             } else {
-                                Toast.makeText(AddPassengerActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                                CommonUtils.make(AddPassengerActivity.this,response.body().getErrorMessage());
                             }
                         }
 

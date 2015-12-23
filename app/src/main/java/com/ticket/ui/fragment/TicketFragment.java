@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ticket.R;
 import com.ticket.common.Constants;
@@ -15,6 +14,7 @@ import com.ticket.ui.activity.CityActivity;
 import com.ticket.ui.activity.FrequencyListActivity;
 import com.ticket.ui.activity.PickerActivity;
 import com.ticket.ui.base.BaseFragment;
+import com.ticket.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,7 +47,7 @@ public class TicketFragment extends BaseFragment {
     @OnClick(R.id.btn_submit)
     public void submit() {
         if (TextUtils.isEmpty(go_time.getText())) {
-            Toast.makeText(getActivity(), getString(R.string.tip_start_time), Toast.LENGTH_SHORT).show();
+            CommonUtils.make(getContext(), getString(R.string.tip_start_time));
             return;
         }
         Bundle bundle = new Bundle();
@@ -154,7 +154,7 @@ public class TicketFragment extends BaseFragment {
                     bundle.putString("startCityId", startCityId);
                     readyGoForResult(CityActivity.class, 1, bundle);
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.start_tip_city), Toast.LENGTH_SHORT).show();
+                    CommonUtils.make(getContext(), getString(R.string.start_tip_city));
                 }
             }
         });

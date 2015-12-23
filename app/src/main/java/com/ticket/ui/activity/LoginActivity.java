@@ -16,6 +16,7 @@ import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -31,6 +32,13 @@ public class LoginActivity extends BaseActivity {
     FrameLayout fl_btn_submit;
     @InjectView(R.id.tv_register)
     TextView tv_register;
+    @InjectView(R.id.tv_forgot)
+    TextView tv_forgot;
+
+    @OnClick(R.id.tv_forgot)
+    public void forgot(){
+        readyGo(RestAndForgotActivity.class);
+    }
 
     @Override
     protected int getContentViewLayoutID() {
@@ -80,7 +88,7 @@ public class LoginActivity extends BaseActivity {
                     }
                 } else {
                     CommonUtils.dismiss(mDialog);
-                    CommonUtils.make(getWindow().getDecorView(), getString(R.string.no_network));
+                    CommonUtils.make(LoginActivity.this, getString(R.string.no_network));
                 }
             }
         });
@@ -94,19 +102,19 @@ public class LoginActivity extends BaseActivity {
 
     private boolean validate() {
         if (TextUtils.isEmpty(ed_user_phone.getText())) {
-            CommonUtils.make(getWindow().getDecorView(), getString(R.string.login_phone_empty));
+            CommonUtils.make(LoginActivity.this, getString(R.string.login_phone_empty));
             return false;
         }
         if (!CommonUtils.isMobile(ed_user_phone.getText().toString())) {
-            CommonUtils.make(getWindow().getDecorView(), getString(R.string.login_phone_ok));
+            CommonUtils.make(LoginActivity.this, getString(R.string.login_phone_ok));
             return false;
         }
         if (TextUtils.isEmpty(ed_user_pwd.getText())) {
-            CommonUtils.make(getWindow().getDecorView(), getString(R.string.login_pwd_empty));
+            CommonUtils.make(LoginActivity.this, getString(R.string.login_pwd_empty));
             return false;
         }
         if (ed_user_pwd.getText().length() < 6) {
-            CommonUtils.make(getWindow().getDecorView(), getString(R.string.login_pwd_length));
+            CommonUtils.make(LoginActivity.this, getString(R.string.login_pwd_length));
             return false;
         }
         return true;

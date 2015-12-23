@@ -89,6 +89,17 @@
         />
     </FrameLayout>
     <TextView
+        android:id="@+id/tv_forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_reg_fogot"
+        android:layout_below="@+id/fl_btn_submit"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="20dp" />
+    <TextView
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,6 +109,6 @@
         android:layout_alignParentEnd="true"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:layout_marginRight="36dp"
+        android:layout_marginRight="34dp"
         android:layout_marginTop="20dp" />
 </RelativeLayout>

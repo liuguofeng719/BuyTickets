@@ -44,6 +44,6 @@ public class Constants {
         /**
          * 服务号相关信息
          */
-        public final static String APPID = "wxf8982470f270c06e";//服务号的应用号
+        public final static String APPID = "wxa620b0d55493b98e";//服务号的应用号
     }
 }

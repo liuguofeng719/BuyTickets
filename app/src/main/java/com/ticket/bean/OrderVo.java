@@ -3,6 +3,8 @@ package com.ticket.bean;
 import com.google.gson.annotations.SerializedName;
 
 public class OrderVo {
+    @SerializedName("OrderID")
+    public String orderId;//订单号
     @SerializedName("OrderNumber")
     public String orderNumber;//订单号
     @SerializedName("CreateOrderDate")
@@ -19,6 +21,14 @@ public class OrderVo {
     public String orderStatusContent;//订单状态说明
     @SerializedName("IsPaid")
     public boolean isPaid;//是否已支付
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getGoDate() {
         return goDate;

@@ -3,11 +3,12 @@ package com.ticket.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ticket.R;
 
@@ -239,23 +240,20 @@ public class CommonUtils {
                 new int[]{android.R.attr.actionBarSize});
         int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
-
         return toolbarHeight;
     }
 
-    public static void make(View view, String msg) {
-        Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT);
-//        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-//        ViewGroup.LayoutParams vl = snackbarLayout.getLayoutParams();
-//        LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        ll.gravity = Gravity.TOP | Gravity.CENTER;
-//        snackbarLayout.setLayoutParams(ll);
-//        snackbarLayout.setAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.top_in));
-        snackbar.show();
+    public static void make(Context context, String str) {
+        Toast toast = Toast.makeText(context, str, Toast.LENGTH_SHORT);
+        TextView view = (TextView) LayoutInflater.from(context).inflate(R.layout.publish_toast, null);
+        view.setText(str);
+        view.setPadding(30, 40, 30, 40);
+        toast.setView(view);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     public static String parseDate(String createTime) {
-
         String res = "";
         try {
             Calendar today = Calendar.getInstance();

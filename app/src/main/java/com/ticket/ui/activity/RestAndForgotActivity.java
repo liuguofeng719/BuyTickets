@@ -24,7 +24,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class RegisterActivity extends BaseActivity {
+public class RestAndForgotActivity extends BaseActivity {
 
     @InjectView(R.id.ed_user_phone)
     EditText ed_user_phone;
@@ -45,7 +45,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.t_register;
+        return R.layout.t_rest_forgot;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         countTimer = new CountTimer(Constants.reg.millisInFuture, Constants.reg.countDownInterval);
-        this.tv_header_title.setText(getString(R.string.login_reg));
+        this.tv_header_title.setText(getString(R.string.login_fogot_pwd));
         this.btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +66,7 @@ public class RegisterActivity extends BaseActivity {
         this.btn_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
+                if (NetUtils.isNetworkAvailable(RestAndForgotActivity.this)) {
                     if (validateUserInfo()) return;
                     countTimer.start();//开启验证码
                     Call<MessageVo> callMsg = getApis().getVerifyCode(ed_user_phone.getText().toString()).clone();
@@ -83,7 +83,7 @@ public class RegisterActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    CommonUtils.make(RegisterActivity.this, getString(R.string.no_network));
+                    CommonUtils.make(RestAndForgotActivity.this, getString(R.string.no_network));
                 }
             }
         });
@@ -91,9 +91,9 @@ public class RegisterActivity extends BaseActivity {
         this.btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
+                if (NetUtils.isNetworkAvailable(RestAndForgotActivity.this)) {
                     if (validateSubmit()) {
-                        Call<BaseInfoVo> callRegister = getApis().register(
+                        Call<BaseInfoVo> callRegister = getApis().resetPassWord(
                                 ed_user_phone.getText().toString(),
                                 ed_user_pwd.getText().toString(),
                                 ed_verifyCode.getText().toString()).clone();
@@ -110,7 +110,7 @@ public class RegisterActivity extends BaseActivity {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 readyGoThenKill(HomeActivity.class);
                                             } else {
-                                                CommonUtils.make(RegisterActivity.this, response.body().getErrorMessage());
+                                                CommonUtils.make(RestAndForgotActivity.this, response.body().getErrorMessage());
                                             }
                                         }
 
@@ -129,7 +129,7 @@ public class RegisterActivity extends BaseActivity {
                         });
                     }
                 } else {
-                    CommonUtils.make(RegisterActivity.this, getString(R.string.no_network));
+                    CommonUtils.make(RestAndForgotActivity.this, getString(R.string.no_network));
                 }
             }
         });
@@ -163,11 +163,11 @@ public class RegisterActivity extends BaseActivity {
 
     private boolean validateUserInfo() {
         if (TextUtils.isEmpty(ed_user_phone.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_phone_empty));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_phone_empty));
             return true;
         }
         if (!CommonUtils.isMobile(ed_user_phone.getText().toString())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_phone_ok));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_phone_ok));
             return true;
         }
         return false;
@@ -176,19 +176,19 @@ public class RegisterActivity extends BaseActivity {
     private boolean validateSubmit() {
         if (validateUserInfo()) return false;
         if (TextUtils.isEmpty(ed_user_pwd.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_pwd_empty));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_pwd_empty));
             return false;
         }
         if (ed_user_pwd.getText().length() < 6) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_pwd_length));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_pwd_length));
             return false;
         }
         if (TextUtils.isEmpty(ed_verifyCode.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_reg_code_empty));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_reg_code_empty));
             return false;
         }
         if (!verifyCode.equals(ed_verifyCode.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_reg_code_isequals));
+            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_reg_code_isequals));
             return false;
         }
         return true;

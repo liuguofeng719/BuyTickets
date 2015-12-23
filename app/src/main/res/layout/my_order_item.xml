@@ -15,9 +15,11 @@
         android:paddingRight="10dp"
         >
         <RelativeLayout
+            android:id="@+id/rl_order_number"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
+            android:descendantFocusability="blocksDescendants"
             android:gravity="center_vertical">
 
             <TextView

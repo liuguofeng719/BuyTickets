@@ -53,6 +53,22 @@ public interface Apis {
     );
 
     /**
+     * 重置密码 & 找回密码
+     *
+     * @param mobileNumber
+     * @param verifyCode
+     * @param password
+     * @return {"IsSuccessfully":true,"ErrorMessage":""}
+     */
+    @GET("User/Resetpassword.ashx")
+    Call<BaseInfoVo> resetPassWord(
+            @Query("mobileNumber") String mobileNumber,
+            @Query("password") String password,
+            @Query("verifyCode") String verifyCode
+    );
+
+
+    /**
      * 登陆
      *
      * @param mobileNumber

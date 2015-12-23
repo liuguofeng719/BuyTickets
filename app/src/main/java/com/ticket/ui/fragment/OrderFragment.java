@@ -1,15 +1,18 @@
 package com.ticket.ui.fragment;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ticket.R;
 import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
+import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -43,7 +46,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
 
     private void getStatusOrder(int isPaid) {
         showLoading(getString(R.string.common_loading_message));
-        Call<OrderVoResp<List<OrderVo>>> orderCall = getApis().getOrders(AppPreferences.getString("userId"), isPaid);
+        Call<OrderVoResp<List<OrderVo>>> orderCall = getApis().getOrders(AppPreferences.getString("userId"), isPaid).clone();
         orderCall.enqueue(new Callback<OrderVoResp<List<OrderVo>>>() {
             @Override
             public void onResponse(Response<OrderVoResp<List<OrderVo>>> response, Retrofit retrofit) {
@@ -86,6 +89,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
             @Override
             public ViewHolderBase<OrderVo> createViewHolder(int position) {
                 return new ViewHolderBase<OrderVo>() {
+                    RelativeLayout rl_order_number;
                     TextView tv_order_code;
                     TextView tv_status;
                     TextView tv_station;//行程
@@ -97,6 +101,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
                         View view = layoutInflater.inflate(R.layout.my_order_item, null);
+                        rl_order_number = ButterKnife.findById(view, R.id.rl_order_number);
                         tv_order_code = ButterKnife.findById(view, R.id.tv_order_code);
                         tv_status = ButterKnife.findById(view, R.id.tv_status);
                         tv_station = ButterKnife.findById(view, R.id.tv_station);
@@ -128,10 +133,21 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
                             btn_gopay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("orderNumber",v.getTag().toString());
+                                    readyGo(OrderDetailsActivity.class, bundle);
                                 }
                             });
                         }
+                        rl_order_number.setTag(itemData.getOrderId());
+                        rl_order_number.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("orderId",v.getTag().toString());
+                                readyGo(OrderDetailsActivity.class, bundle);
+                            }
+                        });
                     }
                 };
             }
