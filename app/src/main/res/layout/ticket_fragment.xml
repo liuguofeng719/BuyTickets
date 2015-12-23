@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="@string/start_city"
+            android:textColor="@color/text_color_hint" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="@string/end_city"
+            android:textColor="@color/text_color_hint" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ly_start_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/start_city"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textSize="18dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color_hint" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_line_color" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/car"
+            android:contentDescription="@null" />
+
+        <LinearLayout
+            android:id="@+id/ly_end_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/end_city"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_line_color" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/start_time"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_hint" />
+
+    <TextView
+        android:id="@+id/go_time"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="15dp"
+        android:gravity="left"
+        android:textSize="18dp"
+        android:textColor="@color/text_color"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line_color" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/frequency_button"
+        android:text="@string/see_frequency"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</LinearLayout>

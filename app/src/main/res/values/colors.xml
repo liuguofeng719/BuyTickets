@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 [1076559197@qq.com | tchen0707@gmail.com]
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License”);
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <color name="sr_color_primary">#FF4E3E7F</color>
+    <color name="sr_color_primary_dark">#FF4E3E7F</color>
+    <color name="sr_window_background">#FFFEFEFE</color>
+
+    <color name="default_image_background">#FFDEDEDE</color>
+
+    <color name="alpha_05_white">#0DFFFFFF</color>
+    <color name="alpha_10_white">#1AFFFFFF</color>
+    <color name="alpha_15_white">#26FFFFFF</color>
+    <color name="alpha_20_white">#33FFFFFF</color>
+    <color name="alpha_25_white">#40FFFFFF</color>
+    <color name="alpha_30_white">#4DFFFFFF</color>
+    <color name="alpha_35_white">#59FFFFFF</color>
+    <color name="alpha_40_white">#66FFFFFF</color>
+    <color name="alpha_45_white">#73FFFFFF</color>
+    <color name="alpha_50_white">#80FFFFFF</color>
+    <color name="alpha_55_white">#8CFFFFFF</color>
+    <color name="alpha_60_white">#99FFFFFF</color>
+    <color name="alpha_65_white">#A6FFFFFF</color>
+    <color name="alpha_70_white">#B3FFFFFF</color>
+    <color name="alpha_75_white">#BFFFFFFF</color>
+    <color name="alpha_80_white">#CCFFFFFF</color>
+    <color name="alpha_85_white">#D9FFFFFF</color>
+    <color name="alpha_90_white">#E6FFFFFF</color>
+    <color name="alpha_95_white">#F2FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="alpha_05_black">#0D000000</color>
+    <color name="alpha_10_black">#1A000000</color>
+    <color name="alpha_15_black">#26000000</color>
+    <color name="alpha_20_black">#33000000</color>
+    <color name="alpha_25_black">#40000000</color>
+    <color name="alpha_30_black">#4D000000</color>
+    <color name="alpha_35_black">#59000000</color>
+    <color name="alpha_40_black">#66000000</color>
+    <color name="alpha_45_black">#73000000</color>
+    <color name="alpha_50_black">#80000000</color>
+    <color name="alpha_55_black">#8C000000</color>
+    <color name="alpha_60_black">#99000000</color>
+    <color name="alpha_65_black">#A6000000</color>
+    <color name="alpha_70_black">#B3000000</color>
+    <color name="alpha_75_black">#BF000000</color>
+    <color name="alpha_80_black">#CC000000</color>
+    <color name="alpha_85_black">#D9000000</color>
+    <color name="alpha_90_black">#E6000000</color>
+    <color name="alpha_95_black">#F2000000</color>
+    <color name="black">#FF000000</color>
+
+    <color name="alpha_05_red">#0DFF0000</color>
+    <color name="alpha_10_red">#1AFF0000</color>
+    <color name="alpha_15_red">#26FF0000</color>
+    <color name="alpha_20_red">#33FF0000</color>
+    <color name="alpha_25_red">#40FF0000</color>
+    <color name="alpha_30_red">#4DFF0000</color>
+    <color name="alpha_35_red">#59FF0000</color>
+    <color name="alpha_40_red">#66FF0000</color>
+    <color name="alpha_45_red">#73FF0000</color>
+    <color name="alpha_50_red">#80FF0000</color>
+    <color name="alpha_55_red">#8CFF0000</color>
+    <color name="alpha_60_red">#99FF0000</color>
+    <color name="alpha_65_red">#A6FF0000</color>
+    <color name="alpha_70_red">#B3FF0000</color>
+    <color name="alpha_75_red">#BFFF0000</color>
+    <color name="alpha_80_red">#CCFF0000</color>
+    <color name="alpha_85_red">#D9FF0000</color>
+    <color name="alpha_90_red">#E6FF0000</color>
+    <color name="alpha_95_red">#F2FF0000</color>
+    <color name="red">#FFFF0000</color>
+
+    <color name="alpha_05_green">#0D00FF00</color>
+    <color name="alpha_10_green">#1A00FF00</color>
+    <color name="alpha_15_green">#2600FF00</color>
+    <color name="alpha_20_green">#3300FF00</color>
+    <color name="alpha_25_green">#4000FF00</color>
+    <color name="alpha_30_green">#4D00FF00</color>
+    <color name="alpha_35_green">#5900FF00</color>
+    <color name="alpha_40_green">#6600FF00</color>
+    <color name="alpha_45_green">#7300FF00</color>
+    <color name="alpha_50_green">#8000FF00</color>
+    <color name="alpha_55_green">#8C00FF00</color>
+    <color name="alpha_60_green">#9900FF00</color>
+    <color name="alpha_65_green">#A600FF00</color>
+    <color name="alpha_70_green">#B300FF00</color>
+    <color name="alpha_75_green">#BF00FF00</color>
+    <color name="alpha_80_green">#CC00FF00</color>
+    <color name="alpha_85_green">#D900FF00</color>
+    <color name="alpha_90_green">#E600FF00</color>
+    <color name="alpha_95_green">#F200FF00</color>
+    <color name="green">#FF00FF00</color>
+
+    <color name="alpha_05_blue">#0D0000FF</color>
+    <color name="alpha_10_blue">#1A0000FF</color>
+    <color name="alpha_15_blue">#260000FF</color>
+    <color name="alpha_20_blue">#330000FF</color>
+    <color name="alpha_25_blue">#400000FF</color>
+    <color name="alpha_30_blue">#4D0000FF</color>
+    <color name="alpha_35_blue">#590000FF</color>
+    <color name="alpha_40_blue">#660000FF</color>
+    <color name="alpha_45_blue">#730000FF</color>
+    <color name="alpha_50_blue">#800000FF</color>
+    <color name="alpha_55_blue">#8C0000FF</color>
+    <color name="alpha_60_blue">#990000FF</color>
+    <color name="alpha_65_blue">#A60000FF</color>
+    <color name="alpha_70_blue">#B30000FF</color>
+    <color name="alpha_75_blue">#BF0000FF</color>
+    <color name="alpha_80_blue">#CC0000FF</color>
+    <color name="alpha_85_blue">#D90000FF</color>
+    <color name="alpha_90_blue">#E60000FF</color>
+    <color name="alpha_95_blue">#F20000FF</color>
+    <color name="blue">#FF0000FF</color>
+
+    <color name="transparent">#00000000</color>
+
+    <integer-array name="gplus_colors">
+        <item>@color/gplus_color_1</item>
+        <item>@color/gplus_color_2</item>
+        <item>@color/gplus_color_3</item>
+        <item>@color/gplus_color_4</item>
+    </integer-array>
+
+    <color name="base_bg">#ffeeeeee</color>
+    <color name="base_msg_color">#ff999999</color>
+    <color name="gplus_color_1">#3e802f</color>
+    <color name="gplus_color_2">#f4b400</color>
+    <color name="gplus_color_3">#427fed</color>
+    <color name="gplus_color_4">#b23424</color>
+
+    <!-- 登录 -->
+    <color name="text_color">#333333</color>
+    <color name="text_color_c">#cccccc</color>
+    <color name="list_selector_color">#eeeeee</color>
+    <color name="text_color_hint">#999999</color>
+    <color name="text_color_hint_1">#666666</color>
+    <color name="button_disable_color">#e9edf2</color>
+    <color name="button_text_color">#6bc0b7</color>
+    <color name="bg_line_color">#e5e5e5</color>
+    <color name="normal_bg_color">#66E0DFE0</color>
+    <color name="text_price_color">#fa5616</color>
+
+    <!-- 日历控件 -->
+    <color name="calendar_active_month_bg">#FFFFFFFF</color>
+    <color name="calendar_bg">#FFFFFFFF</color>
+    <color name="calendar_divider">#00000000</color>
+    <color name="calendar_inactive_month_bg">@color/alpha_05_black</color>
+    <color name="calendar_selected_day_bg">#6bc0b7</color>
+    <color name="calendar_highlighted_day_bg">#FFFFFFFF</color>
+    <color name="calendar_selected_range_bg">#ff96caff</color>
+    <color name="calendar_text_inactive">#40778088</color>
+    <color name="calendar_text_active">#333333</color>
+    <color name="calendar_text_selected">#ffffffff</color>
+    <color name="calendar_text_unselectable">#7f778088</color>
+    <color name="calendar_text_highlighted">#ff778088</color>
+
+    <!-- android-segmented-control -->
+    <color name="radio_button_selected_color">#ff33b5e5</color>
+    <color name="radio_button_unselected_color">@android:color/transparent</color>
+
+</resources>

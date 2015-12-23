@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/list_selector_color"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="160dp"-->
+                <!--android:background="@color/button_text_color"-->
+                <!--android:gravity="center">-->
+
+                <!--<com.ticket.widgets.CircleImageView-->
+                    <!--android:id="@+id/iv_face"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:src="@drawable/face"-->
+                    <!--app:civ_border_color="#b5e0db"-->
+                    <!--app:civ_border_width="2dp" />-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/btn_login"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/iv_face"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:background="@drawable/login_corner"-->
+                    <!--android:paddingBottom="4dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingTop="4dp"-->
+                    <!--android:text="立即登录"-->
+                    <!--android:textColor="@color/button_text_color"-->
+                    <!--android:textSize="14sp" />-->
+            <!--</RelativeLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_pass_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="乘客信息" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/bg_line_color" />
+
+                <TextView
+                    android:id="@+id/tv_message_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="消息通知" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="意见反馈" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/bg_line_color" />
+
+                <TextView
+                    android:id="@+id/tv_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="关于我们" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/bg_line_color" />
+
+                <TextView
+                    android:id="@+id/tv_hotline"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="客服热线" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

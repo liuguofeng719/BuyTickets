@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BuyTickets</string>
+    <string name="common_loading_message">数据正在加载...</string>
+    <string name="common_empty_msg">Oops, failed to resolve data\nPlease hit the screen and try again~</string>
+    <string name="common_error_msg">Oops, something wrong!\nPlease hit the screen and try again~</string>
+    <string name="common_no_network_msg">No network connected!\nPlease hit the screen and try again after connecting~</string>
+    <string name="no_sdcard">没有存储卡</string>
+    <string name="no_network">网络不可用,请检查网络</string>
+    <string name="sd_smallsize">存储空间不足</string>
+
+    <string name="wx_protocol">使用微风出行,同意我们的用户协议</string>
+
+    <string name="home_header_title">汽车票</string>
+    <string name="home_header_order">我的订单</string>
+    <string name="home_user_info">个人中心</string>
+    <string name="pay_mode_title">支付选择</string>
+
+    <!-- login -->
+    <string name="header_title">登录</string>
+    <string name="login_reg">注册</string>
+    <string name="login_button_reg">注册并且登录</string>
+    <string name="login_reg_code">获取验证码</string>
+    <string name="login_reg_code_hint">请输入验证码</string>
+    <string name="login_reg_code_empty">验证码为空</string>
+    <string name="login_phone_hint">请输入手机号码</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_phone_empty">手机号码不能为空</string>
+    <string name="login_phone_ok">请输入正确的手机号码</string>
+    <string name="login_pwd_empty">密码不能为空</string>
+    <string name="login_pwd_length">密码长度不能小于6位</string>
+
+    <!-- menu -->
+    <string name="main_rdo_ticket">购票</string>
+    <string name="main_rdo_order">订单</string>
+    <string name="main_rdo_my">我的</string>
+
+    <string name="start_city">出发城市</string>
+    <string name="end_city">到达城市</string>
+    <string name="start_tip_city">请选择开始城市</string>
+    <string name="end_tip_city">请选择到达城市</string>
+    <string name="tip_city_name">请输入城市名字</string>
+    <string name="start_time">出发时间</string>
+    <string name="tip_start_time">请选择出发时间</string>
+    <string name="see_frequency">查看班次</string>
+    <string name="time_day_pre">前一天</string>
+    <string name="time_day_next">后一天</string>
+
+    <string name="write_order_title">填写订单</string>
+    <string name="submit_order_title">提交订单</string>
+    <string name="custom_title">乘客</string>
+    <string name="add_custom_title">添加乘客</string>
+
+    <string name="passenger_name">姓名</string>
+    <string name="passenger_mobile">手机号</string>
+    <string name="passenger_idcard">身份证</string>
+    <string name="add_ok">确认添加</string>
+
+    <string name="time_ok">完成</string>
+    <string name="t_cancel">取消</string>
+</resources>

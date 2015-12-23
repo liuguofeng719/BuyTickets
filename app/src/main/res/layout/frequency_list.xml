@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <include layout="@layout/header" />
+
+        <RelativeLayout
+            android:id="@+id/ly_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_time_prev"
+                android:text="@string/time_day_pre"
+                style="@style/frequencyTextView"
+            />
+
+            <TextView
+                android:id="@+id/tv_time_content"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/login_corner"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/arrow_next"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:text="12月15日 周二" />
+
+            <TextView
+                android:id="@+id/tv_time_next"
+                android:layout_alignParentRight="true"
+                style="@style/frequencyTextView"
+                android:text="@string/time_day_next"
+            />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <ListView
+            android:id="@+id/lv_frquency"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:cacheColorHint="@color/transparent"
+            android:listSelector="@color/transparent"
+            android:scrollbars="none">
+        </ListView>
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="暂无数据"
+        />
+    </LinearLayout>
+</LinearLayout>

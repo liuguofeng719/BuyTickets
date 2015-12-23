@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ly_fre_item"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@drawable/station_selector_color"
+    android:paddingLeft="@dimen/common_padding"
+    android:paddingRight="@dimen/common_padding"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_goDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6:30"
+                android:textColor="@color/text_color"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_startStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:drawableLeft="@drawable/start"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="上海长途客运站"
+                android:textColor="@color/text_color_hint_1"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_endStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/end"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="北京途客运站"
+                android:textColor="@color/text_color_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/common_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_salePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="￥320"
+                    android:textColor="#fa5616"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/iv_reseve"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/replay"
+                    android:gravity="center"
+                    android:text="预定"
+                    android:clickable="false"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/bg_line_color" />
+</LinearLayout>
