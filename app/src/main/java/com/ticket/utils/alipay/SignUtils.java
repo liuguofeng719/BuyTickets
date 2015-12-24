@@ -1,4 +1,4 @@
-package com.ticket.utils.tpay;
+package com.ticket.utils.alipay;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;

@@ -34,8 +34,47 @@
                 />
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="#999999"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <EditText
+                    android:id="@+id/ed_verifyCode"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"
+                    android:inputType="number"
+                    android:background="@null"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/text_color_hint"
+                    android:hint="@string/login_reg_code_hint"
+                    />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_color_hint"
+                    />
+                <Button
+                    android:id="@+id/btn_verify_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/login_reg_code"
+                    android:textColor="@color/button_text_color"
+                    android:background="@null"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/text_color_hint"
                 />
             <EditText
                 android:id="@+id/ed_user_pwd"
@@ -49,45 +88,6 @@
                 android:maxLength="16"
                 android:hint="@string/login_pwd_hint"
             />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_color_hint"
-            />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-            >
-                <EditText
-                    android:id="@+id/ed_verifyCode"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="55dp"
-                    android:inputType="number"
-                    android:background="@null"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:textColor="@color/text_color"
-                    android:textColorHint="@color/text_color_hint"
-                    android:hint="@string/login_reg_code_hint"
-                />
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/text_color_hint"
-                    />
-                <Button
-                    android:id="@+id/btn_verify_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="@string/login_reg_code"
-                    android:textColor="@color/button_text_color"
-                    android:background="@null"
-                />
-            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
     <Button

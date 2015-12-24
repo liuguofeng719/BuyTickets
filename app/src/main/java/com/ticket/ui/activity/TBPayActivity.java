@@ -1,7 +1,6 @@
 package com.ticket.ui.activity;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ticket.R;
 import com.ticket.ui.base.BaseActivity;
-import com.ticket.utils.tpay.PayResult;
-import com.ticket.utils.tpay.SignUtils;
+import com.ticket.utils.alipay.PayResult;
+import com.ticket.utils.alipay.SignUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,9 +21,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-/**
- * Created by liuguofeng719 on 2015/12/13.
- */
 public class TBPayActivity extends BaseActivity{
 
     // 商户PID
@@ -52,27 +48,23 @@ public class TBPayActivity extends BaseActivity{
 
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(TBPayActivity.this, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TBPayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, "8000")) {
-                            Toast.makeText(TBPayActivity.this, "支付结果确认中",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TBPayActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
 
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(TBPayActivity.this, "支付失败",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TBPayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
 
                         }
                     }
                     break;
                 }
                 case SDK_CHECK_FLAG: {
-                    Toast.makeText(TBPayActivity.this, "检查结果为：" + msg.obj,
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TBPayActivity.this, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
                     break;
                 }
                 default:
@@ -82,14 +74,8 @@ public class TBPayActivity extends BaseActivity{
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_main);
-    }
-
-    @Override
     protected int getContentViewLayoutID() {
-        return 0;
+        return R.layout.pay_main;
     }
 
     @Override
@@ -108,23 +94,22 @@ public class TBPayActivity extends BaseActivity{
      */
     public void pay(View v) {
         if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
-                || TextUtils.isEmpty(SELLER)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("警告")
-                    .setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
-                    .setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(
-                                        DialogInterface dialoginterface, int i) {
-                                    //
-                                    finish();
-                                }
-                            }).show();
-            return;
+                    || TextUtils.isEmpty(SELLER)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("警告")
+                        .setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(
+                                            DialogInterface dialoginterface, int i) {
+                                        //
+                                        finish();
+                                    }
+                                }).show();
+                return;
         }
         // 订单
         String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
-
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
         try {
@@ -256,11 +241,9 @@ public class TBPayActivity extends BaseActivity{
      *
      */
     public String getOutTradeNo() {
-        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
-                Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
         Date date = new Date();
         String key = format.format(date);
-
         Random r = new Random();
         key = key + r.nextInt();
         key = key.substring(0, 15);

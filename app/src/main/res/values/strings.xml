@@ -23,15 +23,15 @@
     <string name="login_fogot_pwd">找回密码</string>
     <string name="login_reg_fogot">忘记密码?</string>
     <string name="login_button_reg">注册并且登录</string>
-    <string name="login_button_rest">提交</string>
+    <string name="login_button_rest">确认</string>
     <string name="login_reg_code">获取验证码</string>
-    <string name="login_reg_code_hint">请输入验证码</string>
+    <string name="login_reg_code_hint">输入验证码</string>
     <string name="login_reg_code_empty">验证码为空</string>
     <string name="login_reg_code_isequals">验证码错误</string>
-    <string name="login_phone_hint">请输入手机号码</string>
-    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_phone_hint">输入手机号码</string>
+    <string name="login_pwd_hint">输入密码</string>
     <string name="login_phone_empty">手机号码不能为空</string>
-    <string name="login_phone_ok">请输入正确的手机号码</string>
+    <string name="login_phone_ok">输入正确的手机号码</string>
     <string name="login_pwd_empty">密码不能为空</string>
     <string name="login_pwd_length">密码长度不能小于6位</string>
 
@@ -42,9 +42,9 @@
 
     <string name="start_city">出发城市</string>
     <string name="end_city">到达城市</string>
-    <string name="start_tip_city">请选择开始城市</string>
-    <string name="end_tip_city">请选择到达城市</string>
-    <string name="tip_city_name">请输入城市名字</string>
+    <string name="start_tip_city">选择开始城市</string>
+    <string name="end_tip_city">选择到达城市</string>
+    <string name="tip_city_name">输入城市名字</string>
     <string name="start_time">出发时间</string>
     <string name="tip_start_time">请选择出发时间</string>
     <string name="see_frequency">查看班次</string>
