@@ -46,6 +46,14 @@ public class TicketFragment extends BaseFragment {
 
     @OnClick(R.id.btn_submit)
     public void submit() {
+        if (TextUtils.isEmpty(start_city.getText())) {
+            CommonUtils.make(getContext(), getString(R.string.start_tip_city));
+            return;
+        }
+        if (TextUtils.isEmpty(end_city.getText())) {
+            CommonUtils.make(getContext(), getString(R.string.end_tip_city));
+            return;
+        }
         if (TextUtils.isEmpty(go_time.getText())) {
             CommonUtils.make(getContext(), getString(R.string.tip_start_time));
             return;
