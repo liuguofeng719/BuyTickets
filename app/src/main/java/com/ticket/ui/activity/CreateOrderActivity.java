@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
 import java.util.ArrayList;
@@ -96,20 +98,28 @@ public class CreateOrderActivity extends BaseActivity {
 
     @OnClick(R.id.btn_add_passenger)
     public void addPassenger() {
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-        String jsonStr = gson.toJson(selectedIds);
-        Bundle bundle = new Bundle();
-        bundle.putString("selectedIds", jsonStr);
-        readyGoForResult(PassengerListActivity.class, 1, bundle);
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+            String jsonStr = gson.toJson(selectedIds);
+            Bundle bundle = new Bundle();
+            bundle.putString("selectedIds", jsonStr);
+            readyGoForResult(PassengerListActivity.class, 1, bundle);
+        } else {
+            readyGo(LoginActivity.class);
+        }
     }
 
     @OnClick(R.id.iv_submit_order)
     public void submitOrder() {
-        if (listViewDataAdapter.getDataList().size() <= 0) {
-            Toast.makeText(this, "请选择乘客", Toast.LENGTH_SHORT).show();
-            return;
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            if (listViewDataAdapter.getDataList().size() <= 0) {
+                Toast.makeText(this, "请选择乘客", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            submitOrderHttp();
+        } else {
+            readyGo(LoginActivity.class);
         }
-        submitOrderHttp();
     }
 
     private void submitOrderHttp() {
@@ -136,6 +146,8 @@ public class CreateOrderActivity extends BaseActivity {
                         Bundle bundle = new Bundle();
                         readyGo(PayMentModeActivity.class, bundle);
                     }
+                } else {
+                    CommonUtils.make(CreateOrderActivity.this, response.body().getErrorMessage());
                 }
             }
 

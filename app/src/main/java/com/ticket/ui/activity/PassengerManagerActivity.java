@@ -13,6 +13,7 @@ import com.ticket.bean.PassengerVo;
 import com.ticket.ui.adpater.PassengerMngAdapter;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 
 import java.util.List;
 
@@ -76,21 +77,25 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
     }
 
     private void getPassengers() {
+        showLoading(getString(R.string.common_loading_message));
         Call<PassengerListResp<List<PassengerVo>>> callPassenger = getApis().getPassengers(AppPreferences.getString("userId")).clone();
         callPassenger.enqueue(new Callback<PassengerListResp<List<PassengerVo>>>() {
             @Override
             public void onResponse(Response<PassengerListResp<List<PassengerVo>>> response, Retrofit retrofit) {
+                hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     passengerVoList = response.body().getPassengerList();
                     passengerAdapter = new PassengerMngAdapter(response.body().getPassengerList());
                     passengerAdapter.setDelItemClickListener(PassengerManagerActivity.this);
                     lv_passenger_list.setAdapter(passengerAdapter);
+                } else {
+                    CommonUtils.make(PassengerManagerActivity.this, response.body().getErrorMessage());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                hideLoading();
             }
         });
     }
@@ -104,8 +109,11 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
             public void onResponse(Response<PassengerListResp> response, Retrofit retrofit) {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     getPassengers();
+                } else {
+                    CommonUtils.make(PassengerManagerActivity.this, response.body().getErrorMessage());
                 }
             }
+
             @Override
             public void onFailure(Throwable t) {
             }

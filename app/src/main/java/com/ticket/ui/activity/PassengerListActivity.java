@@ -22,6 +22,7 @@ import com.ticket.common.Constants;
 import com.ticket.ui.adpater.PassengerAdapter;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,10 +127,12 @@ public class PassengerListActivity extends BaseActivity {
     }
 
     private void getPassengers() {
+        showLoading(getString(R.string.common_loading_message));
         Call<PassengerListResp<List<PassengerVo>>> callPassenger = getApis().getPassengers(AppPreferences.getString("userId")).clone();
         callPassenger.enqueue(new Callback<PassengerListResp<List<PassengerVo>>>() {
             @Override
             public void onResponse(Response<PassengerListResp<List<PassengerVo>>> response, Retrofit retrofit) {
+                hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     passengerVoList = response.body().getPassengerList();
                     passengerAdapter = new PassengerAdapter(response.body().getPassengerList());
@@ -148,12 +151,14 @@ public class PassengerListActivity extends BaseActivity {
                         }
                         passengerAdapter.notifyDataSetChanged();
                     }
+                } else {
+                    CommonUtils.make(PassengerListActivity.this, response.body().getErrorMessage());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                hideLoading();
             }
         });
     }

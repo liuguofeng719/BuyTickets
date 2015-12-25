@@ -1,6 +1,7 @@
 package com.ticket.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.ticket.R;
 import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
+import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
@@ -68,7 +70,9 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
 
     @Override
     protected void onUserVisible() {
-
+        if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            readyGo(LoginActivity.class);
+        }
     }
 
     @Override
@@ -83,6 +87,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
 
     @Override
     protected void initViewsAndEvents() {
+
         order_group.setOnCheckedChangeListener(this);
         waiting_order.setChecked(true);
         this.listViewDataAdapter = new ListViewDataAdapter<OrderVo>(new ViewHolderCreator<OrderVo>() {

@@ -2,6 +2,7 @@ package com.ticket.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -13,6 +14,7 @@ import com.ticket.ui.base.BaseActivity;
 import com.ticket.ui.fragment.MyFragment;
 import com.ticket.ui.fragment.OrderFragment;
 import com.ticket.ui.fragment.TicketFragment;
+import com.ticket.utils.AppPreferences;
 import com.ticket.utils.ExitDoubleClick;
 
 import java.util.ArrayList;
@@ -55,8 +57,12 @@ public class HomeActivity extends BaseActivity {
                         radioGroup.check(R.id.rdo_ticket);
                         break;
                     case 1:
-                        tv_header_title.setText(getString(R.string.home_header_order));
-                        radioGroup.check(R.id.rdo_order);
+                        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+                            tv_header_title.setText(getString(R.string.home_header_order));
+                            radioGroup.check(R.id.rdo_order);
+                        } else {
+                            readyGo(LoginActivity.class);
+                        }
                         break;
                     case 2:
                         tv_header_title.setText(getString(R.string.home_user_info));
@@ -78,8 +84,12 @@ public class HomeActivity extends BaseActivity {
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.rdo_order:
-                        tv_header_title.setText(getString(R.string.home_header_order));
-                        viewPager.setCurrentItem(1);
+                        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+                            tv_header_title.setText(getString(R.string.home_header_order));
+                            viewPager.setCurrentItem(1);
+                        } else {
+                            readyGo(LoginActivity.class);
+                        }
                         break;
                     case R.id.rdo_my:
                         tv_header_title.setText(getString(R.string.home_user_info));

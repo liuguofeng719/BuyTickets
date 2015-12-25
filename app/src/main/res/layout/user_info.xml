@@ -16,38 +16,55 @@
             android:orientation="vertical"
             >
 
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="160dp"-->
-                <!--android:background="@color/button_text_color"-->
-                <!--android:gravity="center">-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@color/button_text_color"
+                android:gravity="center">
 
-                <!--<com.ticket.widgets.CircleImageView-->
-                    <!--android:id="@+id/iv_face"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:src="@drawable/face"-->
-                    <!--app:civ_border_color="#b5e0db"-->
-                    <!--app:civ_border_width="2dp" />-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/btn_login"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@+id/iv_face"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:background="@drawable/login_corner"-->
-                    <!--android:paddingBottom="4dp"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:paddingTop="4dp"-->
-                    <!--android:text="立即登录"-->
-                    <!--android:textColor="@color/button_text_color"-->
-                    <!--android:textSize="14sp" />-->
-            <!--</RelativeLayout>-->
+                <com.ticket.widgets.CircleImageView
+                    android:id="@+id/iv_face"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/face"
+                    app:civ_border_color="#b5e0db"
+                    app:civ_border_width="2dp" />
+                <TextView
+                    android:id="@+id/tv_login_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_face"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/login_corner"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="13988888888"
+                    android:textColor="@color/button_text_color"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                />
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_face"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/login_corner"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="立即登录"
+                    android:textColor="@color/button_text_color"
+                    android:textSize="14sp"
+                    />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,16 +89,16 @@
                     android:layout_height="1px"
                     android:background="@color/bg_line_color" />
 
-                <TextView
-                    android:id="@+id/tv_message_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="@dimen/common_padding"
-                    android:layout_marginRight="@dimen/common_padding"
-                    android:drawableRight="@drawable/normal_arrow"
-                    android:gravity="center_vertical"
-                    android:paddingRight="@dimen/common_padding"
-                    android:text="消息通知" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_message_info"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_marginLeft="@dimen/common_padding"-->
+                    <!--android:layout_marginRight="@dimen/common_padding"-->
+                    <!--android:drawableRight="@drawable/normal_arrow"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingRight="@dimen/common_padding"-->
+                    <!--android:text="消息通知" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -91,21 +108,7 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_feedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="@dimen/common_padding"
-                    android:layout_marginRight="@dimen/common_padding"
-                    android:drawableRight="@drawable/normal_arrow"
-                    android:gravity="center_vertical"
-                    android:paddingRight="@dimen/common_padding"
-                    android:text="意见反馈" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/bg_line_color" />
 
                 <TextView
                     android:id="@+id/tv_about"
@@ -133,6 +136,36 @@
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/common_padding"
                     android:text="客服热线" />
+                <TextView
+                    android:id="@+id/tv_restpwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="重置密码" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/bg_line_color" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/bg_line_color" />
+
+                <TextView
+                    android:id="@+id/tv_quit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:layout_marginRight="@dimen/common_padding"
+                    android:drawableRight="@drawable/normal_arrow"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/common_padding"
+                    android:text="退出登录" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
