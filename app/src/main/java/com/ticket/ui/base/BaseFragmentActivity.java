@@ -18,6 +18,7 @@ import com.ticket.netstatus.NetChangeObserver;
 import com.ticket.netstatus.NetStateReceiver;
 import com.ticket.netstatus.NetUtils;
 import com.ticket.utils.CommonUtils;
+import com.ticket.utils.TLog;
 
 import butterknife.ButterKnife;
 
@@ -113,6 +114,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
             @Override
             public void onNetConnected(NetUtils.NetType type) {
                 super.onNetConnected(type);
+                TLog.d(TAG_LOG, type.name());
                 onNetworkConnected(type);
             }
 

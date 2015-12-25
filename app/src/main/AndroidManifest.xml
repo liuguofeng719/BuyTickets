@@ -64,17 +64,19 @@
             android:name=".ui.activity.PassengerListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.PassengerManagerActivity"
+        <activity
+            android:name=".ui.activity.PassengerManagerActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrderDetailsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.RestAndForgotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.RestAndForgotActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-        />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.PayMentModeActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -93,5 +95,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <receiver android:name=".netstatus.NetStateReceiver">
+            <intent-filter>
+                <action android:name="com.github.obsessive.library.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
