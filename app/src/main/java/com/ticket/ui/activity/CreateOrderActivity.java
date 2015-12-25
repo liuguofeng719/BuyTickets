@@ -116,6 +116,8 @@ public class CreateOrderActivity extends BaseActivity {
                 Toast.makeText(this, "请选择乘客", Toast.LENGTH_SHORT).show();
                 return;
             }
+            mDialog = CommonUtils.createDialog(this);
+            mDialog.setContentView(R.layout.loading);
             submitOrderHttp();
         } else {
             readyGo(LoginActivity.class);
@@ -123,6 +125,8 @@ public class CreateOrderActivity extends BaseActivity {
     }
 
     private void submitOrderHttp() {
+        ((TextView) mDialog.findViewById(R.id.loading_msg)).setText("正在提交订单...");
+        mDialog.show();
         //路由ID
         String routingId = frequencyVo.getRoutingId();
         //userID
@@ -141,6 +145,7 @@ public class CreateOrderActivity extends BaseActivity {
 
             @Override
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                mDialog.dismiss();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     if (response.body().isSuccessfully()) {
                         Bundle bundle = new Bundle();
@@ -173,6 +178,15 @@ public class CreateOrderActivity extends BaseActivity {
             size--;
         }
         return sb.toString();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+            mDialog = null;
+        }
+        super.onDestroy();
     }
 
     @Override
