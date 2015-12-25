@@ -3,6 +3,7 @@ package com.ticket;
 import android.app.Application;
 
 import com.ticket.utils.CrashHandler;
+import com.ticket.utils.TLog;
 
 public class TicketsApplication extends Application {
 
@@ -19,6 +20,7 @@ public class TicketsApplication extends Application {
         if (Boolean.TRUE) {
             Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
         }
+        TLog.enableLog();
     }
 
     @Override
