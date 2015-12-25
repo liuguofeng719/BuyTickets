@@ -65,7 +65,7 @@
             android:id="@+id/btn_add_passenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加乘客"
+            android:text="新增乘客"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
