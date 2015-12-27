@@ -94,6 +94,7 @@ public class OrderDetailsActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         this.tv_header_title.setText(getString(R.string.order_detail_title));
+
         listViewDataAdapter = new ListViewDataAdapter<PassengerDetailVo>(new ViewHolderCreator<PassengerDetailVo>() {
             @Override
             public ViewHolderBase<PassengerDetailVo> createViewHolder(int position) {
@@ -154,13 +155,13 @@ public class OrderDetailsActivity extends BaseActivity {
     }
 
     private void getOrderDetails() {
-        final Dialog dialog = CommonUtils.showDialog(OrderDetailsActivity.this);
-        dialog.show();
+        final Dialog dialogDataInit = CommonUtils.showDialog(OrderDetailsActivity.this);
+        dialogDataInit.show();
         Call<OrderDeatilResp<OrderDetailVo>> callOrder = getApis().getOrderDetails(extras.getString("orderId")).clone();
         callOrder.enqueue(new Callback<OrderDeatilResp<OrderDetailVo>>() {
             @Override
             public void onResponse(Response<OrderDeatilResp<OrderDetailVo>> response, Retrofit retrofit) {
-                CommonUtils.dismiss(dialog);
+                CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
                     tv_order_code.setText(orderDetails.getOrderNumber());
@@ -186,7 +187,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                CommonUtils.dismiss(dialog);
+                CommonUtils.dismiss(dialogDataInit);
             }
         });
     }
