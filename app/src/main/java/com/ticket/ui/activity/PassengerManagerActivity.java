@@ -89,7 +89,12 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
                     passengerAdapter.setDelItemClickListener(PassengerManagerActivity.this);
                     lv_passenger_list.setAdapter(passengerAdapter);
                 } else {
-                    CommonUtils.make(PassengerManagerActivity.this, response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        PassengerListResp<List<PassengerVo>> body = response.body();
+                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 
@@ -110,7 +115,12 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     getPassengers();
                 } else {
-                    CommonUtils.make(PassengerManagerActivity.this, response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        PassengerListResp<List<PassengerVo>> body = response.body();
+                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 

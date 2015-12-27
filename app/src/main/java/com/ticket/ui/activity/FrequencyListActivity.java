@@ -17,6 +17,7 @@ import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
 import java.text.ParseException;
@@ -199,6 +200,13 @@ public class FrequencyListActivity extends BaseActivity {
                     listViewDataAdapter.getDataList().clear();
                     listViewDataAdapter.getDataList().addAll(frquecyList);
                     listViewDataAdapter.notifyDataSetChanged();
+                }else {
+                    if (response.body() != null) {
+                        FrequencyListResp<List<FrequencyVo>> body = response.body();
+                        CommonUtils.make(FrequencyListActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(FrequencyListActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 

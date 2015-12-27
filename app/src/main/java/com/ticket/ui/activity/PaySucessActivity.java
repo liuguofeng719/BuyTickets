@@ -45,7 +45,7 @@ public class PaySucessActivity extends BaseActivity {
         tv_pay_message.setText(msg);
         String status = extras.getString("status");
         if (status.equals("0")) {
-            iv_pay_icon.setImageResource(R.drawable.ic_error);
+            iv_pay_icon.setImageResource(R.drawable.pay_failed);
         }
 
         btn_back_home.setOnClickListener(new View.OnClickListener() {

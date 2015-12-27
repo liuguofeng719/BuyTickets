@@ -76,6 +76,13 @@ public class LoginActivity extends BaseActivity {
                                     AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
                                     readyGoThenKill(HomeActivity.class);
+                                }else{
+                                    if (response.body() != null) {
+                                        UserVo body = response.body();
+                                        CommonUtils.make(LoginActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                    } else {
+                                        CommonUtils.make(LoginActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                    }
                                 }
                             }
 

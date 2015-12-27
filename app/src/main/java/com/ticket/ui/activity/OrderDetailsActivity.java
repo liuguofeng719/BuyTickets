@@ -138,7 +138,12 @@ public class OrderDetailsActivity extends BaseActivity {
                                                 CommonUtils.make(OrderDetailsActivity.this, "退票成功");
                                                 getOrderDetails();
                                             } else {
-                                                CommonUtils.make(OrderDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                                                if (response.body() != null) {
+                                                    BaseInfoVo body = response.body();
+                                                    CommonUtils.make(OrderDetailsActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                                } else {
+                                                    CommonUtils.make(OrderDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                                }
                                             }
                                         }
 

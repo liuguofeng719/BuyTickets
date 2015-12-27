@@ -41,6 +41,10 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
             readyGo(LoginActivity.class);
             return;
         }
+        waiting_order.setChecked(true);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fl_myorder, new UnpaidFragment());
+        transaction.commit();
     }
 
     @Override

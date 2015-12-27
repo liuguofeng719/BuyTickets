@@ -150,7 +150,12 @@ public class CreateOrderActivity extends BaseActivity {
                     bundle.putString("orderId", response.body().getOrderId());
                     readyGo(PayMentModeActivity.class, bundle);
                 } else {
-                    CommonUtils.make(CreateOrderActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        OrderCreateVoResp body = response.body();
+                        CommonUtils.make(CreateOrderActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(CreateOrderActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 

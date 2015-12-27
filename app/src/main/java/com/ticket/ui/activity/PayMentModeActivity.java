@@ -106,7 +106,12 @@ public class PayMentModeActivity extends BaseActivity {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     partner = response.body().getSignedContent();
                 } else {
-                    CommonUtils.make(PayMentModeActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        AlipayVo body = response.body();
+                        CommonUtils.make(PayMentModeActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(PayMentModeActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 

@@ -152,7 +152,12 @@ public class PassengerListActivity extends BaseActivity {
                         passengerAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    CommonUtils.make(PassengerListActivity.this, response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        PassengerListResp<List<PassengerVo>> body = response.body();
+                        CommonUtils.make(PassengerListActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(PassengerListActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 

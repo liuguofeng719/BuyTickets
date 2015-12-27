@@ -56,7 +56,12 @@ public class UnpaidFragment extends BaseFragment {
                     listViewDataAdapter.getDataList().addAll(orderList);
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
-                    CommonUtils.make(getActivity(), response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        OrderVoResp<List<OrderVo>> body = response.body();
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 
@@ -123,22 +128,16 @@ public class UnpaidFragment extends BaseFragment {
                         tv_total_price.setText("￥" + itemData.getTotalPrice());
                         btn_gopay.setTag(itemData.getOrderNumber());
                         tv_goDateTime.setText(itemData.getGoDate());
-                        if (!itemData.getIsPaid()) {//未支付
-                            btn_gopay.setVisibility(View.VISIBLE);
-                            btn_gopay.setText("去支付");
-                            btn_gopay.setTag(itemData.getOrderId());
-                            btn_gopay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("orderNumber", v.getTag().toString());
-                                    bundle.putString("orderId", v.getTag().toString());
-                                    readyGo(PayMentModeActivity.class, bundle);
-                                }
-                            });
-                        } else {
-                            btn_gopay.setVisibility(View.INVISIBLE);
-                        }
+                        btn_gopay.setTag(itemData.getOrderId());
+                        btn_gopay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("orderNumber", v.getTag().toString());
+                                bundle.putString("orderId", v.getTag().toString());
+                                readyGo(PayMentModeActivity.class, bundle);
+                            }
+                        });
                         rl_order_number.setTag(itemData.getOrderId());
                         rl_order_number.setOnClickListener(new View.OnClickListener() {
                             @Override

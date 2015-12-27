@@ -13,7 +13,6 @@ import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
-import com.ticket.ui.activity.PayMentModeActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -41,7 +40,6 @@ public class PaidFragment extends BaseFragment {
 
     @Override
     protected void onFirstUserVisible() {
-
     }
 
     private void getStatusOrder(int isPaid) {
@@ -57,7 +55,12 @@ public class PaidFragment extends BaseFragment {
                     listViewDataAdapter.getDataList().addAll(orderList);
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
-                    CommonUtils.make(getActivity(), response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    if (response.body() != null) {
+                        OrderVoResp<List<OrderVo>> body = response.body();
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
+                    }
                 }
             }
 
@@ -72,7 +75,7 @@ public class PaidFragment extends BaseFragment {
     protected void onUserVisible() {
         if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
             readyGo(LoginActivity.class);
-            return ;
+            return;
         }
     }
 
@@ -112,6 +115,7 @@ public class PaidFragment extends BaseFragment {
                         tv_total_price = ButterKnife.findById(view, R.id.tv_total_price);
                         tv_goDateTime = ButterKnife.findById(view, R.id.tv_goDateTime);
                         btn_gopay = ButterKnife.findById(view, R.id.btn_gopay);
+                        btn_gopay.setVisibility(View.GONE);
                         return view;
                     }
 
@@ -122,24 +126,7 @@ public class PaidFragment extends BaseFragment {
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getTotalPrice());
-                        btn_gopay.setTag(itemData.getOrderNumber());
                         tv_goDateTime.setText(itemData.getGoDate());
-                        if (!itemData.getIsPaid()) {//未支付
-                            btn_gopay.setVisibility(View.VISIBLE);
-                            btn_gopay.setText("去支付");
-                            btn_gopay.setTag(itemData.getOrderId());
-                            btn_gopay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("orderNumber", v.getTag().toString());
-                                    bundle.putString("orderId", v.getTag().toString());
-                                    readyGo(PayMentModeActivity.class, bundle);
-                                }
-                            });
-                        } else {
-                            btn_gopay.setVisibility(View.INVISIBLE);
-                        }
                         rl_order_number.setTag(itemData.getOrderId());
                         rl_order_number.setOnClickListener(new View.OnClickListener() {
                             @Override
