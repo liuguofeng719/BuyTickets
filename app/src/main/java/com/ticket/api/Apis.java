@@ -1,11 +1,13 @@
 package com.ticket.api;
 
+import com.ticket.bean.AlipayVo;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
 import com.ticket.bean.FrequencyListResp;
 import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.MessageVo;
+import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.OrderVo;
@@ -177,7 +179,7 @@ public interface Apis {
      * @return
      */
     @GET("Orders/CreateOrder.ashx")
-    Call<BaseInfoVo> createOrder(
+    Call<OrderCreateVoResp> createOrder(
             @Query("routingID") String routingID,
             @Query("userID") String userID,
             @Query("passengers") String passengers,
@@ -214,5 +216,14 @@ public interface Apis {
     @GET("Orders/RefundTicket.ashx")
     Call<BaseInfoVo> refundTicket(
             @Query("orderDetailID") String orderDetailID
+    );
+    /**
+     * 获取支付签名信息
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/SignAlipay.ashx")
+    Call<AlipayVo> signAlipay(
+            @Query("orderID") String orderID
     );
 }
