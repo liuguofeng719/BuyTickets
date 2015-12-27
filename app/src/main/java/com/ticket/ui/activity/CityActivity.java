@@ -18,6 +18,7 @@ import com.ticket.bean.CityVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.CityListAdapter;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 import com.ticket.widgets.PinnedHeaderListView;
 import com.ticket.widgets.SiderBar;
@@ -182,6 +183,8 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
                                     setCityData(hotCity, cityList);
                                 }
+                            }else{
+                                CommonUtils.make(CityActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                             }
                             hideLoading();
                         }
