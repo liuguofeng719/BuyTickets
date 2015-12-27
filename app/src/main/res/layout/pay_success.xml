@@ -14,12 +14,14 @@
 
         >
         <ImageView
+            android:id="@+id/iv_pay_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/success"
             android:layout_marginRight="5dp"
         />
         <TextView
+            android:id="@+id/tv_pay_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="恭喜您，付款成功"
@@ -37,6 +39,7 @@
         android:layout_marginRight="25dp"
         >
         <Button
+            android:id="@+id/btn_back_home"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="44dp"
@@ -48,6 +51,7 @@
             android:layout_marginRight="10dp"
         />
         <Button
+            android:id="@+id/btn_myorder"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
