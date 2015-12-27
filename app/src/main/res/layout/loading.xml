@@ -22,6 +22,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/transparent"
+    android:padding="@dimen/common_padding"
     android:orientation="vertical">
 
     <com.ticket.widgets.progress.CircularProgressBar
