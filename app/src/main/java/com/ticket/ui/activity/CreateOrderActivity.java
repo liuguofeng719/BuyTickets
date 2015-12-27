@@ -116,8 +116,8 @@ public class CreateOrderActivity extends BaseActivity {
                 Toast.makeText(this, "请选择乘客", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mDialog = CommonUtils.createDialog(this);
-            mDialog.setContentView(R.layout.loading);
+            mDialog = CommonUtils.showDialog(this, "正在提交订单...");
+            mDialog.show();
             submitOrderHttp();
         } else {
             readyGo(LoginActivity.class);
@@ -125,8 +125,6 @@ public class CreateOrderActivity extends BaseActivity {
     }
 
     private void submitOrderHttp() {
-        ((TextView) mDialog.findViewById(R.id.loading_msg)).setText("正在提交订单...");
-        mDialog.show();
         //路由ID
         String routingId = frequencyVo.getRoutingId();
         //userID
