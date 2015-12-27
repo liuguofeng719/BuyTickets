@@ -23,8 +23,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ticket.R;
-import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.FrequencyVo;
+import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
 import com.ticket.common.Constants;
@@ -140,19 +140,19 @@ public class CreateOrderActivity extends BaseActivity {
             isBuyInsurance = 1;//true
         }
 
-        Call<BaseInfoVo> callOrder = getApis().createOrder(routingId, userID, passengers, isBuyInsurance).clone();
-        callOrder.enqueue(new Callback<BaseInfoVo>() {
+        Call<OrderCreateVoResp> callOrder = getApis().createOrder(routingId, userID, passengers, isBuyInsurance).clone();
+        callOrder.enqueue(new Callback<OrderCreateVoResp>() {
 
             @Override
-            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+            public void onResponse(Response<OrderCreateVoResp> response, Retrofit retrofit) {
                 mDialog.dismiss();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    if (response.body().isSuccessfully()) {
-                        Bundle bundle = new Bundle();
-                        readyGo(PayMentModeActivity.class, bundle);
-                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putString("orderNumber", response.body().getOrderNumber());
+                    bundle.putString("orderId", response.body().getOrderId());
+                    readyGo(PayMentModeActivity.class, bundle);
                 } else {
-                    CommonUtils.make(CreateOrderActivity.this, response.body().getErrorMessage());
+                    CommonUtils.make(CreateOrderActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
             }
 

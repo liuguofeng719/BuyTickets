@@ -1,6 +1,8 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -9,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
@@ -16,6 +19,7 @@ import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.CommonUtils;
 
 import java.util.List;
 
@@ -97,13 +101,14 @@ public class OrderDetailsActivity extends BaseActivity {
                     TextView tv_pass_name;
                     TextView tv_id_card;
                     TextView tv_delete;
+
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
                         View view = layoutInflater.inflate(R.layout.selected_passenger_item, null);
-                        tv_pass_name = ButterKnife.findById(view,R.id.tv_pass_name);
-                        tv_id_card = ButterKnife.findById(view,R.id.tv_id_card);
-                        tv_delete = ButterKnife.findById(view,R.id.tv_delete);
-                        tv_delete.setVisibility(View.GONE);
+                        tv_pass_name = ButterKnife.findById(view, R.id.tv_pass_name);
+                        tv_id_card = ButterKnife.findById(view, R.id.tv_id_card);
+                        tv_delete = ButterKnife.findById(view, R.id.tv_delete);
+                        tv_delete.setVisibility(View.INVISIBLE);
                         return view;
                     }
 
@@ -111,22 +116,58 @@ public class OrderDetailsActivity extends BaseActivity {
                     public void showData(int position, PassengerDetailVo itemData) {
                         tv_pass_name.setText(itemData.getPassengerName());
                         tv_id_card.setText(itemData.getIdCard());
+                        if (!TextUtils.isEmpty(itemData.getTicketNumber())) {
+                            tv_delete.setVisibility(View.VISIBLE);
+                            tv_delete.setTag(itemData.getOrderDetailID());
+                            tv_delete.setText(getString(R.string.refund_ticket));
+                            tv_delete.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final Dialog dialog = CommonUtils.showDialog(OrderDetailsActivity.this);
+                                    dialog.show();
+                                    Call<BaseInfoVo> refundCall = getApis().refundTicket(v.getTag().toString()).clone();
+                                    refundCall.enqueue(new Callback<BaseInfoVo>() {
+                                        @Override
+                                        public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                            CommonUtils.dismiss(dialog);
+                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                                CommonUtils.make(OrderDetailsActivity.this, "退票成功");
+                                            } else {
+                                                CommonUtils.make(OrderDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            CommonUtils.dismiss(dialog);
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
                 };
             }
         });
         lv_passenger.setAdapter(listViewDataAdapter);
+        getOrderDetails();
+    }
+
+    private void getOrderDetails() {
+        final Dialog dialog = CommonUtils.showDialog(OrderDetailsActivity.this);
+        dialog.show();
         Call<OrderDeatilResp<OrderDetailVo>> callOrder = getApis().getOrderDetails(extras.getString("orderId")).clone();
         callOrder.enqueue(new Callback<OrderDeatilResp<OrderDetailVo>>() {
             @Override
             public void onResponse(Response<OrderDeatilResp<OrderDetailVo>> response, Retrofit retrofit) {
+                CommonUtils.dismiss(dialog);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
                     tv_order_code.setText(orderDetails.getOrderNumber());
                     tv_pay_time.setText(orderDetails.getPayDateTime());
                     tv_pay_mode.setText(orderDetails.getPayFuncation());
-                    tv_order_status.setText(orderDetails.getOrderStatus());
-                    tv_order_price.setText("￥" +orderDetails.getOrderTotalPrice());
+                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
+                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
                     tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
                     tv_startPoint.setText(orderDetails.getStartStationCityName());
                     tv_destination.setText(orderDetails.getStopStationCityName());
@@ -138,12 +179,14 @@ public class OrderDetailsActivity extends BaseActivity {
                     List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
                     listViewDataAdapter.getDataList().addAll(passengerVos);
                     listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    CommonUtils.make(OrderDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                CommonUtils.dismiss(dialog);
             }
         });
     }
