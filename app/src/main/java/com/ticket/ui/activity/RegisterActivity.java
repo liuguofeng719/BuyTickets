@@ -187,10 +187,6 @@ public class RegisterActivity extends BaseActivity {
             CommonUtils.make(RegisterActivity.this, getString(R.string.login_reg_code_empty));
             return false;
         }
-        if (!verifyCode.equals(ed_verifyCode.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_reg_code_isequals));
-            return false;
-        }
         return true;
     }
 }
