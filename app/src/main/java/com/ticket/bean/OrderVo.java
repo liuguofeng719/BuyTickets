@@ -17,10 +17,28 @@ public class OrderVo {
     public String totalPrice;//订单总金额
     @SerializedName("Trip")
     public String trip;//行程
-    @SerializedName("OrderStatusContent")
-    public String orderStatusContent;//订单状态说明
+    @SerializedName("OrderStatusDescription")
+    public String orderStatusDescription;//订单状态说明
+    @SerializedName("OrderStatusCode")//订单状态码 (NOT_PAY：未支付，GENERATING：正在出票中,REFUNDED：出票失败，退款已完成,REFUNDING：出票失败，正在退款中,SUCCESS：出票成功,UNKONW：未知状态)
+    public String orderStatusCode;
     @SerializedName("IsPaid")
     public boolean isPaid;//是否已支付
+
+    public String getOrderStatusDescription() {
+        return orderStatusDescription;
+    }
+
+    public void setOrderStatusDescription(String orderStatusDescription) {
+        this.orderStatusDescription = orderStatusDescription;
+    }
+
+    public String getOrderStatusCode() {
+        return orderStatusCode;
+    }
+
+    public void setOrderStatusCode(String orderStatusCode) {
+        this.orderStatusCode = orderStatusCode;
+    }
 
     public String getOrderId() {
         return orderId;
@@ -78,13 +96,6 @@ public class OrderVo {
         this.trip = trip;
     }
 
-    public String getOrderStatusContent() {
-        return orderStatusContent;
-    }
-
-    public void setOrderStatusContent(String orderStatusContent) {
-        this.orderStatusContent = orderStatusContent;
-    }
 
     public boolean getIsPaid() {
         return isPaid;
@@ -97,13 +108,16 @@ public class OrderVo {
     @Override
     public String toString() {
         return "OrderVo{" +
-                "orderNumber='" + orderNumber + '\'' +
+                "orderId='" + orderId + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
                 ", createOrderDate='" + createOrderDate + '\'' +
+                ", goDate='" + goDate + '\'' +
                 ", passengerAmount='" + passengerAmount + '\'' +
                 ", totalPrice='" + totalPrice + '\'' +
                 ", trip='" + trip + '\'' +
-                ", orderStatusContent='" + orderStatusContent + '\'' +
-                ", isPaid='" + isPaid + '\'' +
+                ", orderStatusDescription='" + orderStatusDescription + '\'' +
+                ", orderStatusCode='" + orderStatusCode + '\'' +
+                ", isPaid=" + isPaid +
                 '}';
     }
 }

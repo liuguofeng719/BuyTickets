@@ -25,8 +25,10 @@ public class OrderDetailVo {
     private String payDateTime;//支付时间
     @SerializedName("PayFuncation")
     private String payFuncation;//支付方式
-    @SerializedName("OrderStatus")
-    private String orderStatus;//订单状态
+    @SerializedName("OrderStatusCode")
+    private String orderStatusCode;//:订单状态编码(NOT_PAY：未支付，GENERATING：正在出票中,REFUNDED：出票失败，退款已完成,REFUNDING：出票失败，正在退款中,SUCCESS：出票成功,UNKONW：未知状态)
+    @SerializedName("OrderStatusDescription")
+    private String orderStatusDescription;//订单状态描述
     @SerializedName("TotalTicketPrice")
     private String totalTicketPrice;//总的票价
     @SerializedName("TotalServicePrice")
@@ -35,6 +37,22 @@ public class OrderDetailVo {
     private String totalInsurancePrice;//保险费
     @SerializedName("Passengers")
     private List<PassengerDetailVo> passengers;// 乘客列表
+
+    public String getOrderStatusCode() {
+        return orderStatusCode;
+    }
+
+    public void setOrderStatusCode(String orderStatusCode) {
+        this.orderStatusCode = orderStatusCode;
+    }
+
+    public String getOrderStatusDescription() {
+        return orderStatusDescription;
+    }
+
+    public void setOrderStatusDescription(String orderStatusDescription) {
+        this.orderStatusDescription = orderStatusDescription;
+    }
 
     public String getStartStationCityName() {
         return startStationCityName;
@@ -74,14 +92,6 @@ public class OrderDetailVo {
 
     public void setPayFuncation(String payFuncation) {
         this.payFuncation = payFuncation;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
     }
 
     public String getTotalTicketPrice() {
@@ -161,9 +171,19 @@ public class OrderDetailVo {
         return "OrderDetailVo{" +
                 "startStationName='" + startStationName + '\'' +
                 ", stopStationName='" + stopStationName + '\'' +
+                ", startStationCityName='" + startStationCityName + '\'' +
+                ", stopStationCityName='" + stopStationCityName + '\'' +
                 ", goDate='" + goDate + '\'' +
                 ", goTime='" + goTime + '\'' +
                 ", orderTotalPrice='" + orderTotalPrice + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", payDateTime='" + payDateTime + '\'' +
+                ", payFuncation='" + payFuncation + '\'' +
+                ", orderStatusCode='" + orderStatusCode + '\'' +
+                ", orderStatusDescription='" + orderStatusDescription + '\'' +
+                ", totalTicketPrice='" + totalTicketPrice + '\'' +
+                ", totalServicePrice='" + totalServicePrice + '\'' +
+                ", totalInsurancePrice='" + totalInsurancePrice + '\'' +
                 ", passengers=" + passengers +
                 '}';
     }
