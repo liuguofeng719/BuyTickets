@@ -3,6 +3,7 @@ package com.ticket.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -330,6 +331,20 @@ public class CommonUtils {
         mDialog.setCanceledOnTouchOutside(false);
         return mDialog;
     }
+    public static Dialog showDialog(Context context){
+       return showDialog(context,"");
+    }
+
+    public static Dialog showDialog(Context context, String message) {
+        Dialog dialog = createDialog(context);
+        dialog.setContentView(R.layout.loading);
+        if (!TextUtils.isEmpty(message)) {
+            TextView textView = (TextView) dialog.findViewById(R.id.loading_msg);
+            textView.setText(message);
+        }
+        return dialog;
+    }
+
 
     public static void dismiss(Dialog mdialog) {
         if (mdialog != null) {
