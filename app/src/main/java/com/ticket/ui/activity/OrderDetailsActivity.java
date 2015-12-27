@@ -2,7 +2,6 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,11 +14,13 @@ import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
+import com.ticket.common.Constants;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
+import com.ticket.utils.TLog;
 
 import java.util.List;
 
@@ -75,6 +76,7 @@ public class OrderDetailsActivity extends BaseActivity {
     }
 
     private Bundle extras;
+    private String orderStatusCode;
 
     @Override
     protected void getBundleExtras(Bundle extras) {
@@ -115,9 +117,10 @@ public class OrderDetailsActivity extends BaseActivity {
 
                     @Override
                     public void showData(int position, PassengerDetailVo itemData) {
+                        TLog.d(TAG_LOG, itemData.toString());
                         tv_pass_name.setText(itemData.getPassengerName());
                         tv_id_card.setText(itemData.getIdCard());
-                        if (!TextUtils.isEmpty(itemData.getTicketNumber())) {
+                        if (orderStatusCode.equals(Constants.ordertatus.SUCCESS.getCode())) {
                             tv_delete.setVisibility(View.VISIBLE);
                             tv_delete.setTag(itemData.getOrderDetailID());
                             tv_delete.setText(getString(R.string.refund_ticket));
@@ -133,6 +136,7 @@ public class OrderDetailsActivity extends BaseActivity {
                                             CommonUtils.dismiss(dialog);
                                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                                                 CommonUtils.make(OrderDetailsActivity.this, "退票成功");
+                                                getOrderDetails();
                                             } else {
                                                 CommonUtils.make(OrderDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                                             }
@@ -164,6 +168,7 @@ public class OrderDetailsActivity extends BaseActivity {
                 CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
+                    orderStatusCode = orderDetails.getOrderStatusCode();
                     tv_order_code.setText(orderDetails.getOrderNumber());
                     tv_pay_time.setText(orderDetails.getPayDateTime());
                     tv_pay_mode.setText(orderDetails.getPayFuncation());
