@@ -15,11 +15,13 @@ import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
+import com.ticket.ui.activity.PayMentModeActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 import com.ticket.widgets.SegmentedGroup;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
 
     @Override
     protected void onFirstUserVisible() {
+        waiting_order.setChecked(true);
         getStatusOrder(0);//未支付
     }
 
@@ -58,6 +61,8 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
                     listViewDataAdapter.getDataList().clear();
                     listViewDataAdapter.getDataList().addAll(orderList);
                     listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    CommonUtils.make(getActivity(), response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
             }
 
@@ -72,12 +77,12 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
     protected void onUserVisible() {
         if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
             readyGo(LoginActivity.class);
+            return ;
         }
     }
 
     @Override
     protected void onUserInvisible() {
-
     }
 
     @Override
@@ -87,9 +92,8 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
 
     @Override
     protected void initViewsAndEvents() {
-
         order_group.setOnCheckedChangeListener(this);
-        waiting_order.setChecked(true);
+
         this.listViewDataAdapter = new ListViewDataAdapter<OrderVo>(new ViewHolderCreator<OrderVo>() {
             @Override
             public ViewHolderBase<OrderVo> createViewHolder(int position) {
@@ -120,36 +124,34 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
                     @Override
                     public void showData(int position, OrderVo itemData) {
                         tv_order_code.setText(itemData.getOrderNumber());
-                        tv_status.setText(itemData.getOrderStatusContent());
+                        tv_status.setText(itemData.getOrderStatusDescription());
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getTotalPrice());
                         btn_gopay.setTag(itemData.getOrderNumber());
                         tv_goDateTime.setText(itemData.getGoDate());
-                        if (itemData.getIsPaid()) {
-                            btn_gopay.setText("退票");
-                            btn_gopay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            });
-                        } else {
+                        if (!itemData.getIsPaid()) {//未支付
+                            btn_gopay.setVisibility(View.VISIBLE);
+                            btn_gopay.setText("去支付");
+                            btn_gopay.setTag(itemData.getOrderId());
                             btn_gopay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Bundle bundle = new Bundle();
-                                    bundle.putString("orderNumber",v.getTag().toString());
-                                    readyGo(OrderDetailsActivity.class, bundle);
+                                    bundle.putString("orderNumber", v.getTag().toString());
+                                    bundle.putString("orderId", v.getTag().toString());
+                                    readyGo(PayMentModeActivity.class, bundle);
                                 }
                             });
+                        } else {
+                            btn_gopay.setVisibility(View.INVISIBLE);
                         }
                         rl_order_number.setTag(itemData.getOrderId());
                         rl_order_number.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Bundle bundle = new Bundle();
-                                bundle.putString("orderId",v.getTag().toString());
+                                bundle.putString("orderId", v.getTag().toString());
                                 readyGo(OrderDetailsActivity.class, bundle);
                             }
                         });
