@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_text_color"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/common_padding"
+        android:paddingTop="@dimen/common_padding">
+
+        <com.ticket.widgets.SegmentedGroup
+            android:id="@+id/order_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:sc_border_width="1dp"
+            app:sc_checked_text_color="@color/button_text_color"
+            app:sc_corner_radius="10dp"
+            app:sc_tint_color="@color/white">
+
+            <RadioButton
+                android:id="@+id/waiting_order"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding"
+                android:text="待付款订单" />
+
+            <RadioButton
+                android:id="@+id/pay_order"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding"
+                android:text="已付款订单" />
+        </com.ticket.widgets.SegmentedGroup>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_myorder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+</LinearLayout>
