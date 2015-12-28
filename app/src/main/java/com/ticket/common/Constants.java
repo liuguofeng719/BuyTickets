@@ -13,13 +13,17 @@ public class Constants {
         public static final int PASSENGER_SUCCESS = 40;//乘客
     }
 
-    //订单状态码 (NOT_PAY：未支付，GENERATING：正在出票中,REFUNDED：出票失败，退款已完成,REFUNDING：出票失败，正在退款中,SUCCESS：出票成功,UNKONW：未知状态)
+    /**
+     * 购票订单状态
+     */
     public enum ordertatus {
 
         NOT_PAY("NOT_PAY", "未支付"),
         GENERATING("GENERATING", "正在出票中"),
         REFUNDED("REFUNDED", "出票失败，退款已完成"),
+        REFUNDING("REFUNDING", "出票失败，正在退款中"),
         SUCCESS("SUCCESS", "出票成功"),
+        USER_REFUND("USER_REFUND", "存在退票"),
         UNKONW("UNKONW", "未知状态");
 
         private String code;

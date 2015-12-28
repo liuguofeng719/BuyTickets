@@ -59,7 +59,7 @@ public class OrderFragment extends BaseFragment implements RadioGroup.OnCheckedC
     @Override
     protected void initViewsAndEvents() {
         order_group.setOnCheckedChangeListener(this);
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = getChildFragmentManager();
     }
 
     @Override
