@@ -108,6 +108,7 @@ public class RestAndForgotActivity extends BaseActivity {
                                         public void onResponse(Response<UserVo> response, Retrofit retrofit) {
                                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                                                 AppPreferences.putString("userId", response.body().getUserId());
+                                                countTimer.cancel();
                                                 readyGoThenKill(HomeActivity.class);
                                             } else {
                                                 CommonUtils.make(RestAndForgotActivity.this, response.body().getErrorMessage());
