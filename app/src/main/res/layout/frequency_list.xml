@@ -78,7 +78,7 @@
             android:visibility="gone"
             android:textSize="14sp"
             android:textColor="@color/text_color"
-            android:text="暂无数据"
+            android:text="暂无车次"
         />
     </LinearLayout>
 </LinearLayout>
