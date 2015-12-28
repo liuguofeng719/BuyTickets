@@ -72,6 +72,7 @@ public class PassengerAdapter extends BaseAdapter {
         }
         PassengerVo passengerVo = (PassengerVo) getItem(position);
         holder.tv_pass_name.setText(passengerVo.getFullName());
+        holder.tv_phone.setText(passengerVo.getMobileNumber());
         holder.tv_id_card.setText("身份证 " + passengerVo.getIdCard());
         holder.cbo_selected.setChecked(checkItems.get(position));
         return convertView;
@@ -82,6 +83,8 @@ public class PassengerAdapter extends BaseAdapter {
         TextView tv_pass_name;
         @InjectView(R.id.tv_id_card)
         TextView tv_id_card;
+        @InjectView(R.id.tv_phone)
+        TextView tv_phone;
         @InjectView(R.id.cbo_selected)
         CheckBox cbo_selected;
     }
