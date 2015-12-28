@@ -142,6 +142,7 @@ public class FrequencyListActivity extends BaseActivity {
                     TextView tv_endStation;
                     TextView tv_salePrice;
                     LinearLayout ly_fre_item;
+                    TextView tv_tickets_amount;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
@@ -151,6 +152,7 @@ public class FrequencyListActivity extends BaseActivity {
                         tv_endStation = ButterKnife.findById(view, R.id.tv_endStation);
                         tv_salePrice = ButterKnife.findById(view, R.id.tv_salePrice);
                         ly_fre_item = ButterKnife.findById(view, R.id.ly_fre_item);
+                        tv_tickets_amount = ButterKnife.findById(view, R.id.tv_tickets_amount);
                         return view;
                     }
 
@@ -160,6 +162,7 @@ public class FrequencyListActivity extends BaseActivity {
                         tv_startStation.setText(itemData.getStartStationName());
                         tv_endStation.setText(itemData.getStopStationName());
                         tv_salePrice.setText(itemData.getTicketPrice());
+                        tv_tickets_amount.setText("剩票(" + itemData.getRemainingTicketsAmount() + ")张");
                         ly_fre_item.setTag(itemData);
                         ly_fre_item.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -200,7 +203,7 @@ public class FrequencyListActivity extends BaseActivity {
                     listViewDataAdapter.getDataList().clear();
                     listViewDataAdapter.getDataList().addAll(frquecyList);
                     listViewDataAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     if (response.body() != null) {
                         FrequencyListResp<List<FrequencyVo>> body = response.body();
                         CommonUtils.make(FrequencyListActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
