@@ -106,7 +106,7 @@ public class RestAndForgotActivity extends BaseActivity {
                                     callLogin.enqueue(new Callback<UserVo>() {
                                         @Override
                                         public void onResponse(Response<UserVo> response, Retrofit retrofit) {
-                                            if (response.isSuccess() && response.body().isSuccessfully()) {
+                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 readyGoThenKill(HomeActivity.class);
                                             } else {
@@ -185,10 +185,6 @@ public class RestAndForgotActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(ed_verifyCode.getText())) {
             CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_reg_code_empty));
-            return false;
-        }
-        if (!verifyCode.equals(ed_verifyCode.getText())) {
-            CommonUtils.make(RestAndForgotActivity.this, getString(R.string.login_reg_code_isequals));
             return false;
         }
         return true;
