@@ -63,7 +63,6 @@ public class LoginActivity extends BaseActivity {
                 v.setBackgroundResource(R.drawable.login_button);
                 if (NetUtils.isNetworkAvailable(LoginActivity.this)) {
                     if (validate()) {
-                        fl_btn_submit.setEnabled(false);
                         Call<UserVo> userCall = getApis().login(ed_user_phone.getText().toString(), ed_user_pwd.getText().toString()).clone();
                         userCall.enqueue(new Callback<UserVo>() {
                             @Override
@@ -77,7 +76,6 @@ public class LoginActivity extends BaseActivity {
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
                                     readyGoThenKill(HomeActivity.class);
                                 }else{
-                                    fl_btn_submit.setEnabled(true);
                                     if (response.body() != null) {
                                         UserVo body = response.body();
                                         CommonUtils.make(LoginActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
@@ -89,7 +87,6 @@ public class LoginActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(Throwable t) {
-                                fl_btn_submit.setEnabled(true);
                                 CommonUtils.dismiss(mDialog);
                             }
                         });

@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -93,6 +94,8 @@ public class RestAndForgotActivity extends BaseActivity {
             public void onClick(View v) {
                 if (NetUtils.isNetworkAvailable(RestAndForgotActivity.this)) {
                     if (validateSubmit()) {
+                        final Dialog mDialog = CommonUtils.showDialog(RestAndForgotActivity.this);
+                        mDialog.show();
                         Call<BaseInfoVo> callRegister = getApis().resetPassWord(
                                 ed_user_phone.getText().toString(),
                                 ed_user_pwd.getText().toString(),
@@ -100,6 +103,7 @@ public class RestAndForgotActivity extends BaseActivity {
                         callRegister.enqueue(new Callback<BaseInfoVo>() {
                             @Override
                             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                CommonUtils.dismiss(mDialog);
                                 if (response.isSuccess() && response.body().isSuccessfully()) {
                                     //注册成功并且登陆
                                     Call<UserVo> callLogin = getApis().login(ed_user_phone.getText().toString(), ed_user_pwd.getText().toString()).clone();
@@ -118,7 +122,7 @@ public class RestAndForgotActivity extends BaseActivity {
 
                                         @Override
                                         public void onFailure(Throwable t) {
-
+                                            CommonUtils.dismiss(mDialog);
                                         }
                                     });
                                 }
@@ -126,7 +130,7 @@ public class RestAndForgotActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(Throwable t) {
-
+                                CommonUtils.dismiss(mDialog);
                             }
                         });
                     }
