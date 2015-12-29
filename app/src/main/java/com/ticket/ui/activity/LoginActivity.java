@@ -54,8 +54,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        mDialog = CommonUtils.createDialog(this);
-        mDialog.setContentView(R.layout.loading);
+        mDialog = CommonUtils.showDialog(this);
         this.fl_btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
