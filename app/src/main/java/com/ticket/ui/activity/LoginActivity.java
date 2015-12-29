@@ -77,6 +77,7 @@ public class LoginActivity extends BaseActivity {
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
                                     readyGoThenKill(HomeActivity.class);
                                 }else{
+                                    fl_btn_submit.setEnabled(true);
                                     if (response.body() != null) {
                                         UserVo body = response.body();
                                         CommonUtils.make(LoginActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
