@@ -17,6 +17,8 @@
     <string name="home_user_info">个人中心</string>
     <string name="pay_mode_title">支付选择</string>
     <string name="refund_ticket">退票</string>
+    <string name="about_copyright">Copyright &#169; 2006-2018 \n成都特洛伊科技有限公司</string>
+    <string name="about_text">成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司</string>
 
     <!-- login -->
     <string name="header_title">登录</string>

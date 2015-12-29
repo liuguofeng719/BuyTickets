@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.ui.activity.AboutActivity;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.PassengerManagerActivity;
 import com.ticket.ui.activity.RestAndForgotActivity;
@@ -28,6 +29,8 @@ public class MyFragment extends BaseFragment {
     TextView tv_restpwd;
     @InjectView(R.id.tv_login_title)
     TextView tv_login_title;
+    @InjectView(R.id.tv_about)
+    TextView tv_about;
 
     @OnClick(R.id.tv_quit)
     public void quitLogin() {
@@ -88,6 +91,12 @@ public class MyFragment extends BaseFragment {
                 } else {
                     readyGo(LoginActivity.class);
                 }
+            }
+        });
+        tv_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGo(AboutActivity.class);
             }
         });
     }
