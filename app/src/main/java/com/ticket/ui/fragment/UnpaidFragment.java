@@ -58,7 +58,7 @@ public class UnpaidFragment extends BaseFragment {
                 } else {
                     if (response.body() != null) {
                         OrderVoResp<List<OrderVo>> body = response.body();
-                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage()==null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
                     }

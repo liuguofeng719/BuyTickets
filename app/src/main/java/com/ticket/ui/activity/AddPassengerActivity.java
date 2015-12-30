@@ -75,7 +75,7 @@ public class AddPassengerActivity extends BaseActivity {
                             } else {
                                 if (response.body() != null) {
                                     BaseInfoVo body = response.body();
-                                    CommonUtils.make(AddPassengerActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                    CommonUtils.make(AddPassengerActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                 } else {
                                     CommonUtils.make(AddPassengerActivity.this, CommonUtils.getCodeToStr(response.code()));
                                 }

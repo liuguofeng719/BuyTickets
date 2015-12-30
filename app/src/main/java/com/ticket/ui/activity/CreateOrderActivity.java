@@ -152,7 +152,7 @@ public class CreateOrderActivity extends BaseActivity {
                 } else {
                     if (response.body() != null) {
                         OrderCreateVoResp body = response.body();
-                        CommonUtils.make(CreateOrderActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(CreateOrderActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(CreateOrderActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }

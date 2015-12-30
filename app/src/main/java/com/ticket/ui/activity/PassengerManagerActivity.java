@@ -91,7 +91,7 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
                 } else {
                     if (response.body() != null) {
                         PassengerListResp<List<PassengerVo>> body = response.body();
-                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage()==null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }
@@ -117,7 +117,7 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
                 } else {
                     if (response.body() != null) {
                         PassengerListResp<List<PassengerVo>> body = response.body();
-                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage()==null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }

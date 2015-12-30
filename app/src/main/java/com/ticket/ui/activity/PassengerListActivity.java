@@ -154,7 +154,7 @@ public class PassengerListActivity extends BaseActivity {
                 } else {
                     if (response.body() != null) {
                         PassengerListResp<List<PassengerVo>> body = response.body();
-                        CommonUtils.make(PassengerListActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PassengerListActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(PassengerListActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }

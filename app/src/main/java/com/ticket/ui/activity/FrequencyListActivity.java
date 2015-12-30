@@ -206,7 +206,7 @@ public class FrequencyListActivity extends BaseActivity {
                 } else {
                     if (response.body() != null) {
                         FrequencyListResp<List<FrequencyVo>> body = response.body();
-                        CommonUtils.make(FrequencyListActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(FrequencyListActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(FrequencyListActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }

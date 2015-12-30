@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity {
                                 }else{
                                     if (response.body() != null) {
                                         UserVo body = response.body();
-                                        CommonUtils.make(LoginActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                        CommonUtils.make(LoginActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                     } else {
                                         CommonUtils.make(LoginActivity.this, CommonUtils.getCodeToStr(response.code()));
                                     }

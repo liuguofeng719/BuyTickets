@@ -183,10 +183,10 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
                                     setCityData(hotCity, cityList);
                                 }
-                            }else{
+                            } else {
                                 if (response.body() != null) {
                                     CityListResp<List<CityVo>> body = response.body();
-                                    CommonUtils.make(CityActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                    CommonUtils.make(CityActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                 } else {
                                     CommonUtils.make(CityActivity.this, CommonUtils.getCodeToStr(response.code()));
                                 }

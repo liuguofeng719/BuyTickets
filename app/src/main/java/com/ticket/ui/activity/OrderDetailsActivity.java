@@ -141,7 +141,7 @@ public class OrderDetailsActivity extends BaseActivity {
                                             } else {
                                                 if (response.body() != null) {
                                                     BaseInfoVo body = response.body();
-                                                    CommonUtils.make(OrderDetailsActivity.this, body.getErrorMessage().equals("") ? response.message() : body.getErrorMessage());
+                                                    CommonUtils.make(OrderDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                                 } else {
                                                     CommonUtils.make(OrderDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
                                                 }
