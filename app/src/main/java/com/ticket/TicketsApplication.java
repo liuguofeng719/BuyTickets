@@ -17,10 +17,9 @@ public class TicketsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ticketsApplication = this;
-        if (Boolean.TRUE) {
-            Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
-        }
-        TLog.enableLog();
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
+        //TODO 禁用和启用Log
+        TLog.disableLog();
     }
 
     @Override
