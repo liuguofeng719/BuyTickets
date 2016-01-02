@@ -151,7 +151,7 @@ public class PayMentModeActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                mDialog = CommonUtils.showDialog(PayMentModeActivity.this);
+                mDialog = CommonUtils.showDialog(PayMentModeActivity.this,"正在加载微信支付");
                 mDialog.show();
                 api = WXAPIFactory.createWXAPI(PayMentModeActivity.this, Constants.wxpay.APPID);
                 api.registerApp(Constants.wxpay.APPID);
