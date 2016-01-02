@@ -24,9 +24,7 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.activity.HomeActivity"
             android:configChanges="keyboardHidden"
@@ -82,20 +80,23 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.PayMentModeActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait"
-        />
-        <activity
-            android:name=".ui.activity.WXPayActivity"
-            android:configChanges="keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.WXPayEntryActivity"
-            android:configChanges="keyboardHidden"
             android:exported="true"
+            >
+        </activity>
+        <activity
+            android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.PaySucessActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+        />
         <receiver android:name=".netstatus.NetStateReceiver">
             <intent-filter>
                 <action android:name="com.github.obsessive.library.net.conn.CONNECTIVITY_CHANGE" />
