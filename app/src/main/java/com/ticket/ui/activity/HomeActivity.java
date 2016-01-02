@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.ticket.ui.fragment.OrderFragment;
 import com.ticket.ui.fragment.TicketFragment;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.ExitDoubleClick;
+import com.ticket.utils.TLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +34,16 @@ public class HomeActivity extends BaseActivity {
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
 
+    private Bundle extras;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void getBundleExtras(Bundle extras) {
+        this.extras = extras;
     }
 
     @Override
@@ -104,7 +113,12 @@ public class HomeActivity extends BaseActivity {
         fragmentList.add(new MyFragment());
         ViewPageAdpater viewPageAdpater = new ViewPageAdpater(getSupportFragmentManager(), fragmentList);
         this.viewPager.setAdapter(viewPageAdpater);
-        this.viewPager.setCurrentItem(0);
+        if (extras != null) {
+            TLog.d(TAG_LOG, extras.getInt("order") + "");
+            this.viewPager.setCurrentItem(extras.getInt("order"));
+        } else {
+            this.viewPager.setCurrentItem(0);
+        }
     }
 
     @Override

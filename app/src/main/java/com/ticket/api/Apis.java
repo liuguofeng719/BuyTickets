@@ -15,6 +15,7 @@ import com.ticket.bean.OrderVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
 import com.ticket.bean.UserVo;
+import com.ticket.bean.WXPayVo;
 
 import java.util.List;
 
@@ -217,13 +218,24 @@ public interface Apis {
     Call<BaseInfoVo> refundTicket(
             @Query("orderDetailID") String orderDetailID
     );
+
     /**
-     * 获取支付签名信息
+     * 获取支付宝签名信息
      * @param orderID
      * @return
      */
     @GET("Orders/SignAlipay.ashx")
     Call<AlipayVo> signAlipay(
+            @Query("orderID") String orderID
+    );
+
+    /**
+     * 获取微信支付签名信息
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/PayOrderByWeiChat.ashx")
+    Call<WXPayVo> payOrderByWeiChat(
             @Query("orderID") String orderID
     );
 }

@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,14 +52,21 @@ public class PaySucessActivity extends BaseActivity {
         btn_back_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGoThenKill(HomeActivity.class);
+                Intent intent = new Intent(PaySucessActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
         btn_myorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGoThenKill(HomeActivity.class);
+                Intent intent = new Intent(PaySucessActivity.this, HomeActivity.class);
+                intent.putExtra("order", 1);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
     }

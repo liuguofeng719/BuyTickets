@@ -3,62 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_text_color"
+        >
+        <include layout="@layout/header" />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="56dp"
-        android:orientation="horizontal"
         android:layout_gravity="center"
+        android:layout_marginBottom="56dp"
+        android:layout_marginTop="56dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
 
         >
+
         <ImageView
             android:id="@+id/iv_pay_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/success"
             android:layout_marginRight="5dp"
-        />
+            android:src="@drawable/success" />
+
         <TextView
             android:id="@+id/tv_pay_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="恭喜您，付款成功"
-        />
+            android:text="恭喜您，付款成功" />
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-    />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        >
+        android:layout_marginRight="25dp">
+
         <Button
             android:id="@+id/btn_back_home"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:layout_height="44dp"
-            android:padding="15dp"
+            android:background="@drawable/frequency_button"
             android:gravity="center"
+            android:padding="15dp"
             android:text="返回首页"
             android:textColor="@color/white"
-            android:background="@drawable/frequency_button"
-            android:layout_marginRight="10dp"
         />
+
         <Button
             android:id="@+id/btn_myorder"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_button"
             android:gravity="center"
             android:text="查看订单"
-            android:background="@drawable/login_corner"
         />
     </LinearLayout>
 </LinearLayout>

@@ -4,7 +4,11 @@ package com.ticket.common;
  * Created by liuguofeng719 on 2015/12/10.
  */
 public class Constants {
+    // APP_ID 替换为你的应用从官方网站申请到的合法appId
+    public static final String APP_ID = "wxd930ea5d5a258f4f";
 
+    /** 商家向财付通申请的商家id */
+    public static final String PARTNER_ID = "1900000109";
     public static class comm {
         //时间选择页面
         public static final int PICKER_SUCCESS = 10;
@@ -76,9 +80,7 @@ public class Constants {
      * 微信支付
      */
     public static class wxpay {
-        /**
-         * 服务号相关信息
-         */
-        public final static String APPID = "wxa620b0d55493b98e";//服务号的应用号
+        public final static String APPID = "wx5187932eddf0d92d";//开发平台申请成功之后的appId
+        public final static String API_KEY= "1258796351av14bgcnaETEvv1zxrefqw";//商户平台Apis的密钥
     }
 }
