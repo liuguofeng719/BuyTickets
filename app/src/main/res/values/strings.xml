@@ -18,7 +18,7 @@
     <string name="pay_mode_title">支付选择</string>
     <string name="refund_ticket">退票</string>
     <string name="about_copyright">Copyright &#169; 2006-2018 \n成都特洛伊科技有限公司</string>
-    <string name="about_text">成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司成都特洛伊科技有限公司</string>
+    <string name="about_text">&#160;&#160;&#160;&#160;微风出行是由成都特洛伊科技有限公司，雄风道路运输集团，乘风智能有限公司联合开发。以乘客简单，便利出行为目标，励志打造运输行业用户出行完整生态链综合平台。其平台功能包括，购票，旅游，酒店，美食及金融产品。更多相关信息，请咨询平台热线电话。</string>
 
     <!-- login -->
     <string name="header_title">登录</string>
