@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,11 +39,44 @@ public class TicketFragment extends BaseFragment {
     @InjectView(R.id.btn_submit)
     Button btn_submit;
 
+    @InjectView(R.id.iv_car)
+    ImageView iv_car;
+
     private String date_time;
     private String startCityId;
     private String endCityId;
     private String startCityName;
     private String endCityName;
+
+    @OnClick(R.id.iv_car)
+    public void chooseCity() {
+        if (TextUtils.isEmpty(start_city.getText())) {
+            CommonUtils.make(getContext(), getString(R.string.start_tip_city));
+            return;
+        }
+        if (TextUtils.isEmpty(end_city.getText())) {
+            CommonUtils.make(getContext(), getString(R.string.end_tip_city));
+            return;
+        }
+        swapCity();
+    }
+
+    /**
+     * 切换城市
+     */
+    private void swapCity() {
+
+        String tempCity = startCityName;
+        startCityName = endCityName;
+        endCityName = tempCity;
+
+        String tempCityId = startCityId;
+        startCityId = endCityId;
+        endCityId = tempCityId;
+
+        start_city.setText(startCityName);
+        end_city.setText(endCityName);
+    }
 
     @OnClick(R.id.btn_submit)
     public void submit() {

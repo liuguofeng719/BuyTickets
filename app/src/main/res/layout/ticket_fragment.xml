@@ -71,6 +71,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_car"
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
