@@ -35,7 +35,6 @@
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color_hint"
                 android:background="@null"
-                android:text="13888888888"
                 android:inputType="number"
                 android:maxLength="11"
             />
@@ -55,7 +54,6 @@
                 android:password="true"
                 android:maxLength="16"
                 android:hint="@string/login_pwd_hint"
-                android:text="123456"
                 />
         </LinearLayout>
     </FrameLayout>
