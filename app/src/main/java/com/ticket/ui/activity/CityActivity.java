@@ -121,7 +121,7 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                 TLog.d("onTextChanged", s.toString());
                 List<CityVo> newCitys = new ArrayList<CityVo>();
                 if (cityVoList != null) {
-                    for (CityVo cityVo : newCitys) {
+                    for (CityVo cityVo : cityVoList) {
                         if (cityVo.getCityName().contains(s)) {
                             newCitys.add(cityVo);
                         }
