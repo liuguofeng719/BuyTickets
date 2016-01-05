@@ -1,7 +1,9 @@
 package com.ticket.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,11 +67,27 @@ public class FrequencyListActivity extends BaseActivity {
         date = plusDay(-1);
         String goDate = dateFormat(date);
         getFrequecyList(goDate);
+        isCurrDate();
+    }
+
+    /**
+     * 判断是否是今天
+     */
+    private void isCurrDate() {
+        if (DateUtils.isToday(date.getTime())) {
+            tv_time_prev.setClickable(false);
+            tv_time_prev.setTextColor(Color.parseColor("#cccccc"));
+        } else {
+            tv_time_prev.setClickable(true);
+            tv_time_prev.setTextColor(Color.parseColor("#ffffff"));
+        }
     }
 
     @OnClick(R.id.tv_time_next)
     public void nextDay() {
+        tv_time_prev.setClickable(true);
         date = plusDay(1);
+        isCurrDate();
         String goDate = dateFormat(date);
         getFrequecyList(goDate);
     }
@@ -120,6 +138,7 @@ public class FrequencyListActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
+
         TLog.d("initViewsAndEvents",
                 "startCityID" + extras.getString("startCityID") +
                         "stopCityID=" + extras.getString("stopCityID") + "goDate=" + extras.getString("goDate"));
@@ -130,6 +149,7 @@ public class FrequencyListActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        isCurrDate();
         this.tv_time_content.setText(new SimpleDateFormat("MM月dd日").format(date));
         this.listViewDataAdapter = new ListViewDataAdapter<FrequencyVo>(new ViewHolderCreator<FrequencyVo>() {
 
