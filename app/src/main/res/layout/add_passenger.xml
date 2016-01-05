@@ -42,7 +42,6 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
-                android:text="阮康焕"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -71,7 +70,6 @@
                 android:maxLength="30"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="13988888888"
                 android:textColor="@color/text_color"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -102,7 +100,6 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/text_color"
-                android:text="621022197604288516"
                 android:textSize="18sp" />
         </LinearLayout>
 

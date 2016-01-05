@@ -1,6 +1,8 @@
 package com.ticket.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -91,7 +93,7 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
                 } else {
                     if (response.body() != null) {
                         PassengerListResp<List<PassengerVo>> body = response.body();
-                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage()==null ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }
@@ -106,27 +108,41 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
     }
 
     @Override
-    public void DelItemClickListener(View v) {
-        String pId = v.getTag().toString();
-        Call<PassengerListResp> callDelPass = getApis().deletePassenger(pId).clone();
-        callDelPass.enqueue(new Callback<PassengerListResp>() {
-            @Override
-            public void onResponse(Response<PassengerListResp> response, Retrofit retrofit) {
-                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    getPassengers();
-                } else {
-                    if (response.body() != null) {
-                        PassengerListResp<List<PassengerVo>> body = response.body();
-                        CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage()==null ? response.message() : body.getErrorMessage());
-                    } else {
-                        CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
+    public void DelItemClickListener(final View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PassengerManagerActivity.this);
+        builder.setMessage("确认要删除联系人？");
+        builder.setTitle("温馨提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String pId = v.getTag().toString();
+                Call<PassengerListResp> callDelPass = getApis().deletePassenger(pId).clone();
+                callDelPass.enqueue(new Callback<PassengerListResp>() {
+                    @Override
+                    public void onResponse(Response<PassengerListResp> response, Retrofit retrofit) {
+                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                            getPassengers();
+                        } else {
+                            if (response.body() != null) {
+                                PassengerListResp<List<PassengerVo>> body = response.body();
+                                CommonUtils.make(PassengerManagerActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                            } else {
+                                CommonUtils.make(PassengerManagerActivity.this, CommonUtils.getCodeToStr(response.code()));
+                            }
+                        }
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
+                    @Override
+                    public void onFailure(Throwable t) {
+                    }
+                });
             }
         });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

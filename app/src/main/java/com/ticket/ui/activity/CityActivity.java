@@ -44,8 +44,6 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
     PinnedHeaderListView lv_city;
     @InjectView(R.id.siderBar)
     SiderBar siderBar;
-    @InjectView(R.id.tv_cancel)
-    TextView tv_cancel;
 
     TextView messageView;
     private Bundle extras;
@@ -145,13 +143,6 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                         getEndCity(extras.getString("startCityId"));
                     }
                 }
-            }
-        });
-
-        this.tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ed_search.setText("");
             }
         });
     }
