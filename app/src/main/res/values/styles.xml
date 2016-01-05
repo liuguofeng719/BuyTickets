@@ -11,6 +11,13 @@
         <item name="android:windowAnimationStyle">@style/t_AnimationActivity</item>
     </style>
 
+    <style name="AppThemeSplash">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/screen_portrait</item>
+    </style>
+
     <style name="t_AnimationActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>

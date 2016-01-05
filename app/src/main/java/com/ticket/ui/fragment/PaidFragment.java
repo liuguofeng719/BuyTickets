@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ticket.R;
@@ -95,7 +95,7 @@ public class PaidFragment extends BaseFragment {
             @Override
             public ViewHolderBase<OrderVo> createViewHolder(int position) {
                 return new ViewHolderBase<OrderVo>() {
-                    RelativeLayout rl_order_number;
+                    LinearLayout rl_order_number;
                     TextView tv_order_code;
                     TextView tv_status;
                     TextView tv_station;//行程
