@@ -83,6 +83,11 @@ public class CreateOrderActivity extends BaseActivity {
     @InjectView(R.id.iv_submit_order)
     Button iv_submit_order;
 
+    @InjectView(R.id.iv_tips_info)
+    ImageView iv_tips_info;
+    @InjectView(R.id.tv_insurance_info)
+    TextView tv_insurance_info;
+
     PassengerAdapter passengerAdapter;
     Dialog mDialog;
     ListView lv_passenger_list;
@@ -95,6 +100,30 @@ public class CreateOrderActivity extends BaseActivity {
     List<PassengerVo> selectPassengers;
     Map<String, Integer> selectedIds = new HashMap<>();//已选择的乘客编码
     double total;//总金额
+
+    /**
+     * 服务费提示信息
+     */
+    @OnClick(R.id.iv_tips_info)
+    public void tipsInfo() {
+        final Dialog mDialogInfo = CommonUtils.createDialog(this);
+        mDialogInfo.setContentView(R.layout.dialog_tips_info);
+        mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogInfo.dismiss();
+            }
+        });
+        mDialogInfo.show();
+    }
+
+    /**
+     * 乘客意外保险
+     */
+    @OnClick(R.id.tv_insurance_info)
+    public void addInsuranceInfo() {
+        readyGo(InsuranceActivity.class);
+    }
 
     @OnClick(R.id.btn_add_passenger)
     public void addPassenger() {

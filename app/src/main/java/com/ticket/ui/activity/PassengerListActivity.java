@@ -149,8 +149,8 @@ public class PassengerListActivity extends BaseActivity {
                             int index = mapIds.get(key);
                             PassengerAdapter.checkItems.put(index, true);
                         }
-                        passengerAdapter.notifyDataSetChanged();
                     }
+                    passengerAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
                         PassengerListResp<List<PassengerVo>> body = response.body();
