@@ -206,19 +206,15 @@ public class TicketFragment extends BaseFragment {
                 readyGoForResult(PickerActivity.class, 1);
             }
         });
+        setCurrentTime(new Date());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.comm.PICKER_SUCCESS) {
             Date dt = (Date) data.getSerializableExtra("date");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+            setCurrentTime(dt);
             SimpleDateFormat sdfView = new SimpleDateFormat("yyyy-MM-dd");
-            String str[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};//字符串数组
-            Calendar rightNow = Calendar.getInstance();
-            rightNow.setTime(dt);
-            int day = rightNow.get(Calendar.DAY_OF_WEEK);//获取时间
-            go_time.setText(sdf.format(dt) + " " + str[day - 1]);
             date_time = sdfView.format(dt);
         } else if (resultCode == Constants.comm.START_CITY_SUCCESS) {
             startCityName = data.getStringExtra("cityName");
@@ -230,6 +226,15 @@ public class TicketFragment extends BaseFragment {
             endCityId = data.getStringExtra("cityId");
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setCurrentTime(Date dt) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        String str[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};//字符串数组
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(dt);
+        int day = rightNow.get(Calendar.DAY_OF_WEEK);//获取时间
+        go_time.setText(sdf.format(dt) + " " + str[day - 1]);
     }
 
     @Override
