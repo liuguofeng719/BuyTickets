@@ -214,8 +214,6 @@ public class TicketFragment extends BaseFragment {
         if (resultCode == Constants.comm.PICKER_SUCCESS) {
             Date dt = (Date) data.getSerializableExtra("date");
             setCurrentTime(dt);
-            SimpleDateFormat sdfView = new SimpleDateFormat("yyyy-MM-dd");
-            date_time = sdfView.format(dt);
         } else if (resultCode == Constants.comm.START_CITY_SUCCESS) {
             startCityName = data.getStringExtra("cityName");
             start_city.setText(startCityName);
@@ -235,6 +233,8 @@ public class TicketFragment extends BaseFragment {
         rightNow.setTime(dt);
         int day = rightNow.get(Calendar.DAY_OF_WEEK);//获取时间
         go_time.setText(sdf.format(dt) + " " + str[day - 1]);
+        SimpleDateFormat sdfView = new SimpleDateFormat("yyyy-MM-dd");
+        date_time = sdfView.format(dt);
     }
 
     @Override
