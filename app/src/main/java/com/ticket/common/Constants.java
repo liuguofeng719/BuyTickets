@@ -15,6 +15,7 @@ public class Constants {
         public static final int START_CITY_SUCCESS = 20;
         public static final int END_CITY_SUCCESS = 30;
         public static final int PASSENGER_SUCCESS = 40;//乘客
+        public static final int INSURANCE_PRICE_SUCCESS = 50;//保险
     }
 
     /**

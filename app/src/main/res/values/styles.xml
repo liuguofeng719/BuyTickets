@@ -83,7 +83,6 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
     </style>
-
     <style name="menu_common">
         <item name="android:button">@null</item>
         <item name="android:background">@null</item>
