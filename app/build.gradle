@@ -63,4 +63,5 @@ dependencies {
         compile "org.apache.httpcomponents:httpcore:4.3.2"
     }
     compile 'com.squareup:android-times-square:1.6.4@aar'
+    compile files('libs/universal-image-loader-1.9.2.jar')
 }

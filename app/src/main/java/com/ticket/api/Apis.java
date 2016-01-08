@@ -14,6 +14,7 @@ import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
+import com.ticket.bean.Pictures;
 import com.ticket.bean.UserVo;
 import com.ticket.bean.WXPayVo;
 
@@ -238,4 +239,10 @@ public interface Apis {
     Call<WXPayVo> payOrderByWeiChat(
             @Query("orderID") String orderID
     );
+
+    /**
+     * 获取轮播图接口
+     */
+    @GET("Advertisement/GetAdvertisementPictures.ashx")
+    Call<Pictures> getAdvertisementPictures();
 }
