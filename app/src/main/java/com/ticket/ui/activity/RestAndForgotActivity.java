@@ -61,6 +61,7 @@ public class RestAndForgotActivity extends BaseActivity {
         this.btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                countTimer.cancel();
                 finish();
             }
         });

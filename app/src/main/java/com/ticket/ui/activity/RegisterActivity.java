@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -60,6 +61,7 @@ public class RegisterActivity extends BaseActivity {
         this.btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                countTimer.cancel();
                 finish();
             }
         });
@@ -93,6 +95,8 @@ public class RegisterActivity extends BaseActivity {
             public void onClick(View v) {
                 if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
                     if (validateSubmit()) {
+                        final Dialog mDialog = CommonUtils.showDialog(RegisterActivity.this, "正在注册并且登陆中");
+                        mDialog.show();
                         Call<BaseInfoVo> callRegister = getApis().register(
                                 ed_user_phone.getText().toString(),
                                 ed_user_pwd.getText().toString(),
@@ -100,12 +104,14 @@ public class RegisterActivity extends BaseActivity {
                         callRegister.enqueue(new Callback<BaseInfoVo>() {
                             @Override
                             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                countTimer.cancel();
                                 if (response.isSuccess() && response.body().isSuccessfully()) {
                                     //注册成功并且登陆
                                     Call<UserVo> callLogin = getApis().login(ed_user_phone.getText().toString(), ed_user_pwd.getText().toString()).clone();
                                     callLogin.enqueue(new Callback<UserVo>() {
                                         @Override
                                         public void onResponse(Response<UserVo> response, Retrofit retrofit) {
+                                            CommonUtils.dismiss(mDialog);
                                             if (response.isSuccess() && response.body().isSuccessfully()) {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
@@ -117,15 +123,25 @@ public class RegisterActivity extends BaseActivity {
 
                                         @Override
                                         public void onFailure(Throwable t) {
-
+                                            CommonUtils.dismiss(mDialog);
                                         }
                                     });
+                                } else {
+                                    countTimer.cancel();
+                                    CommonUtils.dismiss(mDialog);
+                                    if (response.body() != null) {
+                                        BaseInfoVo body = response.body();
+                                        CommonUtils.make(RegisterActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                                    } else {
+                                        CommonUtils.make(RegisterActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(Throwable t) {
-
+                                countTimer.cancel();
+                                CommonUtils.dismiss(mDialog);
                             }
                         });
                     }

@@ -127,8 +127,10 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
             @Override
             public void onResponse(Response<Pictures> response, Retrofit retrofit) {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    mSlideShowView.clearImages();
-                    mSlideShowView.setImageUrlList(Arrays.asList(response.body().getPictures()));
+                    if (mSlideShowView != null) {
+                        mSlideShowView.clearImages();
+                        mSlideShowView.setImageUrlList(Arrays.asList(response.body().getPictures()));
+                    }
                 }
             }
 

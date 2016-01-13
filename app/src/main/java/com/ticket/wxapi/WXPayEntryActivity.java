@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -50,8 +49,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
             }
         });
-
-        ((TextView) findViewById(R.id.tv_header_title)).setText("微信支付成功");
+        ((TextView) findViewById(R.id.tv_header_title)).setText("微信支付");
         api = WXAPIFactory.createWXAPI(this, Constants.wxpay.APPID);
         api.handleIntent(getIntent(), this);
     }
@@ -69,14 +67,21 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
+        //resp.errCode==  0 ：表示支付成功
+        //resp.errCode== -1 ：表示支付失败
+       // resp.errCode== -2 ：表示取消支付
         TLog.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-
-        } else if (resp.getType() == -1) {
-            ImageView imgView = (ImageView) findViewById(R.id.iv_pay_icon);
+        ImageView imgView = (ImageView) findViewById(R.id.iv_pay_icon);
+        TextView textView = (TextView) findViewById(R.id.tv_pay_message);
+        if (resp.errCode==0) {
+            imgView.setImageResource(R.drawable.success);
+            textView.setText("付款成功");
+        } else if(resp.errCode==-1){
             imgView.setImageResource(R.drawable.pay_failed);
-            TextView textView = (TextView) findViewById(R.id.tv_pay_message);
             textView.setText("付款失败");
+        }else if(resp.errCode==-2) {
+            imgView.setImageResource(R.drawable.pay_failed);
+            textView.setText("取消支付,支付失败");
         }
     }
 }
