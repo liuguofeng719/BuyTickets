@@ -12,7 +12,7 @@ import com.ticket.ui.base.BaseActivity;
 
 import butterknife.InjectView;
 
-public class PaySucessActivity extends BaseActivity {
+public class PaySuccessActivity extends BaseActivity {
 
     @InjectView(R.id.btn_back_home)
     Button btn_back_home;
@@ -42,17 +42,18 @@ public class PaySucessActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
+        ((TextView) findViewById(R.id.tv_header_title)).setText("支付宝支付");
         String msg = extras.getString("msg");
         tv_pay_message.setText(msg);
         String status = extras.getString("status");
-        if (status.equals("0")) {
+        if ("0".equals(status)) {
             iv_pay_icon.setImageResource(R.drawable.pay_failed);
         }
 
         btn_back_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaySucessActivity.this, HomeActivity.class);
+                Intent intent = new Intent(PaySuccessActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -62,7 +63,7 @@ public class PaySucessActivity extends BaseActivity {
         btn_myorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaySucessActivity.this, HomeActivity.class);
+                Intent intent = new Intent(PaySuccessActivity.this, HomeActivity.class);
                 intent.putExtra("order", 1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

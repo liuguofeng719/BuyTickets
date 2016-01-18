@@ -79,27 +79,23 @@ public class PayMentModeActivity extends BaseActivity {
                     String resultInfo = payResult.getResult();
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                    Bundle bundle = new Bundle();
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Bundle bundle = new Bundle();
                         bundle.putString("status", "9000");
                         bundle.putString("msg", "支付成功");
-                        readyGo(PaySucessActivity.class);
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, "8000")) {
-                            Bundle bundle = new Bundle();
                             bundle.putString("status", "8000");
                             bundle.putString("msg", "支付结果确认中");
-                            readyGo(PaySucessActivity.class);
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Bundle bundle = new Bundle();
                             bundle.putString("status", "0");
                             bundle.putString("msg", "支付失败");
-                            readyGo(PaySucessActivity.class);
                         }
                     }
+                    readyGo(PaySuccessActivity.class, bundle);
                     break;
                 case SDK_CHECK_FLAG:
                     Toast.makeText(PayMentModeActivity.this, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
@@ -111,7 +107,6 @@ public class PayMentModeActivity extends BaseActivity {
     };
 
     IWXAPI api;
-    PayReq req = new PayReq();
     Dialog mDialog;
 
     @Override
@@ -151,7 +146,7 @@ public class PayMentModeActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                mDialog = CommonUtils.showDialog(PayMentModeActivity.this,"正在加载微信支付");
+                mDialog = CommonUtils.showDialog(PayMentModeActivity.this, "正在加载微信支付");
                 mDialog.show();
                 api = WXAPIFactory.createWXAPI(PayMentModeActivity.this, Constants.wxpay.APPID);
                 api.registerApp(Constants.wxpay.APPID);
