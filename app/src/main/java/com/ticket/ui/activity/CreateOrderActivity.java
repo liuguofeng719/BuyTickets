@@ -84,6 +84,9 @@ public class CreateOrderActivity extends BaseActivity {
     @InjectView(R.id.tv_insurance_info)
     TextView tv_insurance_info;
 
+    @InjectView(R.id.iv_notice)
+    ImageView iv_notice;
+
     PassengerAdapter passengerAdapter;
     Dialog mDialog;
     ListView lv_passenger_list;
@@ -104,6 +107,26 @@ public class CreateOrderActivity extends BaseActivity {
     public void tipsInfo() {
         final Dialog mDialogInfo = CommonUtils.createDialog(this);
         mDialogInfo.setContentView(R.layout.dialog_tips_info);
+        mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogInfo.dismiss();
+            }
+        });
+        mDialogInfo.setCancelable(false);
+        mDialogInfo.show();
+    }
+
+    /**
+     * 乘客须知
+     */
+    @OnClick(R.id.iv_notice)
+    public void notice() {
+        final Dialog mDialogInfo = CommonUtils.createDialog(this);
+        mDialogInfo.setContentView(R.layout.dialog_tips_info);
+        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_title)).setText(R.string.notice_title);
+        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_content)).setText(R.string.notice);
+        mDialogInfo.setCancelable(false);
         mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +219,7 @@ public class CreateOrderActivity extends BaseActivity {
 
     /**
      * 多个联系人用逗号分隔
+     *
      * @return
      */
     public String getPassengersIds() {

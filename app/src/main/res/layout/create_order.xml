@@ -162,25 +162,25 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:id="@+id/ly_service_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center"
-                            >
+                            android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/tv_service_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="服务费"
-                                />
+                                android:text="服务费" />
 
                             <TextView
                                 android:id="@+id/tv_service_price"
@@ -191,27 +191,54 @@
                                 android:textColor="@color/text_price_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
                         <ImageView
                             android:id="@+id/iv_tips_info"
-                            android:layout_marginLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:scaleType="centerCrop"
+                            android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/ly_service_price"
-                            android:src="@drawable/tips"
-                        />
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/tips" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ly_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_padding"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/notice_title"
+            android:textColor="@color/text_color"
+            android:textSize="14sp"
+            android:layout_marginRight="5dp"
+        />
+        <ImageView
+            android:id="@+id/iv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tips"
+        />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/passenger_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top_content"
-        android:layout_marginTop="12dp"
+        android:layout_below="@+id/ly_tips"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingBottom="10dp"
@@ -238,50 +265,49 @@
             android:text="@string/add_custom_title"
             android:textColor="@color/white" />
     </RelativeLayout>
+
     <ListView
         android:id="@+id/lv_passenger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passenger_title"
         android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
-        >
-    </ListView>
+        android:listSelector="@color/transparent"></ListView>
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
+        android:paddingBottom="@dimen/common_padding"
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding"
-        android:paddingBottom="@dimen/common_padding"
-        android:paddingTop="5dp"
-        >
+        android:paddingTop="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_insurance_info"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:drawableRight="@drawable/normal_arrow"
                 android:gravity="center_vertical"
-                android:text="乘车意外险"
-            />
+                android:text="乘车意外险" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/bg_line_color"
-            />
+                android:background="@color/bg_line_color" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-            >
+                android:layout_marginTop="10dp">
+
                 <TextView
                     android:id="@+id/tv_total_title"
                     android:layout_width="wrap_content"

@@ -33,13 +33,17 @@
             android:textColor="@color/text_price_color"
         />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/tv_tips_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/tips_info_content_service"
-        android:padding="@dimen/common_padding"
-        android:lineSpacingExtra="5dp"
-        android:textColor="@color/black"
-    />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_tips_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tips_info_content_service"
+            android:padding="@dimen/common_padding"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/black"
+        />
+    </ScrollView>
 </LinearLayout>
