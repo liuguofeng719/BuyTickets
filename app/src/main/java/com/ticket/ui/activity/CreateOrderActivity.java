@@ -259,8 +259,6 @@ public class CreateOrderActivity extends BaseActivity {
                 double insurancePrice = (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
                 if (insuranceCheck) {
                     total = total + insurancePrice;
-                } else {
-                    total = total - insurancePrice;
                 }
             }
             setTotal(total);
