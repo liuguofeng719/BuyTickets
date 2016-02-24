@@ -3,11 +3,13 @@ package com.ticket;
 import android.app.Application;
 
 import com.ticket.utils.CrashHandler;
+import com.ticket.utils.LocationService;
 import com.ticket.utils.TLog;
 
 public class TicketsApplication extends Application {
 
     public static TicketsApplication ticketsApplication;
+    public LocationService locationService;
 
     public static TicketsApplication getTicketApplication() {
         return ticketsApplication;
@@ -17,9 +19,15 @@ public class TicketsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ticketsApplication = this;
+        /***
+         * 初始化定位sdk，建议在Application中创建
+         */
+        locationService = new LocationService(getApplicationContext());
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
         //TODO 禁用和启用Log
-        TLog.disableLog();
+        TLog.enableLog();
+        //百度地图定位
+//        SDKInitializer.initialize(getApplicationContext());
     }
 
     @Override

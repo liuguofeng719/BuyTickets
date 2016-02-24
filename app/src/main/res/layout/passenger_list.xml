@@ -27,17 +27,21 @@
             android:layout_centerInParent="true"
             android:text="乘客列表"
         />
+
         <TextView
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_add_passenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="确定"
-            android:textColor="@color/white"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
-            />
+            android:text="新增乘客"
+            android:textColor="@color/white"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/frequency_button"
+        />
     </RelativeLayout>
     <ListView
         android:id="@+id/lv_passenger_list"
@@ -55,6 +59,7 @@
         android:background="@color/bg_line_color"
     />
     <LinearLayout
+        android:id="@+id/ly_buttom"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:gravity="center"
@@ -62,16 +67,17 @@
         android:background="@color/white"
         >
         <Button
-            android:id="@+id/btn_add_passenger"
+            android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新增乘客"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textColor="@color/white"
+            android:paddingTop="@dimen/common_padding"
+            android:paddingBottom="@dimen/common_padding"
+            android:text="完成"
             android:background="@drawable/frequency_button"
+            android:textColor="@color/white"
+            android:textSize="16sp"
         />
     </LinearLayout>
 </LinearLayout>

@@ -45,9 +45,9 @@ public class PassengerListActivity extends BaseActivity {
     @InjectView(R.id.btn_back)
     ImageView btn_back;
     @InjectView(R.id.btn_ok)
-    TextView btn_ok;
+    Button btn_ok;
     @InjectView(R.id.btn_add_passenger)
-    Button btn_add_passenger;
+    TextView btn_add_passenger;
 
     PassengerAdapter passengerAdapter;
     List<PassengerVo> passengerVoList;

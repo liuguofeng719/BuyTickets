@@ -1,11 +1,11 @@
 package com.ticket.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,10 +33,10 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
     ListView lv_passenger_list;
     @InjectView(R.id.btn_back)
     ImageView btn_back;
-    @InjectView(R.id.btn_ok)
-    TextView btn_ok;
+    @InjectView(R.id.ly_buttom)
+    LinearLayout ly_buttom;
     @InjectView(R.id.btn_add_passenger)
-    Button btn_add_passenger;
+    TextView btn_add_passenger;
 
     PassengerMngAdapter passengerAdapter;
     List<PassengerVo> passengerVoList;
@@ -75,7 +75,7 @@ public class PassengerManagerActivity extends BaseActivity implements PassengerM
 
     @Override
     protected void initViewsAndEvents() {
-        btn_ok.setVisibility(View.GONE);
+        ly_buttom.setVisibility(View.GONE);
     }
 
     private void getPassengers() {
