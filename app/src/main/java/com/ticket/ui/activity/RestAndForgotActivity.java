@@ -115,7 +115,7 @@ public class RestAndForgotActivity extends BaseActivity {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
                                                 countTimer.cancel();
-                                                readyGoThenKill(HomeActivity.class);
+                                                readyGoThenKill(IndexActivity.class);
                                             } else {
                                                 CommonUtils.make(RestAndForgotActivity.this, response.body().getErrorMessage());
                                             }

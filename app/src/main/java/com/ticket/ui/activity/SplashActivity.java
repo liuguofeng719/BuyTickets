@@ -22,7 +22,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashActivity.this,
-                        HomeActivity.class);
+                        IndexActivity.class);
                 startActivity(intent);
                 finish();
             }

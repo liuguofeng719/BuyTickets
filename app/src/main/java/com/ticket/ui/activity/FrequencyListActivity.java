@@ -216,9 +216,11 @@ public class FrequencyListActivity extends BaseActivity {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     List<FrequencyVo> frquecyList = response.body().getRoutings();
-                    if (frquecyList.size() == 0) {
-                        tv_empty.setVisibility(View.VISIBLE);
-                        lv_frquency.setVisibility(View.GONE);
+                    if (frquecyList != null && frquecyList.size() == 0) {
+                        if (tv_empty != null) {
+                            tv_empty.setVisibility(View.VISIBLE);
+                            lv_frquency.setVisibility(View.GONE);
+                        }
                     }
                     listViewDataAdapter.getDataList().clear();
                     listViewDataAdapter.getDataList().addAll(frquecyList);

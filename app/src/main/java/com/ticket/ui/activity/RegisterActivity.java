@@ -115,7 +115,7 @@ public class RegisterActivity extends BaseActivity {
                                             if (response.isSuccess() && response.body().isSuccessfully()) {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
-                                                readyGoThenKill(HomeActivity.class);
+                                                readyGoThenKill(IndexActivity.class);
                                             } else {
                                                 CommonUtils.make(RegisterActivity.this, response.body().getErrorMessage());
                                             }

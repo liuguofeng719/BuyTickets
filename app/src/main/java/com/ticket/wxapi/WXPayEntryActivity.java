@@ -16,7 +16,7 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.ticket.R;
 import com.ticket.common.Constants;
-import com.ticket.ui.activity.HomeActivity;
+import com.ticket.ui.activity.IndexActivity;
 import com.ticket.utils.TLog;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -33,7 +33,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         ((Button) findViewById(R.id.btn_back_home)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WXPayEntryActivity.this, HomeActivity.class);
+                Intent intent = new Intent(WXPayEntryActivity.this, IndexActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -42,7 +42,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         ((Button) findViewById(R.id.btn_myorder)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WXPayEntryActivity.this, HomeActivity.class);
+                Intent intent = new Intent(WXPayEntryActivity.this, IndexActivity.class);
                 intent.putExtra("order", 1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

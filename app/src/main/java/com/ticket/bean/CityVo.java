@@ -10,6 +10,26 @@ public class CityVo {
     private String firstLatter;
     @SerializedName("CityName")
     private String cityName;
+    @SerializedName("ProvinceID")
+    private String provinceId;
+    @SerializedName("ProvinceName")
+    private String provinceName;
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public String getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId;
+    }
 
     public String getCityId() {
         return cityId;
@@ -41,6 +61,8 @@ public class CityVo {
                 "cityId='" + cityId + '\'' +
                 ", firstLatter='" + firstLatter + '\'' +
                 ", cityName='" + cityName + '\'' +
+                ", provinceId='" + provinceId + '\'' +
+                ", provinceName='" + provinceName + '\'' +
                 '}';
     }
 }

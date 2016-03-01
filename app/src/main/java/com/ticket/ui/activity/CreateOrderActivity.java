@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
+import com.ticket.widgets.ListViewForScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +73,7 @@ public class CreateOrderActivity extends BaseActivity {
     @InjectView(R.id.tv_service_price)
     TextView tv_service_price;
     @InjectView(R.id.lv_passenger)
-    ListView lv_passenger;
+    ListViewForScrollView lv_passenger;
     @InjectView(R.id.btn_add_passenger)
     Button btn_add_passenger;
     @InjectView(R.id.tv_price_total)
@@ -81,11 +83,23 @@ public class CreateOrderActivity extends BaseActivity {
 
     @InjectView(R.id.iv_tips_info)
     ImageView iv_tips_info;
-    @InjectView(R.id.tv_insurance_info)
-    TextView tv_insurance_info;
+
+//    @InjectView(R.id.tv_insurance_info)
+//    TextView tv_insurance_info;
 
     @InjectView(R.id.iv_notice)
     ImageView iv_notice;
+
+    @InjectView(R.id.iv_q)
+    ImageView iv_q;
+    @InjectView(R.id.tv_insurance_price)
+    CheckBox tv_insurance_price;
+
+    @InjectView(R.id.tv_coupon)
+    TextView tv_coupon;
+
+    @InjectView(R.id.ly_insurance_price)
+    LinearLayout ly_insurance_price;
 
     PassengerAdapter passengerAdapter;
     Dialog mDialog;
@@ -99,6 +113,16 @@ public class CreateOrderActivity extends BaseActivity {
     List<PassengerVo> selectPassengers;
     Map<String, Integer> selectedIds = new HashMap<>();//已选择的乘客编码
     boolean insuranceCheck = true;//是否选择保险,默认选择保险费
+
+    private double totalPrice;
+
+    /**
+     * 优惠券功能
+     */
+    @OnClick(R.id.tv_coupon)
+    public void coupon() {
+        readyGo(CouponActivity.class);
+    }
 
     /**
      * 服务费提示信息
@@ -115,6 +139,28 @@ public class CreateOrderActivity extends BaseActivity {
         });
         mDialogInfo.setCancelable(false);
         mDialogInfo.show();
+    }
+
+    /**
+     * 是否选择保险费
+     */
+    @OnClick(R.id.ly_insurance_price)
+    public void insurancePrice() {
+        if (tv_insurance_price.isChecked()) {
+            tv_insurance_price.setChecked(false);
+            insuranceCheck = false;
+        } else {
+            tv_insurance_price.setChecked(true);
+            insuranceCheck = true;
+        }
+        double total = getTotalTicketsAndService();
+        if (selectedIds.size() > 0) {
+            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
+            if (insuranceCheck) {
+                total = total + insurancePrice;
+            }
+        }
+        setTotal(total);
     }
 
     /**
@@ -136,16 +182,31 @@ public class CreateOrderActivity extends BaseActivity {
         mDialogInfo.show();
     }
 
+    @OnClick(R.id.iv_q)
+    public void insuranceInfo() {
+        final Dialog mDialogInfo = CommonUtils.createDialog(this);
+        mDialogInfo.setContentView(R.layout.dialog_tips_info);
+        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_content)).setText(getString(R.string.tips_info_content_insurance));
+        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_title)).setText("乘车保险协议介绍");
+        mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialogInfo.dismiss();
+            }
+        });
+        mDialogInfo.show();
+    }
+
     /**
      * 乘客意外保险
      */
-    @OnClick(R.id.tv_insurance_info)
-    public void addInsuranceInfo() {
-        Bundle bundle = new Bundle();
-        bundle.putString("insurancePrice", frequencyVo.getInsurancePrice());
-        bundle.putBoolean("insuranceCheck", insuranceCheck);
-        readyGoForResult(InsuranceActivity.class, 1, bundle);
-    }
+//    @OnClick(R.id.tv_insurance_info)
+//    public void addInsuranceInfo() {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("insurancePrice", frequencyVo.getInsurancePrice());
+//        bundle.putBoolean("insuranceCheck", insuranceCheck);
+//        readyGoForResult(InsuranceActivity.class, 1, bundle);
+//    }
 
     @OnClick(R.id.btn_add_passenger)
     public void addPassenger() {
@@ -157,7 +218,6 @@ public class CreateOrderActivity extends BaseActivity {
             readyGoForResult(PassengerListActivity.class, 1, bundle);
         } else {
             readyGoThenKill(LoginActivity.class);
-
         }
     }
 
@@ -199,6 +259,7 @@ public class CreateOrderActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("orderNumber", response.body().getOrderNumber());
                     bundle.putString("orderId", response.body().getOrderId());
+                    bundle.putString("money", "" + totalPrice);
                     readyGo(PayMentModeActivity.class, bundle);
                 } else {
                     if (response.body() != null) {
@@ -330,6 +391,7 @@ public class CreateOrderActivity extends BaseActivity {
         tv_endStation.setText(frequencyVo.getStopStationName());
         tv_ticket_price.setText("￥" + frequencyVo.getTicketPrice());
         tv_service_price.setText("￥" + frequencyVo.getServicePrice());
+        tv_insurance_price.setText("￥" + frequencyVo.getInsurancePrice());
         this.listViewDataAdapter = new ListViewDataAdapter<PassengerVo>(new ViewHolderCreator<PassengerVo>() {
             @Override
             public ViewHolderBase<PassengerVo> createViewHolder(int position) {
@@ -373,8 +435,10 @@ public class CreateOrderActivity extends BaseActivity {
         lv_passenger.setAdapter(listViewDataAdapter);
     }
 
+
     //设置总金额
     private void setTotal(double price) {
+        totalPrice = price;
         tv_price_total.setText("￥" + price);
     }
 

@@ -2,6 +2,7 @@ package com.ticket.api;
 
 import com.ticket.bean.AlipayVo;
 import com.ticket.bean.BaseInfoVo;
+import com.ticket.bean.CityInfoResp;
 import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
 import com.ticket.bean.FrequencyListResp;
@@ -14,7 +15,10 @@ import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
-import com.ticket.bean.Pictures;
+import com.ticket.bean.PicturesVo;
+import com.ticket.bean.PicturesVoResp;
+import com.ticket.bean.ProvincesResp;
+import com.ticket.bean.ProvincesVo;
 import com.ticket.bean.UserVo;
 import com.ticket.bean.WXPayVo;
 
@@ -27,7 +31,7 @@ import retrofit.http.Query;
 public interface Apis {
 
     //购票系统BaseUri
-    String TROYCD = "http://api.troycd.com:9000/API/";
+    String TROYCD = "http://api.troycd.com:9010/API/";
 
     /**
      * 短信接口
@@ -126,9 +130,11 @@ public interface Apis {
 
     /**
      * 获取出发城市列表
+     *
+     * @Param ProvinceID
      */
     @GET("Bus/GetOriginatingCity.ashx")
-    Call<CityListResp<List<CityVo>>> getOriginatingCity();
+    Call<CityListResp<List<CityVo>>> getOriginatingCity(@Query("ProvinceID") String provinceID);
 
     /**
      * 获取出发热门城市
@@ -152,9 +158,19 @@ public interface Apis {
      * @param startCityID
      */
     @GET("Bus/GetHotDestinationCities.ashx")
-    Call<CityListResp<List<CityVo>>> getHotDestinationCities
-            (@Query("startCityID") String startCityID
+    Call<CityListResp<List<CityVo>>> getHotDestinationCities(@Query("startCityID") String startCityID);
+
+    /**
+     * 通过省市和开始城市筛选 到达城市
+     * @param startCityID
+     * @param provinceID
+     */
+    @GET("Bus/GetDestinationCitiesByProvinceID.ashx")
+    Call<CityListResp<List<CityVo>>> GetDestinationCitiesByProvinceID(
+            @Query("startCityID") String startCityID,
+            @Query("provinceID") String provinceID
     );
+
 
     /**
      * 获取车辆班次
@@ -191,6 +207,7 @@ public interface Apis {
 
     /**
      * 获取订单
+     *
      * @param userID
      * @return
      */
@@ -202,6 +219,7 @@ public interface Apis {
 
     /**
      * 订单详情
+     *
      * @param orderID
      * @return
      */
@@ -212,6 +230,7 @@ public interface Apis {
 
     /**
      * 退票
+     *
      * @param orderDetailID
      * @return
      */
@@ -222,6 +241,7 @@ public interface Apis {
 
     /**
      * 获取支付宝签名信息
+     *
      * @param orderID
      * @return
      */
@@ -232,6 +252,7 @@ public interface Apis {
 
     /**
      * 获取微信支付签名信息
+     *
      * @param orderID
      * @return
      */
@@ -244,5 +265,24 @@ public interface Apis {
      * 获取轮播图接口
      */
     @GET("Advertisement/GetAdvertisementPictures.ashx")
-    Call<Pictures> getAdvertisementPictures();
+    Call<PicturesVoResp<List<PicturesVo>>> getAdvertisementPictures();
+
+    /**
+     * 根据GPS定位得到的城市或者城市ID
+     *
+     * @return
+     */
+    @GET("Bus/GetGPSCity.ashx")
+    Call<CityInfoResp<CityVo>> getGPSCity(
+            @Query("provinceName") String provinceName,
+            @Query("cityName") String cityName);
+
+    /**
+     * 获取省级城市
+     *
+     * @return
+     */
+    @GET("Bus/GetOriginatingProvinces.ashx")
+    Call<ProvincesResp<List<ProvincesVo>>> getOriginatingProvinces();
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.ticket.R;
 import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
+import com.ticket.bean.ProvincesResp;
+import com.ticket.bean.ProvincesVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.CityListAdapter;
 import com.ticket.ui.base.BaseActivity;
@@ -22,11 +25,16 @@ import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 import com.ticket.widgets.PinnedHeaderListView;
 import com.ticket.widgets.SiderBar;
+import com.ticket.widgets.TagGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.InjectView;
 import retrofit.Call;
@@ -44,6 +52,12 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
     PinnedHeaderListView lv_city;
     @InjectView(R.id.siderBar)
     SiderBar siderBar;
+
+    @InjectView(R.id.tv_header_title)
+    TextView tv_header_title;
+
+    @InjectView(R.id.tag_group)
+    TagGroup tag_group;
 
     TextView messageView;
     private Bundle extras;
@@ -68,6 +82,7 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
     @Override
     protected void initViewsAndEvents() {
+        showLoading(getString(R.string.common_loading_message));
         siderBar.setOnTouchingLetterChangedListener(this);
         View view = getLayoutInflater().inflate(R.layout.letter, null);
         this.messageView = (TextView) view.findViewById(R.id.tv_letter);
@@ -87,8 +102,10 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
             }
         });
         if ("start".equals(extras.getString("city"))) {
+            tv_header_title.setText(getString(R.string.start_city));
             this.getStartCity();
         } else {
+            tv_header_title.setText(getString(R.string.end_city));
             this.getEndCity(extras.getString("startCityId"));
         }
 
@@ -145,22 +162,103 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                 }
             }
         });
+
+        tag_group.setOnTagClickListener(new TagGroup.OnTagClickListener() {
+
+            @Override
+            public void onTagClick(String tag) {
+                if ("start".equals(extras.getString("city"))) {
+                    getStartProviceCity(tag);
+                } else {
+                    getEndProviceCity(tag);
+                }
+            }
+        });
     }
 
-    //获取开始城市
-    private void getStartCity() {
-        showLoading(getString(R.string.common_loading_message));
-        Call<CityListResp<List<CityVo>>> callOrgCity = getApis().getOriginatingCity().clone();
+    /**
+     * 通过省获取结束城市
+     *
+     * @param tag
+     */
+    private void getEndProviceCity(String tag) {
+        String findName = "";
+        Set<String> keySet = provinceMap.keySet();
+        for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
+            String key = it.next();
+            if (provinceMap.get(key).equalsIgnoreCase(tag)) {
+                findName = key;
+                break;
+            }
+        }
+        if (!TextUtils.isEmpty(findName)) {
+            Call<CityListResp<List<CityVo>>> callOrgCity = getApis().GetDestinationCitiesByProvinceID(extras.getString("startCityId"),findName).clone();
+            callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+                @Override
+                public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
+                    hideLoading();
+                    if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                        final List<CityVo> cityList = response.body().getCityList();
+                        //获取热门城市
+                        Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotDestinationCities(extras.getString("startCityId")).clone();
+                        callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+
+                            @Override
+                            public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
+                                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                    List<CityVo> hotCity = response.body().getCityList();
+                                    if (hotCity != null) {
+                                        TLog.d(TAG_LOG, "" + hotCity.size());
+                                        for (CityVo cityVo : hotCity) {
+                                            cityVo.setFirstLatter("热门");
+                                        }
+                                        TLog.d(TAG_LOG, hotCity.toString());
+                                        Collections.sort(cityList, new Comparator<CityVo>() {
+                                            @Override
+                                            public int compare(CityVo lhs, CityVo rhs) {
+                                                if (lhs.getFirstLatter().equals("热门")) {
+                                                    return -1;
+                                                } else if (rhs.getFirstLatter().equals("热门")) {
+                                                    return 1;
+                                                } else {
+                                                    return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
+                                                }
+                                            }
+                                        });
+                                        setCityData(hotCity, cityList);
+                                    }
+                                }
+                                hideLoading();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                hideLoading();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    hideLoading();
+                }
+            });
+        } else {
+            hideLoading();
+        }
+    }
+
+    private void commCall(Call<CityListResp<List<CityVo>>> callOrgCity) {
         callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
             @Override
             public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
-
+                hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     final List<CityVo> cityList = response.body().getCityList();
                     //获取热门城市
                     Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotOriginatingCity().clone();
                     callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
-
                         @Override
                         public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
@@ -182,12 +280,10 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                                     CommonUtils.make(CityActivity.this, CommonUtils.getCodeToStr(response.code()));
                                 }
                             }
-                            hideLoading();
                         }
 
                         @Override
                         public void onFailure(Throwable t) {
-                            hideLoading();
                         }
                     });
                 }
@@ -200,11 +296,66 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
         });
     }
 
+    /**
+     * 通过省市获取地市
+     *
+     * @param tag
+     */
+    private void getStartProviceCity(String tag) {
+        String findName = "";
+        Set<String> keySet = provinceMap.keySet();
+        for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
+            String key = it.next();
+            if (provinceMap.get(key).equalsIgnoreCase(tag)) {
+                findName = key;
+                break;
+            }
+        }
+        if (!TextUtils.isEmpty(findName)) {
+            Call<CityListResp<List<CityVo>>> callOrgCity = getApis().getOriginatingCity(findName).clone();
+            this.commCall(callOrgCity);
+        } else {
+            hideLoading();
+        }
+    }
+
+    List<ProvincesVo> provinceList;
+    Map<String, String> provinceMap = new ConcurrentHashMap<>();
+
+    //获取开始城市
+    private void getStartCity() {
+        //showLoading(getString(R.string.common_loading_message));
+        Call<ProvincesResp<List<ProvincesVo>>> provincesRespCall = getApis().getOriginatingProvinces().clone();
+
+        provincesRespCall.enqueue(new Callback<ProvincesResp<List<ProvincesVo>>>() {
+
+            @Override
+            public void onResponse(Response<ProvincesResp<List<ProvincesVo>>> response, Retrofit retrofit) {
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    provinceList = response.body().getProvinceList();
+                    List<String> tagList = new ArrayList<String>();
+                    for (ProvincesVo pvo : provinceList) {
+                        tagList.add(pvo.getProvinceName());
+                        provinceMap.put(pvo.getProvinceId(), pvo.getProvinceName());
+                    }
+                    tag_group.setTags(tagList, 0);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                hideLoading();
+            }
+        });
+
+    }
+
     //获取到达城市
     private void getEndCity(final String startId) {
         TLog.d(TAG_LOG, startId);
-        showLoading(getString(R.string.common_loading_message));
+
         Call<CityListResp<List<CityVo>>> callOrgCity = getApis().getDestinationCities(startId).clone();
+
         callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
 
             @Override
@@ -212,6 +363,15 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     final List<CityVo> cityList = response.body().getCityList();
+                    //获取省市
+                    List<ProvincesVo> provinceList = response.body().getProvinceList();
+                    List<String> tagList = new ArrayList<String>();
+                    for (ProvincesVo pvo : provinceList) {
+                        tagList.add(pvo.getProvinceName());
+                        provinceMap.put(pvo.getProvinceId(), pvo.getProvinceName());
+                    }
+                    tag_group.setTags(tagList, 0);
+
                     //获取热门城市
                     Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotDestinationCities(startId).clone();
                     callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {

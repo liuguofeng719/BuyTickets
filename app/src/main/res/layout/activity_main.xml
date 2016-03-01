@@ -39,7 +39,7 @@
 
             <RadioButton
                 android:id="@+id/rdo_ticket"
-                style="@style/rdo_ticket" />
+                style="@style/rdo_ticket_home" />
 
             <RadioButton
                 android:id="@+id/rdo_order"

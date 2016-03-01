@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
                                     AppPreferences.putString("userId", user.getUserId());
                                     AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
-                                    readyGoThenKill(HomeActivity.class);
+                                    readyGoThenKill(IndexActivity.class);
                                 }else{
                                     if (response.body() != null) {
                                         UserVo body = response.body();

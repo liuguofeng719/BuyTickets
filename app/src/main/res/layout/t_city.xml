@@ -2,75 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    android:orientation="vertical">
-
-    <FrameLayout
-        android:id="@+id/tv_header"
+    android:background="@color/normal_bg_color"
+    >
+    <LinearLayout
+        android:id="@+id/ly_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:background="@color/button_text_color"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
+        android:paddingRight="@dimen/common_padding"
+        android:paddingBottom="@dimen/common_padding"
+        android:layout_alignParentTop="true"
+        >
+        <FrameLayout
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/header_back"
-            android:clickable="true"
-            android:contentDescription="@null"
-            android:padding="10dp"
-            android:scaleType="fitXY" />
+            >
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/header_back"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+            <TextView
+                android:id="@+id/tv_header_title"
+                style="@style/header_title"
+                android:text="@string/start_city" />
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/tv_header_title"
-            style="@style/header_title"
-            android:text="@string/start_city" />
-    </FrameLayout>
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_header"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/ed_search"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:background="@drawable/login_corner"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="5dp"
+                android:hint="@string/tip_city_name"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColorHint="@color/text_color_hint" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_search"
+        android:id="@+id/ly_group"
+        android:layout_below="@+id/ly_head"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_header"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <EditText
-            android:id="@+id/ed_search"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_weight="1"
-            android:background="@drawable/login_corner"
-            android:drawableLeft="@drawable/search"
-            android:drawablePadding="5dp"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:hint="@string/tip_city_name"
-            android:textColorHint="@color/text_color_hint" />
+        android:padding="15dp"
+        >
+        <com.ticket.widgets.TagGroup
+            android:id="@+id/tag_group"
+            android:layout_below="@+id/ll_search"
+            style="@style/TagGroup.Large"
+        />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_search"
-        android:layout_marginTop="@dimen/common_padding"
+        android:layout_below="@+id/ly_group"
+        android:layout_marginTop="10dp"
         android:background="@color/white">
+
         <com.ticket.widgets.PinnedHeaderListView
             android:id="@+id/lv_city"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@color/transparent"
-            android:listSelector="@color/bg_line_color"
             android:divider="@color/bg_line_color"
             android:dividerHeight="1dp"
-            >
-        </com.ticket.widgets.PinnedHeaderListView>
+            android:listSelector="@color/bg_line_color"></com.ticket.widgets.PinnedHeaderListView>
 
         <com.ticket.widgets.SiderBar
             android:id="@+id/siderBar"

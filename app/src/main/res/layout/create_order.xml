@@ -21,258 +21,272 @@
             android:background="@color/button_text_color" />
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/top_content"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/topPanel"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <TextView
-            android:id="@+id/tv_station_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="12-15 (明天) 07:30" />
+        android:layout_below="@+id/topPanel">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_startPoint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="成都"
-                    android:textColor="@color/text_color"
-                    android:textSize="24sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/pointer_city" />
-
-                <TextView
-                    android:id="@+id/tv_destination"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="上海"
-                    android:textColor="@color/text_color"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_startStation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="成都长途客运站"
-                    android:textColor="@color/text_color_hint"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/pointer_city"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/tv_endStation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="上海长途客运站"
-                    android:textColor="@color/text_color_hint"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-
-                android:layout_marginTop="@dimen/common_padding"
-                android:background="@drawable/dash"
-                android:layerType="software" />
-
-            <LinearLayout
+                android:id="@+id/top_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp">
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding">
+
+                <TextView
+                    android:id="@+id/tv_station_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="12-15 (明天) 07:30" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_ticket_price_title"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="票价" />
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_ticket_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="￥320"
-                        android:textColor="@color/text_price_color"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/bg_line_color" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:id="@+id/ly_service_price"
+                        <TextView
+                            android:id="@+id/tv_startPoint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:text="成都"
+                            android:textColor="@color/text_color"
+                            android:textSize="24sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/pointer_city" />
+
+                        <TextView
+                            android:id="@+id/tv_destination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="上海"
+                            android:textColor="@color/text_color"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_startStation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="成都长途客运站"
+                            android:textColor="@color/text_color_hint"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/pointer_city"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/tv_endStation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="上海长途客运站"
+                            android:textColor="@color/text_color_hint"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+
+                        android:layout_marginTop="@dimen/common_padding"
+                        android:background="@drawable/dash"
+                        android:layerType="software" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/tv_service_title"
+                                android:id="@+id/tv_ticket_price_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="服务费" />
+                                android:text="票价" />
 
                             <TextView
-                                android:id="@+id/tv_service_price"
+                                android:id="@+id/tv_ticket_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="￥3"
+                                android:text="￥320"
                                 android:textColor="@color/text_price_color"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/iv_tips_info"
-                            android:layout_width="wrap_content"
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/bg_line_color" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/ly_service_price"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/tips" />
-                    </RelativeLayout>
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/ly_insurance_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:descendantFocusability="blocksDescendants"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_insurance_title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="保险费" />
+
+                                    <CheckBox
+                                        android:id="@+id/tv_insurance_price"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:background="@null"
+                                        android:button="@null"
+                                        android:checked="true"
+                                        android:text="￥3"
+                                        android:textColor="@color/text_price_color"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+
+                                <!--<ImageView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:layout_toRightOf="@+id/ly_service_price"-->
+                                <!--android:scaleType="centerCrop"-->
+                                <!--android:src="@drawable/tips" />-->
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/common_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/notice_title"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tips" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/passenger_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ly_tips"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/custom_title"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_add_passenger"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:background="@drawable/frequency_button"
+                    android:text="@string/add_custom_title"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <com.ticket.widgets.ListViewForScrollView
+                android:id="@+id/lv_passenger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passenger_title"
+                android:cacheColorHint="@color/transparent"
+                android:listSelector="@color/transparent">
+            </com.ticket.widgets.ListViewForScrollView>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ly_tips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/top_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/common_padding"
-        android:gravity="left|center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/notice_title"
-            android:textColor="@color/text_color"
-            android:textSize="14sp"
-            android:layout_marginRight="5dp"
-        />
-        <ImageView
-            android:id="@+id/iv_notice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/tips"
-        />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/passenger_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ly_tips"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        android:paddingTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/custom_title"
-            android:textColor="@color/text_color"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_add_passenger"
-            android:layout_width="80dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="right"
-            android:background="@drawable/frequency_button"
-            android:text="@string/add_custom_title"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/lv_passenger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passenger_title"
-        android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"></ListView>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
@@ -290,13 +304,77 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_insurance_info"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:drawableRight="@drawable/normal_arrow"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_insurance_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
+                        android:text="乘车意外险" />
+
+                    <ImageView
+                        android:id="@+id/iv_q"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tips" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/white"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
+                        android:text="服务费" />
+
+                    <ImageView
+                        android:id="@+id/iv_tips_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tips" />
+
+                    <TextView
+                        android:id="@+id/tv_service_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="￥3"
+                        android:textColor="@color/text_price_color"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/bg_line_color" />
+
+            <TextView
+                android:id="@+id/tv_coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:text="乘车意外险" />
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="优惠券功能" />
 
             <View
                 android:layout_width="match_parent"

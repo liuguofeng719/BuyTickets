@@ -23,6 +23,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.ticket.R;
+import com.ticket.bean.PicturesVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * ViewPager实现的轮播图广告自定义视图，如京东首页的广告轮播图效果；
  * 既支持自动轮播页面也支持手势滑动切换页面
  */
-public class SlideShowView extends FrameLayout implements View.OnClickListener{
+public class SlideShowView extends FrameLayout implements View.OnClickListener {
 
     // 使用universal-image-loader插件读取网络图片，需要工程导入universal-image-loader-1.8.6-with-sources.jar
     private ImageLoader imageLoader = ImageLoader.getInstance();
@@ -50,7 +51,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
     private final static boolean isAutoPlay = true;
 
     //自定义轮播图的资源
-    private List<String> imageUrls = new ArrayList<String>();
+    private List<PicturesVo> imageUrls = new ArrayList<PicturesVo>();
     //放轮播图片的ImageView 的list
     private List<ImageView> imageViewsList;
     //放圆点的View的list
@@ -68,26 +69,40 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
 
     private OnImageClickedListener mListener;
 
-    private class ImageViewTag {
-        public ImageViewTag(int position, String url) {
+    public class ImageViewTag {
+        public ImageViewTag(int position, String url, String navUrl) {
             this.position = position;
             this.url = url;
+            this.navUrl = navUrl;
         }
 
         public int position;
         public String url;
+        public String navUrl;
+
+        public int getPosition() {
+            return position;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getNavUrl() {
+            return navUrl;
+        }
     }
 
     @Override
     public void onClick(View v) {
-        final ImageViewTag tag = (ImageViewTag)v.getTag();
-        if(null != mListener) {
-            this.mListener.onImageClicked(tag.position, tag.url);
+        final ImageViewTag tag = (ImageViewTag) v.getTag();
+        if (null != mListener) {
+            this.mListener.onImageClicked(tag.position, tag);
         }
     }
 
     public interface OnImageClickedListener {
-        public void onImageClicked(int position, String url);
+        public void onImageClicked(int position, ImageViewTag imageViewTag);
     }
 
     public void setOnImageClickedListener(OnImageClickedListener listener) {
@@ -130,7 +145,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
      * 开始轮播图切换
      */
     private synchronized void startPlay() {
-        if(scheduledExecutorService == null || scheduledExecutorService.isShutdown()) {
+        if (scheduledExecutorService == null || scheduledExecutorService.isShutdown()) {
             scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
             scheduledExecutorService.scheduleAtFixedRate(new SlideShowTask(), 4, 4, TimeUnit.SECONDS);
         }
@@ -158,7 +173,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
         if (imageUrls == null || imageUrls.size() == 0)
             return;
 
-        if(!isInited) {
+        if (!isInited) {
             LayoutInflater.from(context).inflate(R.layout.layout_slideshow, this, true);
             isInited = true;
         }
@@ -170,7 +185,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
         // 热点个数与图片特殊相等
         for (int i = 0; i < imageUrls.size(); i++) {
             ImageView view = new ImageView(context);
-            view.setTag(new ImageViewTag(i, imageUrls.get(i)));
+            view.setTag(new ImageViewTag(i, imageUrls.get(i).getPictureUrl(), imageUrls.get(i).getNavigateUrl()));
             if (i == 0)//给一个默认图
                 view.setBackgroundResource(R.drawable.no_banner);
             view.setScaleType(ScaleType.FIT_XY);
@@ -217,7 +232,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .build();
 
-            imageLoader.displayImage(((ImageViewTag)imageView.getTag()).url + "", imageView, options);
+            imageLoader.displayImage(((ImageViewTag) imageView.getTag()).url + "", imageView, options);
 //            imageLoader.displayImage(((ImageViewTag)imageView.getTag()).url + "", imageView);
             container.addView(imageViewsList.get(position));
             return imageViewsList.get(position);
@@ -317,14 +332,14 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
         }
     }
 
-    public void setImageUrlList(List<String> urlList) {
+    public void setImageUrlList(List<PicturesVo> urlList) {
         imageUrls = urlList;
         initUI(context);
     }
 
-    public void addImageUrl(String url) {
-        if(!imageUrls.contains(url)) {
-            imageUrls.add(url);
+    public void addImageUrl(PicturesVo picturesVo) {
+        if (!imageUrls.contains(picturesVo)) {
+            imageUrls.add(picturesVo);
             initUI(context);
         }
     }
@@ -345,7 +360,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener{
         // or you can create default configuration by
         // ImageLoaderConfiguration.createDefault(this);
         // method.
-        if(!ImageLoader.getInstance().isInited()) {
+        if (!ImageLoader.getInstance().isInited()) {
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                     .threadPriority(Thread.NORM_PRIORITY - 2)
                     .denyCacheImageMultipleSizesInMemory()

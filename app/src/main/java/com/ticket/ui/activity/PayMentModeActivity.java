@@ -108,10 +108,12 @@ public class PayMentModeActivity extends BaseActivity {
 
     IWXAPI api;
     Dialog mDialog;
+    @InjectView(R.id.tv_total_price)
+    TextView tv_total_price;
 
     @Override
     protected void initViewsAndEvents() {
-
+        tv_total_price.setText("￥" + extras.getString("money") + "元");
         Call<AlipayVo> siginCall = getApis().signAlipay(extras.getString("orderId")).clone();
         siginCall.enqueue(new Callback<AlipayVo>() {
             @Override

@@ -14,7 +14,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
 import com.ticket.R;
 import com.ticket.TicketsApplication;
-import com.ticket.bean.Pictures;
 import com.ticket.common.Constants;
 import com.ticket.ui.activity.CityActivity;
 import com.ticket.ui.activity.FrequencyListActivity;
@@ -23,21 +22,15 @@ import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.LocationService;
 import com.ticket.utils.TLog;
-import com.ticket.widgets.SlideShowView;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
-public class TicketFragment extends BaseFragment implements SlideShowView.OnImageClickedListener {
+public class TicketFragment extends BaseFragment {
 
     @InjectView(R.id.ly_start_city)
     LinearLayout ly_start_city;
@@ -49,6 +42,7 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
     TextView end_city;
     @InjectView(R.id.go_time)
     TextView go_time;
+
     private LocationService locationService;
 
     @Override
@@ -61,9 +55,6 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
 
     @InjectView(R.id.iv_car)
     ImageView iv_car;
-
-    @InjectView(R.id.slideShowView)
-    SlideShowView mSlideShowView;
 
     private String date_time;
     private String startCityId;
@@ -125,7 +116,6 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
 
     @Override
     protected void onFirstUserVisible() {
-        getPics();
         // -----------location config ------------
         locationService = ((TicketsApplication) (mContext.getApplicationContext())).locationService;
         locationService.setLocationOption(locationService.getDefaultLocationClientOption());
@@ -224,25 +214,6 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
 
     };
 
-    private void getPics() {
-        Call<Pictures> callPics = getApis().getAdvertisementPictures().clone();
-        callPics.enqueue(new Callback<Pictures>() {
-            @Override
-            public void onResponse(Response<Pictures> response, Retrofit retrofit) {
-                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    if (mSlideShowView != null) {
-                        mSlideShowView.clearImages();
-                        mSlideShowView.setImageUrlList(Arrays.asList(response.body().getPictures()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }
 
     @Override
     protected void onUserVisible() {
@@ -261,7 +232,6 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
 
     @Override
     protected void initViewsAndEvents() {
-        this.mSlideShowView.setOnImageClickedListener(this);
         this.ly_start_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -323,18 +293,5 @@ public class TicketFragment extends BaseFragment implements SlideShowView.OnImag
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.ticket_fragment;
-    }
-
-    @Override
-    public void onImageClicked(int position, String url) {
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSlideShowView != null) {
-            mSlideShowView.onDestroy();
-        }
     }
 }
