@@ -55,6 +55,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     //注解
     compile 'com.jakewharton:butterknife:5.1.1'
+
     //动画库
     compile 'com.nineoldandroids:library:2.4.0'
     compile files('libs/alipaySdk-20151112.jar')
