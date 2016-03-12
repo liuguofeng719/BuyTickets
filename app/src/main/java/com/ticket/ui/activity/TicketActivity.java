@@ -18,6 +18,7 @@ import com.ticket.bean.CityInfoResp;
 import com.ticket.bean.CityVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.LocationService;
 import com.ticket.utils.TLog;
@@ -132,6 +133,13 @@ public class TicketActivity extends BaseActivity {
         super.onStop();
     }
 
+    @Override
+    protected void onPause() {
+        locationService.unregisterListener(mListener); //注销掉监听
+        locationService.stop(); //停止定位服务
+        super.onPause();
+    }
+
     /*****
      * @see copy funtion to you project
      * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
@@ -168,6 +176,8 @@ public class TicketActivity extends BaseActivity {
                 sb.append("\ncity : ");
                 sb.append(location.getCity());
                 cityName = location.getCity();
+                AppPreferences.putString("provinceName", provinceName);
+                AppPreferences.putString("cityName", cityName);
                 sb.append("\nDistrict : ");
                 sb.append(location.getDistrict());
                 sb.append("\nStreet : ");
