@@ -202,11 +202,13 @@ public class FrequencyListActivity extends BaseActivity {
         getFrequecyList(extras.getString("goDate"));
     }
 
+    Call<FrequencyListResp<List<FrequencyVo>>> callFrequency = null;
+
     private void getFrequecyList(String goDate) {
         tv_empty.setVisibility(View.GONE);
         lv_frquency.setVisibility(View.VISIBLE);
         showLoading(getString(R.string.common_loading_message));
-        Call<FrequencyListResp<List<FrequencyVo>>> callFrequency = getApis().getFrequencyList(
+        callFrequency = getApis().getFrequencyList(
                 extras.getString("startCityID"),
                 extras.getString("stopCityID"),
                 goDate);
@@ -240,5 +242,13 @@ public class FrequencyListActivity extends BaseActivity {
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (callFrequency != null) {
+            callFrequency.cancel();
+        }
+        super.onDestroy();
     }
 }

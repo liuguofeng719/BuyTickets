@@ -192,7 +192,7 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
             }
         }
         if (!TextUtils.isEmpty(findName)) {
-            Call<CityListResp<List<CityVo>>> callOrgCity = getApis().GetDestinationCitiesByProvinceID(extras.getString("startCityId"),findName).clone();
+            Call<CityListResp<List<CityVo>>> callOrgCity = getApis().GetDestinationCitiesByProvinceID(extras.getString("startCityId"), findName).clone();
             callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
                 @Override
                 public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
@@ -322,10 +322,12 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
     List<ProvincesVo> provinceList;
     Map<String, String> provinceMap = new ConcurrentHashMap<>();
 
+    Call<ProvincesResp<List<ProvincesVo>>> provincesRespCall = null;
+
     //获取开始城市
     private void getStartCity() {
         //showLoading(getString(R.string.common_loading_message));
-        Call<ProvincesResp<List<ProvincesVo>>> provincesRespCall = getApis().getOriginatingProvinces().clone();
+        provincesRespCall = getApis().getOriginatingProvinces().clone();
 
         provincesRespCall.enqueue(new Callback<ProvincesResp<List<ProvincesVo>>>() {
 
@@ -350,12 +352,13 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
     }
 
+    Call<CityListResp<List<CityVo>>> callOrgCity = null;
+    Call<CityListResp<List<CityVo>>> callEndHotCity = null;
+
     //获取到达城市
     private void getEndCity(final String startId) {
         TLog.d(TAG_LOG, startId);
-
-        Call<CityListResp<List<CityVo>>> callOrgCity = getApis().getDestinationCities(startId).clone();
-
+        callOrgCity = getApis().getDestinationCities(startId).clone();
         callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
 
             @Override
@@ -373,8 +376,8 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                     tag_group.setTags(tagList, 0);
 
                     //获取热门城市
-                    Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotDestinationCities(startId).clone();
-                    callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+                    callEndHotCity = getApis().getHotDestinationCities(startId).clone();
+                    callEndHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
 
                         @Override
                         public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
@@ -476,6 +479,23 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
         super.onPause();
         if (messageView.getParent() != null) {
             mWindowManager.removeView(messageView);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (extras != null) {
+            if ("start".equals(extras.getString("city"))) {
+                if (provincesRespCall != null) {
+                    provincesRespCall.cancel();
+                }
+            } else {
+                if (callOrgCity != null) {
+                    callOrgCity.cancel();
+                    callEndHotCity.cancel();
+                }
+            }
         }
     }
 }
