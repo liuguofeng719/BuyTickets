@@ -249,6 +249,8 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
         }
     }
 
+    Call<CityListResp<List<CityVo>>> callStartHotCity = null;
+
     private void commCall(Call<CityListResp<List<CityVo>>> callOrgCity) {
         callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
             @Override
@@ -257,8 +259,8 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     final List<CityVo> cityList = response.body().getCityList();
                     //获取热门城市
-                    Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotOriginatingCity().clone();
-                    callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+                    callStartHotCity = getApis().getHotOriginatingCity().clone();
+                    callStartHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
                         @Override
                         public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
@@ -322,14 +324,14 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
     List<ProvincesVo> provinceList;
     Map<String, String> provinceMap = new ConcurrentHashMap<>();
 
-    Call<ProvincesResp<List<ProvincesVo>>> provincesRespCall = null;
+    Call<ProvincesResp<List<ProvincesVo>>> callStartCity = null;
 
     //获取开始城市
     private void getStartCity() {
         //showLoading(getString(R.string.common_loading_message));
-        provincesRespCall = getApis().getOriginatingProvinces().clone();
+        callStartCity = getApis().getOriginatingProvinces().clone();
 
-        provincesRespCall.enqueue(new Callback<ProvincesResp<List<ProvincesVo>>>() {
+        callStartCity.enqueue(new Callback<ProvincesResp<List<ProvincesVo>>>() {
 
             @Override
             public void onResponse(Response<ProvincesResp<List<ProvincesVo>>> response, Retrofit retrofit) {
@@ -352,14 +354,14 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
 
     }
 
-    Call<CityListResp<List<CityVo>>> callOrgCity = null;
+    Call<CityListResp<List<CityVo>>> callEndCity = null;
     Call<CityListResp<List<CityVo>>> callEndHotCity = null;
 
     //获取到达城市
     private void getEndCity(final String startId) {
         TLog.d(TAG_LOG, startId);
-        callOrgCity = getApis().getDestinationCities(startId).clone();
-        callOrgCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+        callEndCity = getApis().getDestinationCities(startId).clone();
+        callEndCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
 
             @Override
             public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
@@ -487,13 +489,18 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
         super.onDestroy();
         if (extras != null) {
             if ("start".equals(extras.getString("city"))) {
-                if (provincesRespCall != null) {
-                    provincesRespCall.cancel();
+                if (callStartCity != null) {
+                    callStartCity.cancel();
+                    if (callStartHotCity != null) {
+                        callStartHotCity.cancel();
+                    }
                 }
             } else {
-                if (callOrgCity != null) {
-                    callOrgCity.cancel();
-                    callEndHotCity.cancel();
+                if (callEndCity != null) {
+                    callEndCity.cancel();
+                    if (callEndHotCity != null) {
+                        callEndHotCity.cancel();
+                    }
                 }
             }
         }
