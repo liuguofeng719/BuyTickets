@@ -294,11 +294,16 @@ public class TicketActivity extends BaseActivity {
             }
         });
         setCurrentTime(new Date());
-        // -----------location config ------------
-        locationService = ((TicketsApplication) (mContext.getApplicationContext())).locationService;
-        locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        locationService.registerListener(mListener);
-        locationService.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // -----------location config ------------
+                locationService = ((TicketsApplication) (mContext.getApplicationContext())).locationService;
+                locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+                locationService.registerListener(mListener);
+                locationService.start();
+            }
+        }).start();
     }
 
     @Override

@@ -485,8 +485,8 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         if (extras != null) {
             if ("start".equals(extras.getString("city"))) {
                 if (callStartCity != null) {
@@ -504,5 +504,10 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
