@@ -42,6 +42,10 @@ android {
     }
     productFlavors {
     }
+    lintOptions {
+        abortOnError false
+        disable 'InconsistentArrays','DefaultLocale','OldTargetApi','GradleOverrides','MissingTranslation','UnusedResources','GoogleAppIndexingWarning'
+    }
 }
 
 dependencies {
@@ -55,7 +59,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     //注解
     compile 'com.jakewharton:butterknife:5.1.1'
-
     //动画库
     compile 'com.nineoldandroids:library:2.4.0'
     compile files('libs/alipaySdk-20151112.jar')
@@ -72,4 +75,14 @@ dependencies {
     compile files('libs/universal-image-loader-1.9.2.jar')
     compile files('libs/baidumapapi_v3_5_0.jar')
     compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/MobCommons-2016.0301.1053.jar')
+    compile files('libs/MobTools-2016.0301.1053.jar')
+    compile files('libs/ShareSDK-Core-2.7.0.jar')
+    compile files('libs/ShareSDK-QQ-2.7.0.jar')
+    compile files('libs/ShareSDK-QZone-2.7.0.jar')
+    compile files('libs/ShareSDK-TencentWeibo-2.7.0.jar')
+    compile files('libs/ShareSDK-Wechat-2.7.0.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.7.0.jar')
+    compile files('libs/ShareSDK-Wechat-Favorite-2.7.0.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.7.0.jar')
 }

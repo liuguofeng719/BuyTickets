@@ -98,7 +98,12 @@
                 android:gravity="center"
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
-
+                <Button
+                    android:id="@+id/btn_text_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="授权登陆"
+                />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -161,6 +166,12 @@
                     android:textSize="10sp"
                     android:textColor="@color/white"
                     android:text="航空座位，坐杆舒服" />
+                <Button
+                    android:id="@+id/btn_text_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试分享"
+                />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,6 +1,11 @@
 package com.ticket.api;
 
 import com.ticket.bean.AlipayVo;
+import com.ticket.bean.BalanceChangeVo;
+import com.ticket.bean.BalanceChangeVoResp;
+import com.ticket.bean.BalanceVo;
+import com.ticket.bean.BankAccountVo;
+import com.ticket.bean.BankAccountVoResp;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.CityInfoResp;
 import com.ticket.bean.CityListResp;
@@ -19,6 +24,10 @@ import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
+import com.ticket.bean.TravelRoutingListVo;
+import com.ticket.bean.TravelRoutingListVoResp;
+import com.ticket.bean.TravelRoutingVo;
+import com.ticket.bean.TravelRoutingVoResp;
 import com.ticket.bean.UserVo;
 import com.ticket.bean.WXPayVo;
 
@@ -285,4 +294,86 @@ public interface Apis {
     @GET("Bus/GetOriginatingProvinces.ashx")
     Call<ProvincesResp<List<ProvincesVo>>> getOriginatingProvinces();
 
+    /**
+     * 学生出行 平台发布路线预览
+     * @return
+     */
+    @GET("Travel/GetTravelRoutingPreview.ashx")
+    Call<TravelRoutingVoResp<List<TravelRoutingVo>>> getTravelRoutingPreview();
+
+    /**
+     * 学生出行 路线详情列表
+     * @param startCityID 开始城市
+     * @param stopCityID 结束城市
+     * @param goDate 出发日期
+     * @return
+     */
+    @GET("Travel/GetTravelRoutingList.ashx")
+    Call<TravelRoutingListVoResp<List<TravelRoutingListVo>>> getTravelRoutingList(
+            @Query("startCityID") String startCityID,
+            @Query("stopCityID") String stopCityID,
+            @Query("goDate") String goDate
+        );
+
+    /**
+     * 发布众筹
+     * @param startPlaceID 出发城市ID
+     * @param stopPlaceID 到达城市ID
+     * @param userID 到达城市ID
+     * @param goDate 出发日期(格式:2015-11-12)
+     * @param hopeGoTime 期望出发时间
+     * @return
+     */
+    @GET("Travel/CreateTravel.ashx")
+    Call<BaseInfoVo> createTravel(
+            @Query("startPlaceID") String startPlaceID,
+            @Query("stopPlaceID") String stopPlaceID,
+            @Query("userID") String userID,
+            @Query("goDate") String goDate,
+            @Query("hopeGoTime") String hopeGoTime
+        );
+
+    /**
+     * 获取账户余额
+     * @param userID 用户ID
+     * @return
+     */
+    @GET("User/GetBanlance.ashx")
+    Call<BalanceVo> getBanlance(@Query("userID") String userID);
+
+    /**
+     * 获取账单情况
+     * @param userID
+     * @return
+     */
+    @GET("User/GetBanlanceChanges.ashx")
+    Call<BalanceChangeVoResp<List<BalanceChangeVo>>> getBanlanceChanges(
+            @Query("userID") String userID
+    );
+
+    /**
+     * 获取用户银行帐号
+     */
+    @GET("User/GetBankAccount.ashx")
+    Call<BankAccountVoResp<BankAccountVo>> getBankAccount(@Query("userID") String userID);
+
+    /**
+     * 提现
+     */
+    @GET("User/ApplicationForWithdrawal.ashx")
+    Call<BaseInfoVo> applicationForWithdrawal(
+            @Query("userID") String userID,
+            @Query("withdrawalPrice") String withdrawalPrice
+    );
+
+    /**
+     * 保存用户银行帐号
+     */
+    @GET("User/SaveUserBankAccount.ashx")
+    Call<BaseInfoVo> saveUserBankAccount(
+            @Query("userID") String userID,
+            @Query("bankName") String bankName,
+            @Query("bankAccount") String bankAccount,
+            @Query("bankRealName") String bankRealName
+    );
 }
