@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ticket.R;
 import com.ticket.ui.activity.AboutActivity;
 import com.ticket.ui.activity.LoginActivity;
+import com.ticket.ui.activity.MyWalletActivity;
 import com.ticket.ui.activity.PassengerManagerActivity;
 import com.ticket.ui.activity.RestAndForgotActivity;
 import com.ticket.ui.base.BaseFragment;
@@ -31,6 +32,22 @@ public class MyFragment extends BaseFragment {
     TextView tv_login_title;
     @InjectView(R.id.tv_about)
     TextView tv_about;
+    @InjectView(R.id.tv_my_balance)
+    TextView tv_my_balance;
+    @InjectView(R.id.tv_account_safety)
+    TextView tv_account_safety;
+
+    //我的余额
+    @OnClick(R.id.tv_my_balance)
+    public void myBalance() {
+        readyGo(MyWalletActivity.class);
+    }
+
+    //账号与安全
+    @OnClick(R.id.tv_account_safety)
+    public void accountSafety() {
+
+    }
 
     @OnClick(R.id.tv_quit)
     public void quitLogin() {

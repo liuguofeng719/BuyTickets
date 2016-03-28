@@ -2,9 +2,11 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ticket.R;
@@ -15,14 +17,20 @@ import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
+import java.util.HashMap;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements PlatformActionListener {
 
     @InjectView(R.id.ed_user_phone)
     EditText ed_user_phone;
@@ -35,8 +43,38 @@ public class LoginActivity extends BaseActivity {
     @InjectView(R.id.tv_forgot)
     TextView tv_forgot;
 
+    @InjectView(R.id.iv_qq_login)
+    ImageView iv_qq_login;
+    @InjectView(R.id.iv_weixin_login)
+    ImageView iv_weixin_login;
+
+    @OnClick(R.id.iv_qq_login)
+    public void qqLogin(){
+        authorize(new QQ(this));
+    }
+
+    @OnClick(R.id.iv_weixin_login)
+    public void weixinLogin(){
+        authorize(new Wechat(this));
+    }
+
+    private void authorize(Platform plat) {
+        if (plat.isValid()) {
+            String userId = plat.getDb().getUserId();
+            if (!TextUtils.isEmpty(userId)) {
+                TLog.d(TAG_LOG, userId + " plat= " + plat.getName());
+//                UIHandler.sendEmptyMessage(MSG_USERID_FOUND, this);
+//                login(plat.getName(), userId, null);
+                return;
+            }
+        }
+        plat.setPlatformActionListener(this);
+        plat.SSOSetting(true);
+        plat.showUser(null);
+    }
+
     @OnClick(R.id.tv_forgot)
-    public void forgot(){
+    public void forgot() {
         readyGo(RestAndForgotActivity.class);
     }
 
@@ -74,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                                     AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
                                     readyGoThenKill(IndexActivity.class);
-                                }else{
+                                } else {
                                     if (response.body() != null) {
                                         UserVo body = response.body();
                                         CommonUtils.make(LoginActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
@@ -122,5 +160,29 @@ public class LoginActivity extends BaseActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            readyGo(IndexActivity.class);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+
     }
 }

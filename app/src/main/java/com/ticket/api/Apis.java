@@ -319,7 +319,7 @@ public interface Apis {
      * 发布众筹
      * @param startPlaceID 出发城市ID
      * @param stopPlaceID 到达城市ID
-     * @param userID 到达城市ID
+     * @param userID 用户ID
      * @param goDate 出发日期(格式:2015-11-12)
      * @param hopeGoTime 期望出发时间
      * @return
