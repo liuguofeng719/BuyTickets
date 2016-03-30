@@ -6,4 +6,10 @@
     <integer name="cpb_default_max_sweep_angle">300</integer>
     <item name="cpb_default_sweep_speed" format="float" type="string">1</item>
     <item name="cpb_default_rotation_speed" format="float" type="string">1</item>
+    <string-array name="order_nav">
+        <item>汽车票</item>
+        <item>学生出行</item>
+        <item>包车出行</item>
+        <item>长途车汽车票</item>
+    </string-array>
 </resources>

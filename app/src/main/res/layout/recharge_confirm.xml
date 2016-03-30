@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/common_text_color"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <include layout="@layout/header" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充值金额"
+            android:textColor="@color/text_color_hint"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/edit_withraw_money"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="left|center_vertical"
+            android:text="￥600.00"
+            android:textColor="@color/common_text_color"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/text_color_c" />
+
+    <FrameLayout
+        android:id="@+id/rl_cbo_wenxin_selected"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:text="微信充值"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/cbo_no_selected"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:clickable="false" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/text_color_c" />
+    <FrameLayout
+        android:id="@+id/rl_cbo_pay_selected"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:text="支付宝充值"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/cbo_selected"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:clickable="false" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/text_color_c" />
+
+    <TextView
+        android:id="@+id/tv_recharge_ok"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="@dimen/common_padding"
+        android:layout_marginTop="25dp"
+        android:layout_height="40dp"
+        android:background="@drawable/my_pay_button"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:text="确认充值 Y600.00"
+        android:gravity="center" />
+</LinearLayout>

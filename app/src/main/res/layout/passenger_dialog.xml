@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/text_color_c"
-    >
+    android:background="@color/text_color_c">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +11,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding"
-        android:background="@color/button_text_color"
-    >
+        android:background="@color/button_text_color">
 
         <TextView
             android:id="@+id/btn_cancel"
@@ -22,8 +20,7 @@
             android:padding="5dp"
             android:textColor="@color/white"
             android:text="取消"
-            android:textSize="14sp"
-        />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/btn_ok"
@@ -33,9 +30,9 @@
             android:text="确定"
             android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:textSize="14sp"
-        />
+            android:textSize="14sp" />
     </RelativeLayout>
+
     <Button
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -46,15 +43,13 @@
         android:text="添加乘客"
         android:textSize="14sp"
         android:textColor="@color/button_text_color"
-        android:background="@drawable/add_passenger_btn"
-    />
+        android:background="@drawable/add_passenger_btn" />
+
     <ListView
         android:id="@+id/lv_passenger_list"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:cacheColorHint="@color/transparent"
         android:listSelector="@color/transparent"
-        android:scrollbars="none"
-        >
-    </ListView>
+        android:scrollbars="none"></ListView>
 </LinearLayout>

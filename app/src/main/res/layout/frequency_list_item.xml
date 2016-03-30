@@ -85,6 +85,7 @@
                     android:clickable="false"
                     android:textColor="@color/white" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_tickets_amount"
                 android:layout_width="wrap_content"
@@ -93,8 +94,7 @@
                 android:textSize="14sp"
                 android:text="剩余票数"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-            />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
     </LinearLayout>
 

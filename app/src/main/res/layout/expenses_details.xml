@@ -3,21 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <FrameLayout
-        android:background="@color/button_text_color"
+        android:background="@color/common_text_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        >
+        android:paddingRight="@dimen/common_padding">
+
         <include layout="@layout/header" />
     </FrameLayout>
+
     <ListView
         android:id="@+id/lv_expenses_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="@color/transparent"
-        android:listSelector="@null"
-        >
-    </ListView>
+        android:listSelector="@null"></ListView>
 </LinearLayout>

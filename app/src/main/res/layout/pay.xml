@@ -6,16 +6,16 @@
 
     <Button
         android:id="@+id/pay_btn"
-	    android:layout_margin="10dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="去微信支付"/>
-    
+        android:text="去微信支付" />
+
     <Button
         android:id="@+id/check_pay_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-	    android:layout_margin="10dp"
-        android:text="检查版本呢"/>
+        android:layout_margin="10dp"
+        android:text="检查版本呢" />
 
 </LinearLayout>

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/normal_bg_color"
-    >
+    android:background="@color/normal_bg_color">
+
     <LinearLayout
         android:id="@+id/ly_head"
         android:layout_width="match_parent"
@@ -13,14 +13,14 @@
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding"
         android:paddingBottom="@dimen/common_padding"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_alignParentTop="true">
+
         <FrameLayout
             android:id="@+id/tv_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            >
+            android:layout_gravity="center_vertical">
+
             <ImageView
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
@@ -31,6 +31,7 @@
                 android:contentDescription="@null"
                 android:padding="10dp"
                 android:scaleType="fitXY" />
+
             <TextView
                 android:id="@+id/tv_header_title"
                 style="@style/header_title"
@@ -43,8 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_header"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/ed_search"
                 android:layout_width="0dp"
@@ -66,13 +67,12 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        >
+        android:padding="15dp">
+
         <com.ticket.widgets.TagGroup
             android:id="@+id/tag_group"
             android:layout_below="@+id/ll_search"
-            style="@style/TagGroup.Large"
-        />
+            style="@style/TagGroup.Large" />
     </LinearLayout>
 
     <RelativeLayout

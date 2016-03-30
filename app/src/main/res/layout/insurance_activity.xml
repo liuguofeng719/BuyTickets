@@ -26,8 +26,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:descendantFocusability="blocksDescendants"
-            >
+            android:descendantFocusability="blocksDescendants">
+
             <TextView
                 android:id="@+id/tv_item_title"
                 android:layout_width="wrap_content"
@@ -35,8 +35,7 @@
                 android:paddingTop="5dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:text="中国平安乘车意外险"
-            />
+                android:text="中国平安乘车意外险" />
 
             <ImageView
                 android:id="@+id/iv_q"
@@ -44,8 +43,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/tips_q"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_item_title"
-            />
+                android:layout_toRightOf="@+id/tv_item_title" />
+
             <TextView
                 android:id="@+id/tv_service_price"
                 android:layout_width="wrap_content"
@@ -55,8 +54,8 @@
                 android:layout_marginLeft="5dp"
                 android:text="1元（份）"
                 android:textColor="@color/text_price_color"
-                android:textSize="14sp"
-            />
+                android:textSize="14sp" />
+
             <CheckBox
                 android:id="@+id/cbo_selected"
                 style="@style/CustomCheckboxTheme"
@@ -64,32 +63,30 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:checked="true"
-                android:clickable="false"
-            />
+                android:clickable="false" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/normal_bg_color"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-        />
+            android:layout_marginTop="10dp" />
+
         <RelativeLayout
             android:id="@+id/rl_cbo_no_selected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:descendantFocusability="blocksDescendants"
-            >
+            android:descendantFocusability="blocksDescendants">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:text="不需要保险服务"
-            />
+                android:text="不需要保险服务" />
 
             <CheckBox
                 android:id="@+id/cbo_no_selected"
@@ -97,8 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:clickable="false"
-            />
+                android:clickable="false" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/common_text_color"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        >
+        android:paddingRight="@dimen/common_padding">
+
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
@@ -18,10 +19,11 @@
             android:background="@drawable/header_back"
             android:clickable="true"
             android:scaleType="fitXY" />
+
         <TextView
             android:id="@+id/tv_header_title"
-            style="@style/header_title"
-        />
+            style="@style/header_title" />
+
         <TextView
             android:id="@+id/tv_income_details"
             android:layout_width="wrap_content"
@@ -29,29 +31,29 @@
             android:text="收支明细"
             android:layout_gravity="right|center_vertical"
             style="@style/header_title"
-            android:textSize="20sp"
-        />
+            android:textSize="20sp" />
     </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="60dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/wallet"
-        />
+            android:src="@drawable/wallet" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginTop="30dp"
             android:textColor="@color/white"
-            android:text="我的余额"
-        />
+            android:text="我的余额" />
+
         <TextView
             android:id="@+id/tv_trade_total_amount"
             android:layout_width="match_parent"
@@ -60,17 +62,17 @@
             android:layout_marginTop="18dp"
             android:text="3500.00"
             android:textSize="24sp"
-            android:textColor="@color/white"
-        />
+            android:textColor="@color/white" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="60dp"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        >
+        android:paddingRight="@dimen/common_padding">
+
         <TextView
             android:id="@+id/tv_recharge"
             android:layout_width="match_parent"
@@ -79,8 +81,8 @@
             android:gravity="center"
             android:textColor="@drawable/my_wallet_color"
             android:textSize="18sp"
-            android:background="@drawable/my_wallet_button"
-        />
+            android:background="@drawable/my_wallet_button" />
+
         <TextView
             android:id="@+id/tv_withdraw_deposit"
             android:layout_width="match_parent"
@@ -90,7 +92,6 @@
             android:gravity="center"
             android:textColor="@drawable/my_wallet_color"
             android:background="@drawable/my_wallet_button"
-            android:textSize="18sp"
-        />
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

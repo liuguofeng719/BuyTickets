@@ -13,13 +13,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="@color/button_text_color"
+                android:background="@color/common_text_color"
                 android:gravity="center">
 
                 <com.ticket.widgets.CircleImageView
@@ -31,6 +30,7 @@
                     android:src="@drawable/face"
                     app:civ_border_color="#b5e0db"
                     app:civ_border_width="2dp" />
+
                 <TextView
                     android:id="@+id/tv_login_title"
                     android:layout_width="wrap_content"
@@ -46,8 +46,8 @@
                     android:text="13988888888"
                     android:textColor="@color/button_text_color"
                     android:textSize="14sp"
-                    android:visibility="gone"
-                />
+                    android:visibility="gone" />
+
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
@@ -62,8 +62,7 @@
                     android:paddingTop="4dp"
                     android:text="立即登录"
                     android:textColor="@color/button_text_color"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -117,15 +116,15 @@
                     android:text="账号与安全" />
 
                 <!--<TextView-->
-                    <!--android:id="@+id/tv_message_info"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="50dp"-->
-                    <!--android:layout_marginLeft="@dimen/common_padding"-->
-                    <!--android:layout_marginRight="@dimen/common_padding"-->
-                    <!--android:drawableRight="@drawable/normal_arrow"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:paddingRight="@dimen/common_padding"-->
-                    <!--android:text="消息通知" />-->
+                <!--android:id="@+id/tv_message_info"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="@dimen/common_padding"-->
+                <!--android:layout_marginRight="@dimen/common_padding"-->
+                <!--android:drawableRight="@drawable/normal_arrow"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingRight="@dimen/common_padding"-->
+                <!--android:text="消息通知" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -134,7 +133,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="vertical">
-
 
 
                 <TextView
@@ -163,6 +161,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/common_padding"
                     android:text="客服热线" />
+
                 <TextView
                     android:id="@+id/tv_restpwd"
                     android:layout_width="match_parent"
@@ -178,6 +177,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/bg_line_color" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"

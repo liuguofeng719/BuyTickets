@@ -283,8 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/passenger_title"
                 android:cacheColorHint="@color/transparent"
-                android:listSelector="@color/transparent">
-            </com.ticket.widgets.ListViewForScrollView>
+                android:listSelector="@color/transparent"></com.ticket.widgets.ListViewForScrollView>
         </LinearLayout>
     </ScrollView>
 

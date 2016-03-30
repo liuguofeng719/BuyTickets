@@ -23,8 +23,7 @@
             <TextView
                 android:id="@+id/tv_time_prev"
                 android:text="@string/time_day_pre"
-                style="@style/frequencyTextView"
-            />
+                style="@style/frequencyTextView" />
 
             <TextView
                 android:id="@+id/tv_time_content"
@@ -46,8 +45,7 @@
                 android:id="@+id/tv_time_next"
                 android:layout_alignParentRight="true"
                 style="@style/frequencyTextView"
-                android:text="@string/time_day_next"
-            />
+                android:text="@string/time_day_next" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -58,8 +56,8 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:gravity="center"
-        >
+        android:gravity="center">
+
         <ListView
             android:id="@+id/lv_frquency"
             android:layout_width="match_parent"
@@ -68,8 +66,8 @@
             android:layout_weight="1"
             android:cacheColorHint="@color/transparent"
             android:listSelector="@color/transparent"
-            android:scrollbars="none">
-        </ListView>
+            android:scrollbars="none"></ListView>
+
         <TextView
             android:id="@+id/tv_empty"
             android:layout_gravity="center"
@@ -78,7 +76,6 @@
             android:visibility="gone"
             android:textSize="14sp"
             android:textColor="@color/text_color"
-            android:text="暂无车次"
-        />
+            android:text="暂无车次" />
     </LinearLayout>
 </LinearLayout>

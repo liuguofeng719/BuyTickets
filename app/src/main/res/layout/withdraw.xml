@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/common_padding">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:text="可提现金额（元）"
                 android:textColor="@color/text_color_hint"
-                android:textSize="14sp"
-            />
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_total_amount"
                 android:layout_width="match_parent"
@@ -38,8 +39,7 @@
                 android:gravity="center"
                 android:text="8000"
                 android:textColor="@color/common_text_color"
-                android:textSize="24sp"
-            />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,12 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="银行卡号"
                 android:textColor="@color/text_color_hint"
                 android:textSize="14sp" />
+
             <EditText
                 android:id="@+id/edit_car_number"
                 android:layout_width="match_parent"
@@ -61,25 +63,27 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
-                android:text="123456789"
-            />
+                android:text="123456789" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/text_color_c"
-            />
+                android:background="@color/text_color_c" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_padding"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="开户行"
                 android:textColor="@color/text_color_hint"
                 android:textSize="14sp" />
+
             <EditText
                 android:id="@+id/edit_bank"
                 android:layout_width="match_parent"
@@ -88,25 +92,27 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
-                android:text="123456789"
-                />
+                android:text="123456789" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/text_color_c"
-                />
+                android:background="@color/text_color_c" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_padding"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="户名"
                 android:textColor="@color/text_color_hint"
                 android:textSize="14sp" />
+
             <EditText
                 android:id="@+id/edit_home_name"
                 android:layout_width="match_parent"
@@ -115,25 +121,27 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
-                android:text="123456789"
-                />
+                android:text="123456789" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/text_color_c"
-                />
+                android:background="@color/text_color_c" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_padding"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="体现金额（元）"
                 android:textColor="@color/text_color_hint"
                 android:textSize="14sp" />
+
             <EditText
                 android:id="@+id/edit_withraw_money"
                 android:layout_width="match_parent"
@@ -142,14 +150,14 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
-                android:text="123456789"
-                />
+                android:text="123456789" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/text_color_c"
-                />
+                android:background="@color/text_color_c" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_marginTop="25dp"
@@ -158,7 +166,6 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:text="提现"
-            android:gravity="center"
-        />
+            android:gravity="center" />
     </LinearLayout>
 </LinearLayout>

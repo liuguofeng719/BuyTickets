@@ -11,6 +11,7 @@
         android:background="@color/button_text_color"
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding">
+
         <include layout="@layout/header" />
     </FrameLayout>
 
@@ -121,6 +122,7 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/top_content"
         android:layout_width="match_parent"
@@ -262,8 +264,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_service_title"
@@ -291,14 +292,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/tv_insurance_price_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="乘车险" />
+
                     <CheckBox
                         android:id="@+id/tv_insurance_price"
                         android:layout_width="wrap_content"
@@ -312,6 +314,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/passenger_title"
         android:layout_width="match_parent"
@@ -323,6 +326,7 @@
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding"
         android:paddingTop="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -331,6 +335,7 @@
             android:textColor="@color/text_color"
             android:textSize="14sp" />
     </LinearLayout>
+
     <ListView
         android:id="@+id/lv_passenger"
         android:layout_width="match_parent"
@@ -339,7 +344,5 @@
         android:cacheColorHint="@color/transparent"
         android:listSelector="@color/transparent"
         android:scrollbars="none"
-        android:fadingEdge="none"
-        >
-    </ListView>
+        android:fadingEdge="none"></ListView>
 </LinearLayout>

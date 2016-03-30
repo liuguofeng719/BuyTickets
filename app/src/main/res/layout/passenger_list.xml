@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/normal_bg_color"
-    >
+    android:background="@color/normal_bg_color">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/button_text_color"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"
-        >
+        android:paddingRight="@dimen/common_padding">
+
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
@@ -19,14 +19,13 @@
             android:background="@drawable/header_back"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:scaleType="fitXY"
-            />
+            android:scaleType="fitXY" />
+
         <TextView
             android:id="@+id/tv_header_title"
             style="@style/header_title"
             android:layout_centerInParent="true"
-            android:text="乘客列表"
-        />
+            android:text="乘客列表" />
 
         <TextView
             android:id="@+id/btn_add_passenger"
@@ -39,9 +38,9 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textStyle="bold"
-            android:background="@drawable/frequency_button"
-        />
+            android:background="@drawable/frequency_button" />
     </RelativeLayout>
+
     <ListView
         android:id="@+id/lv_passenger_list"
         android:layout_width="match_parent"
@@ -49,22 +48,21 @@
         android:layout_weight="1"
         android:cacheColorHint="@color/transparent"
         android:listSelector="@color/transparent"
-        android:scrollbars="none"
-        >
-    </ListView>
+        android:scrollbars="none"></ListView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_line_color"
-    />
+        android:background="@color/bg_line_color" />
+
     <LinearLayout
         android:id="@+id/ly_buttom"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
+
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
@@ -76,7 +74,6 @@
             android:text="完成"
             android:background="@drawable/frequency_button"
             android:textColor="@color/white"
-            android:textSize="16sp"
-        />
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

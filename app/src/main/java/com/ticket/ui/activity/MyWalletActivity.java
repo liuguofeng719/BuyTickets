@@ -1,7 +1,7 @@
 package com.ticket.ui.activity;
 
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ticket.R;
@@ -16,7 +16,7 @@ import butterknife.OnClick;
 public class MyWalletActivity extends BaseActivity {
 
     @InjectView(R.id.btn_back)
-    ImageButton btn_back;
+    ImageView btn_back;
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
     @InjectView(R.id.tv_income_details)
@@ -29,7 +29,7 @@ public class MyWalletActivity extends BaseActivity {
     //充值
     @OnClick(R.id.tv_recharge)
     public void recharge() {
-
+        readyGo(RechargeActivity.class);
     }
 
     //提现
