@@ -35,8 +35,11 @@
             android:textSize="18sp"
             android:textColor="@color/text_color"
             android:background="@null"
-            android:inputType="number"
-            android:text="123456789" />
+            android:inputType="numberDecimal"
+            android:numeric="decimal"
+            android:singleLine="true"
+            android:maxLength="12"
+        />
 
         <View
             android:layout_width="match_parent"

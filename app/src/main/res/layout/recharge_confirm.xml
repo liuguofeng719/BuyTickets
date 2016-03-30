@@ -62,10 +62,11 @@
             android:textSize="14sp" />
 
         <CheckBox
-            android:id="@+id/cbo_no_selected"
+            android:id="@+id/cbo_wenxin_selected"
             style="@style/CustomCheckboxTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:layout_gravity="right|center_vertical"
             android:clickable="false" />
     </FrameLayout>
@@ -92,7 +93,7 @@
             android:textSize="14sp" />
 
         <CheckBox
-            android:id="@+id/cbo_selected"
+            android:id="@+id/cbo_qq_selected"
             style="@style/CustomCheckboxTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

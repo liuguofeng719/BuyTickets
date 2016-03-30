@@ -37,6 +37,6 @@ public class WithdrawActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        tv_header_title.setText("体现");
+        tv_header_title.setText("提现");
     }
 }
