@@ -177,6 +177,7 @@
             android:paddingRight="@dimen/common_padding">
 
             <TextView
+                android:id="@+id/tv_restpwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/normal_arrow"

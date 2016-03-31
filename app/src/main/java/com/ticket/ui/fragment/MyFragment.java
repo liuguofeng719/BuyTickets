@@ -10,7 +10,6 @@ import com.ticket.ui.activity.AboutActivity;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.MyWalletActivity;
 import com.ticket.ui.activity.PassengerManagerActivity;
-import com.ticket.ui.activity.RestAndForgotActivity;
 import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
@@ -26,8 +25,7 @@ public class MyFragment extends BaseFragment {
     Button btn_login;
     @InjectView(R.id.tv_quit)
     TextView tv_quit;
-    @InjectView(R.id.tv_restpwd)
-    TextView tv_restpwd;
+
     @InjectView(R.id.tv_login_title)
     TextView tv_login_title;
     @InjectView(R.id.tv_about)
@@ -60,10 +58,7 @@ public class MyFragment extends BaseFragment {
         btn_login.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.tv_restpwd)
-    public void restpwd() {
-        readyGo(RestAndForgotActivity.class);
-    }
+
 
     @OnClick(R.id.btn_login)
     public void login() {

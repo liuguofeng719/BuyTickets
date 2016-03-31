@@ -20,10 +20,19 @@ public class AccountSafetyActivity extends BaseActivity {
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
 
+    @InjectView(R.id.tv_restpwd)
+    TextView tv_restpwd;
+
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
     }
+
+    @OnClick(R.id.tv_restpwd)
+    public void restpwd() {
+        readyGo(RestAndForgotActivity.class);
+    }
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.account_safety;
