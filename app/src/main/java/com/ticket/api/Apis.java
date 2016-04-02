@@ -389,6 +389,15 @@ public interface Apis {
     );
 
     /**
+     * 加入API
+     */
+    @GET("Travel/JoinTravel.ashx")
+    Call<BaseInfoVo> joinTravel(
+            @Query("travelID") String travelID,
+            @Query("userID") String userID
+    );
+
+    /**
      * 保存用户银行帐号
      */
     @GET("User/SaveUserBankAccount.ashx")
