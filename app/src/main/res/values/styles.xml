@@ -154,10 +154,10 @@
         <item name="atg_dashBorderColor">#AAAAAA</item>
         <item name="atg_inputHintColor">#80000000</item>
         <item name="atg_inputTextColor">#DE000000</item>
-        <item name="atg_checkedBorderColor">#6bc0b7</item>
+        <item name="atg_checkedBorderColor">#26c3df</item>
         <item name="atg_checkedTextColor">#FFFFFF</item>
         <item name="atg_checkedMarkerColor">#FFFFFF</item>
-        <item name="atg_checkedBackgroundColor">#6bc0b7</item>
+        <item name="atg_checkedBackgroundColor">#26c3df</item>
         <item name="atg_pressedBackgroundColor">#EDEDED</item>
         <item name="atg_borderStrokeWidth">0.5dp</item>
         <item name="atg_textSize">13sp</item>
