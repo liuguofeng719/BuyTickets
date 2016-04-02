@@ -57,6 +57,6 @@ public class RechargeActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        tv_header_title.setText("充值页面");
+        tv_header_title.setText("输入金额");
     }
 }
