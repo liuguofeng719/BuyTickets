@@ -170,6 +170,10 @@
             android:name=".ui.activity.AccountSafetyActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.StudentTripActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            />
 
         <!-- 分享和第三方登陆 -->
         <activity

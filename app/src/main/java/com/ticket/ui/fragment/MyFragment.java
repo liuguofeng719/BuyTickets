@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.ticket.R;
 import com.ticket.ui.activity.AboutActivity;
+import com.ticket.ui.activity.AccountSafetyActivity;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.MyWalletActivity;
 import com.ticket.ui.activity.PassengerManagerActivity;
@@ -44,7 +45,7 @@ public class MyFragment extends BaseFragment {
     //账号与安全
     @OnClick(R.id.tv_account_safety)
     public void accountSafety() {
-
+        readyGo(AccountSafetyActivity.class);
     }
 
     @OnClick(R.id.tv_quit)

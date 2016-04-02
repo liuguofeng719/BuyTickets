@@ -32,7 +32,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/start_city"
+                android:text="出发地点"
                 android:textColor="@color/text_color_hint"
                 android:textSize="16sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/end_city"
+                android:text="目标地点"
                 android:textColor="@color/text_color_hint"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -114,6 +114,30 @@
                     android:background="@color/bg_line_color" />
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="预计出行人数（人）"
+            android:textColor="@color/text_color_hint"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_person_number"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            android:background="@null"
+            android:textColor="@color/text_color"
+            android:textSize="18dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_line_color" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -150,22 +174,11 @@
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/lv_recommend"
-        android:layout_below="@+id/ll_content"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="@color/transparent"
-        android:divider="@color/transparent"
-        >
-    </ListView>
     <TextView
         android:id="@+id/tv_text_info"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/white"
         android:gravity="center"
         android:text="没有您想去的地方？发布一条众筹路线试试"
     />

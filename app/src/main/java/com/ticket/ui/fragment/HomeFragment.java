@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.ticket.R;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
+import com.ticket.ui.activity.StudentTripActivity;
 import com.ticket.ui.activity.TicketActivity;
 import com.ticket.ui.activity.WebViewActivity;
 import com.ticket.ui.base.BaseFragment;
@@ -49,6 +50,11 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
     Button btn_text_share;
     @InjectView(R.id.btn_text_login)
     Button btn_text_login;
+
+    @OnClick(R.id.ly_student)
+    public void studentTips(){
+        readyGo(StudentTripActivity.class);
+    }
 
     @OnClick(R.id.btn_text_login)
     public void btn_text_login() {
