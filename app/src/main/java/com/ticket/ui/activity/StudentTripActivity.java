@@ -93,4 +93,10 @@ public class StudentTripActivity extends BaseActivity {
             CommonUtils.make(StudentTripActivity.this, "123456");
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        travelRoutingPreview.cancel();
+    }
 }
