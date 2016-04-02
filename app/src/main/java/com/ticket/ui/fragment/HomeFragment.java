@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.ticket.R;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
+import com.ticket.ui.activity.CrowdFundingActivity;
 import com.ticket.ui.activity.StudentTripActivity;
 import com.ticket.ui.activity.TicketActivity;
 import com.ticket.ui.activity.WebViewActivity;
@@ -59,6 +60,11 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
     @OnClick(R.id.btn_text_login)
     public void btn_text_login() {
         authorize(new Wechat(getActivity()));
+    }
+
+    @OnClick(R.id.ly_travel)
+    public void travel(){
+        readyGo(CrowdFundingActivity.class);
     }
 
     private void authorize(Platform plat) {

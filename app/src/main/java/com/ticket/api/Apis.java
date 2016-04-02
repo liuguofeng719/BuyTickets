@@ -352,6 +352,28 @@ public interface Apis {
     );
 
     /**
+     * 账户充值使用支付宝签名
+     * @param userID
+     * @return
+     */
+    @GET("Orders/RechargeByAlipay.ashx")
+    Call<AlipayVo> rechargeByAlipay(
+            @Query("userID") String userID,
+            @Query("price") String price
+    );
+
+    /**
+     * 账户充值使用微信签名
+     * @param userID
+     * @return
+     */
+    @GET("Orders/RechargeByWeiXin.ashx")
+    Call<WXPayVo> rechargeByWeiXin(
+            @Query("userID") String userID,
+            @Query("price") String price
+    );
+
+    /**
      * 获取用户银行帐号
      */
     @GET("User/GetBankAccount.ashx")

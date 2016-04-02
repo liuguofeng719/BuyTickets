@@ -10,11 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.TravelRoutingVo;
+import com.ticket.bean.TravelRoutingVoResp;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
 
+import java.util.List;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 学生出行
@@ -27,6 +35,8 @@ public class StudentTripActivity extends BaseActivity {
     TextView tv_header_title;
     @InjectView(R.id.tv_text_info)
     TextView tv_text_info;
+
+    Call<TravelRoutingVoResp<List<TravelRoutingVo>>> travelRoutingPreview;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
@@ -55,6 +65,19 @@ public class StudentTripActivity extends BaseActivity {
         tv_text_info.setHighlightColor(getResources().getColor(R.color.transparent));
         tv_text_info.setLinkTextColor(getResources().getColor(R.color.common_text_color));
         tv_text_info.setText(sbs);
+
+        travelRoutingPreview = getApis().getTravelRoutingPreview().clone();
+        travelRoutingPreview.enqueue(new Callback<TravelRoutingVoResp<List<TravelRoutingVo>>>() {
+            @Override
+            public void onResponse(Response<TravelRoutingVoResp<List<TravelRoutingVo>>> response, Retrofit retrofit) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     class NoLineClickSpan extends ClickableSpan {
