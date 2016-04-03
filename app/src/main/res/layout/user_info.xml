@@ -85,7 +85,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="1dp"
                     android:background="@color/bg_line_color" />
 
                 <TextView
@@ -101,7 +101,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="1dp"
                     android:background="@color/bg_line_color" />
 
                 <TextView
@@ -148,7 +148,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="1dp"
                     android:background="@color/bg_line_color" />
 
                 <TextView
@@ -163,7 +163,7 @@
                     android:text="客服热线" />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="1dp"
                     android:background="@color/bg_line_color" />
 
                 <TextView

@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import com.ticket.R;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
-import com.ticket.ui.activity.CrowdFundingActivity;
+import com.ticket.ui.activity.CharteredBusActivity;
 import com.ticket.ui.activity.StudentTripActivity;
 import com.ticket.ui.activity.TicketActivity;
 import com.ticket.ui.activity.WebViewActivity;
@@ -27,6 +27,7 @@ import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import retrofit.Call;
 import retrofit.Callback;
@@ -51,6 +52,10 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
     Button btn_text_share;
     @InjectView(R.id.btn_text_login)
     Button btn_text_login;
+    @InjectView(R.id.btn_qq_login)
+    Button btn_qq_login;
+    @InjectView(R.id.btn_qq_share)
+    Button btn_qq_share;
 
     @OnClick(R.id.ly_student)
     public void studentTips(){
@@ -61,10 +66,26 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
     public void btn_text_login() {
         authorize(new Wechat(getActivity()));
     }
+    @OnClick(R.id.btn_qq_login)
+    public void btn_qq_login() {
+        authorize(new QQ(getActivity()));
+    }
+    @OnClick(R.id.btn_qq_share)
+    public void btn_qq_share() {
+        ShareVo shareVo = new ShareVo();
+        shareVo.setType(ShareVo.platform.QQ.name());
+        shareVo.setText("测试测试测试微信QQ分享");
+        shareVo.setTitle("我是来自Android客户端分享实例Demo的数据");
+        shareVo.setTitleUrl("http://www.baidu.com");
+        shareVo.setComment("测试QQ分享");
+        shareVo.setSite("百度");
+        shareVo.setSiteUrl("http://www.baidu.com");
+        ShareUtils.showShare(getActivity(), shareVo);
+    }
 
     @OnClick(R.id.ly_travel)
     public void travel(){
-        readyGo(CrowdFundingActivity.class);
+        readyGo(CharteredBusActivity.class);
     }
 
     private void authorize(Platform plat) {

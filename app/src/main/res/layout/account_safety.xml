@@ -53,6 +53,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_wx_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -90,6 +91,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_qq_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -127,12 +129,14 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_phone_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/tv_img_normal_arrow"
                 android:text="15882035337"
-                android:textColor="@color/common_text_color" />
+                android:textColor="@color/common_text_color"
+            />
 
             <TextView
                 android:id="@+id/tv_img_normal_arrow"

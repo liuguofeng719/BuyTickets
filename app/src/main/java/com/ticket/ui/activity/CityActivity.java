@@ -505,9 +505,4 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
             }
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

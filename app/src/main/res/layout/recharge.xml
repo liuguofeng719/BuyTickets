@@ -10,7 +10,6 @@
         android:background="@color/common_text_color"
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding">
-
         <include layout="@layout/header" />
     </FrameLayout>
 
@@ -35,8 +34,8 @@
             android:textSize="18sp"
             android:textColor="@color/text_color"
             android:background="@null"
-            android:inputType="numberDecimal"
-            android:numeric="decimal"
+            android:inputType="number"
+            android:numeric="integer"
             android:singleLine="true"
             android:maxLength="12"
         />

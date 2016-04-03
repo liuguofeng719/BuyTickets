@@ -60,7 +60,6 @@ public class MyFragment extends BaseFragment {
     }
 
 
-
     @OnClick(R.id.btn_login)
     public void login() {
         readyGo(LoginActivity.class);

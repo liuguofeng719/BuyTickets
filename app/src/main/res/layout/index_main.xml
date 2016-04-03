@@ -51,6 +51,11 @@
                     android:text="新用户首次订票8折"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
+                <Button
+                    android:id="@+id/btn_qq_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ授权登陆" />
             </LinearLayout>
 
             <LinearLayout
@@ -152,6 +157,12 @@
                     android:text="定制专属您的用车"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/btn_qq_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ分享" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -15,8 +15,9 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/common_padding">
 
@@ -63,6 +64,7 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
+                android:numeric="integer"
                 android:text="123456789" />
 
             <View
@@ -92,6 +94,7 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
+                android:numeric="integer"
                 android:text="123456789" />
 
             <View
@@ -121,6 +124,7 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
+                android:numeric="integer"
                 android:text="123456789" />
 
             <View
@@ -150,6 +154,7 @@
                 android:textColor="@color/text_color"
                 android:background="@null"
                 android:inputType="number"
+                android:numeric="integer"
                 android:text="123456789" />
 
             <View
@@ -159,6 +164,8 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_withdraw_action"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_marginTop="25dp"
             android:layout_height="40dp"

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fy_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/common_text_color"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding">
+
+        <include layout="@layout/header" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:paddingTop="@dimen/common_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预计出发人数（人）"
+            android:textColor="@color/text_color_hint"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edit_car_number"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@null"
+            android:inputType="number"
+            android:numeric="integer"
+            android:text="35"
+            android:textColor="@color/text_color"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/text_color_c" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/start_time"
+            android:textColor="@color/text_color_hint"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/go_time"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            android:textColor="@color/text_color"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/bg_line_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:text="行程安排"
+        android:textColor="@color/text_color_hint"
+        android:textSize="14sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:layout_height="160dp">
+        <LinearLayout
+            android:id="@+id/ly_route_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_line_color"
+            android:orientation="vertical">
+            <include layout="@layout/chartered_bus_scheduling" />
+            <include layout="@layout/chartered_bus_scheduling" />
+        </LinearLayout>
+    </ScrollView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/plus" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="@dimen/common_padding"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="提交询价"
+        android:background="@drawable/my_ok_button"
+    />
+</LinearLayout>

@@ -11,37 +11,22 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by liuguofeng719 on 2016/3/29.
+ * Created by liuguofeng719 on 2016/4/3.
  */
-public class AccountSafetyActivity extends BaseActivity {
+public class CharteredBusActivity extends BaseActivity {
 
     @InjectView(R.id.btn_back)
     ImageView btn_back;
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
-
-    @InjectView(R.id.tv_qq_account)
-    TextView tv_qq_account;
-    @InjectView(R.id.tv_wx_account)
-    TextView tv_wx_account;
-    @InjectView(R.id.tv_phone_account)
-    TextView tv_phone_account;
-    @InjectView(R.id.tv_restpwd)
-    TextView tv_restpwd;
-
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
     }
 
-    @OnClick(R.id.tv_restpwd)
-    public void restpwd() {
-        readyGo(RestAndForgotActivity.class);
-    }
-
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.account_safety;
+        return R.layout.chartered_bus;
     }
 
     @Override
@@ -51,6 +36,6 @@ public class AccountSafetyActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        tv_header_title.setText("账号与安全");
+        tv_header_title.setText("包车出行");
     }
 }

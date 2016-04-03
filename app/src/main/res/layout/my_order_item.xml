@@ -10,7 +10,6 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/order_item_bg"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/common_padding"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
@@ -57,6 +56,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -134,7 +134,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:orientation="vertical">
-
                 <TextView
                     android:id="@+id/tv_total_price"
                     android:layout_width="60dp"
@@ -143,19 +142,45 @@
                     android:gravity="center"
                     android:text="￥320"
                     android:textColor="@color/text_price_color"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/btn_gopay"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/tv_total_price"
-                    android:background="@drawable/replay"
-                    android:gravity="center"
-                    android:text="去支付"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
             </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_line_color"
+            android:layout_marginTop="15dp"
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="right|center_vertical"
+            >
+            <TextView
+                android:id="@+id/btn_text_share"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_total_price"
+                android:background="@drawable/order_btn_corner"
+                android:gravity="center"
+                android:text="分享"
+                android:textColor="@color/text_color_hint"
+                android:textSize="14sp"
+                android:layout_marginRight="@dimen/common_padding"
+            />
+            <TextView
+                android:id="@+id/btn_gopay"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:background="@drawable/replay"
+                android:gravity="center"
+                android:text="去支付"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+            />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

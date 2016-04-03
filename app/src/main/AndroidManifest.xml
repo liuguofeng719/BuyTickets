@@ -156,12 +156,14 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.WithdrawActivity"
+            android:name=".ui.activity.WithDrawActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.RechargeActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.RechargeConfirmActivity"
@@ -178,6 +180,11 @@
         <activity
             android:name=".ui.activity.CrowdFundingActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CharteredBusActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
 
         <!-- 分享和第三方登陆 -->

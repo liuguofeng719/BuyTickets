@@ -152,6 +152,7 @@
     <color name="button_disable_color">#e9edf2</color>
     <color name="button_text_color">#26c3df</color>
     <color name="common_text_color">#26c3df</color>
+    <color name="common_alpha_25_text_color">#4026c3df</color>
     <color name="bg_line_color">#e5e5e5</color>
     <color name="normal_bg_color">#66E0DFE0</color>
     <color name="text_price_color">#fa5616</color>
@@ -161,7 +162,7 @@
     <color name="calendar_bg">#FFFFFFFF</color>
     <color name="calendar_divider">#00000000</color>
     <color name="calendar_inactive_month_bg">@color/alpha_05_black</color>
-    <color name="calendar_selected_day_bg">#6bc0b7</color>
+    <color name="calendar_selected_day_bg">#26c3df</color>
     <color name="calendar_highlighted_day_bg">#FFFFFFFF</color>
     <color name="calendar_selected_range_bg">#ff96caff</color>
     <color name="calendar_text_inactive">#40778088</color>
