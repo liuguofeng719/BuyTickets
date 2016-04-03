@@ -52,7 +52,7 @@ public class MyWalletActivity extends BaseActivity {
     public void withDrawDeposit() {
         Bundle bundle = new Bundle();
         bundle.putString("money",tv_trade_total_amount.getText().toString());
-        readyGo(WithDrawActivity.class,bundle);
+        readyGo(WithdrawActivity.class,bundle);
     }
 
     //收支明细
