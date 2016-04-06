@@ -156,6 +156,8 @@
     <color name="bg_line_color">#e5e5e5</color>
     <color name="normal_bg_color">#66E0DFE0</color>
     <color name="text_price_color">#fa5616</color>
+    <color name="text_type_color">#39d787</color>
+    <color name="text_crow_color">#ffc000</color>
 
     <!-- 日历控件 -->
     <color name="calendar_active_month_bg">#FFFFFFFF</color>

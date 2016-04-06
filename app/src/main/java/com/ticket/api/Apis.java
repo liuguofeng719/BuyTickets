@@ -213,17 +213,15 @@ public interface Apis {
             @Query("isBuyInsurance") int isBuyInsurance
     );
 
-
     /**
      * 获取订单
      *
      * @param userID
      * @return
      */
-    @GET("Orders/GetOrders.ashx")
-    Call<OrderVoResp<List<OrderVo>>> getOrders(
-            @Query("userID") String userID,
-            @Query("isPaid") int isPaid
+    @GET("Orders/GetTicketOrders.ashx")
+    Call<OrderVoResp<List<OrderVo>>> GetTicketOrders(
+            @Query("userID") String userID
     );
 
     /**

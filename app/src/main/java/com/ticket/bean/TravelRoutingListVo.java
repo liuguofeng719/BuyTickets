@@ -51,6 +51,28 @@ public class TravelRoutingListVo implements Serializable {
     //发布类型
     @SerializedName("PublishedType")
     private String publishedType;
+    //状态
+    @SerializedName("Status")
+    private String status;
+    //发布人
+    @SerializedName("CreateUser")
+    private String createUser;
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getStartPlaceName() {
         return startPlaceName;

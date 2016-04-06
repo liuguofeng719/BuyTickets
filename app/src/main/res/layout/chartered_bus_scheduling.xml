@@ -13,6 +13,7 @@
         android:text="第一天"
         android:textColor="@color/text_color_hint"
         android:textSize="14sp"
+        android:tag="time_day_next"
     />
 
     <LinearLayout
@@ -48,6 +49,7 @@
             android:id="@+id/iv_minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="minus"
             android:src="@drawable/minus" />
     </LinearLayout>
     <View
@@ -87,6 +89,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="minus"
             android:src="@drawable/minus" />
     </LinearLayout>
 </LinearLayout>

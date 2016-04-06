@@ -130,7 +130,7 @@ public class StudentTripActivity extends BaseActivity {
         bundle.putString("startCityID", startCityId);
         bundle.putString("stopCityID", endCityId);
         bundle.putString("goDate", date_time);
-        readyGo(FrequencyListActivity.class, bundle);
+        readyGo(StudentListActivity.class, bundle);
     }
 
     @Override

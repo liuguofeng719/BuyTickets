@@ -88,11 +88,11 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_line_color"
             android:orientation="vertical">
-            <include layout="@layout/chartered_bus_scheduling" />
-            <include layout="@layout/chartered_bus_scheduling" />
+            <!--<include layout="@layout/chartered_bus_scheduling" />-->
         </LinearLayout>
     </ScrollView>
     <ImageView
+        android:id="@+id/iv_plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

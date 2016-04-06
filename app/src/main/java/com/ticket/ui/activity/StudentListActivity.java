@@ -12,8 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
-import com.ticket.bean.FrequencyListResp;
 import com.ticket.bean.FrequencyVo;
+import com.ticket.bean.TravelRoutingListVo;
+import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
@@ -36,7 +37,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class FrequencyListActivity extends BaseActivity {
+public class StudentListActivity extends BaseActivity {
 
     @InjectView(R.id.btn_back)
     ImageView btn_back;
@@ -53,8 +54,9 @@ public class FrequencyListActivity extends BaseActivity {
     @InjectView(R.id.tv_empty)
     TextView tv_empty;
 
-    ListViewDataAdapter listViewDataAdapter;
-    Date date = null;
+    private Call<TravelRoutingListVoResp<List<TravelRoutingListVo>>> routingListVoRespCall = null;
+    private ListViewDataAdapter listViewDataAdapter;
+    private Date date = null;
     private Bundle extras;
 
     @OnClick(R.id.btn_back)
@@ -66,7 +68,7 @@ public class FrequencyListActivity extends BaseActivity {
     public void prevDay() {
         date = plusDay(-1);
         String goDate = dateFormat(date);
-        getFrequecyList(goDate);
+        getRoutingList(goDate);
         isCurrDate();
     }
 
@@ -89,7 +91,7 @@ public class FrequencyListActivity extends BaseActivity {
         date = plusDay(1);
         isCurrDate();
         String goDate = dateFormat(date);
-        getFrequecyList(goDate);
+        getRoutingList(goDate);
     }
 
     private String dateFormat(Date dt) {
@@ -115,7 +117,7 @@ public class FrequencyListActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.comm.PICKER_SUCCESS) {
             date = (Date) data.getSerializableExtra("date");
-            getFrequecyList(dateFormat(date));
+            getRoutingList(dateFormat(date));
             this.tv_time_content.setText(new SimpleDateFormat("MM月dd日").format(date));
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -199,25 +201,25 @@ public class FrequencyListActivity extends BaseActivity {
         });
 
         this.lv_frquency.setAdapter(this.listViewDataAdapter);
-        getFrequecyList(extras.getString("goDate"));
+        getRoutingList(extras.getString("goDate"));
     }
 
-    Call<FrequencyListResp<List<FrequencyVo>>> callFrequency = null;
 
-    private void getFrequecyList(String goDate) {
+
+    private void getRoutingList(String goDate) {
         tv_empty.setVisibility(View.GONE);
         lv_frquency.setVisibility(View.VISIBLE);
         showLoading(getString(R.string.common_loading_message));
-        callFrequency = getApis().getFrequencyList(
+        routingListVoRespCall = getApis().getTravelRoutingList(
                 extras.getString("startCityID"),
                 extras.getString("stopCityID"),
                 goDate);
-        callFrequency.enqueue(new Callback<FrequencyListResp<List<FrequencyVo>>>() {
+        routingListVoRespCall.enqueue(new Callback<TravelRoutingListVoResp<List<TravelRoutingListVo>>>() {
             @Override
-            public void onResponse(Response<FrequencyListResp<List<FrequencyVo>>> response, Retrofit retrofit) {
+            public void onResponse(Response<TravelRoutingListVoResp<List<TravelRoutingListVo>>> response, Retrofit retrofit) {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<FrequencyVo> frquecyList = response.body().getRoutings();
+                    List<TravelRoutingListVo> frquecyList = response.body().getTravelRoutingList();
                     if (frquecyList != null && frquecyList.size() == 0) {
                         if (tv_empty != null) {
                             tv_empty.setVisibility(View.VISIBLE);
@@ -229,10 +231,10 @@ public class FrequencyListActivity extends BaseActivity {
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
-                        FrequencyListResp<List<FrequencyVo>> body = response.body();
-                        CommonUtils.make(FrequencyListActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                        TravelRoutingListVoResp<List<TravelRoutingListVo>> body = response.body();
+                        CommonUtils.make(StudentListActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
-                        CommonUtils.make(FrequencyListActivity.this, CommonUtils.getCodeToStr(response.code()));
+                        CommonUtils.make(StudentListActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }
                 }
             }
@@ -247,8 +249,8 @@ public class FrequencyListActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (callFrequency != null) {
-            callFrequency.cancel();
+        if (routingListVoRespCall != null) {
+            routingListVoRespCall.cancel();
         }
     }
 }

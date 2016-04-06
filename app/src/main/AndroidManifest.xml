@@ -61,11 +61,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name=".ui.activity.HomeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CouponActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -156,7 +151,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.WithDrawActivity"
+            android:name=".ui.activity.WithdrawActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
@@ -185,6 +180,9 @@
             android:name=".ui.activity.CharteredBusActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.StudentListActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 
         <!-- 分享和第三方登陆 -->
