@@ -153,13 +153,13 @@
         <activity
             android:name=".ui.activity.WithdrawActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.RechargeActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.RechargeConfirmActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -179,9 +179,14 @@
         <activity
             android:name=".ui.activity.CharteredBusActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.activity.StudentListActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.StudentListActivity"
+        <activity
+            android:name=".ui.activity.PlaceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 

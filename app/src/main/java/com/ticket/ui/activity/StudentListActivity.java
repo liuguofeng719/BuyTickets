@@ -4,21 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
-import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.common.Constants;
-import com.ticket.ui.adpater.base.ListViewDataAdapter;
-import com.ticket.ui.adpater.base.ViewHolderBase;
-import com.ticket.ui.adpater.base.ViewHolderCreator;
+import com.ticket.ui.adpater.StudentTripAdapter;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
@@ -29,7 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.Call;
@@ -55,7 +49,7 @@ public class StudentListActivity extends BaseActivity {
     TextView tv_empty;
 
     private Call<TravelRoutingListVoResp<List<TravelRoutingListVo>>> routingListVoRespCall = null;
-    private ListViewDataAdapter listViewDataAdapter;
+    StudentTripAdapter studentTripAdapter;
     private Date date = null;
     private Bundle extras;
 
@@ -153,54 +147,8 @@ public class StudentListActivity extends BaseActivity {
         }
         isCurrDate();
         this.tv_time_content.setText(new SimpleDateFormat("MM月dd日").format(date));
-        this.listViewDataAdapter = new ListViewDataAdapter<FrequencyVo>(new ViewHolderCreator<FrequencyVo>() {
-
-            @Override
-            public ViewHolderBase<FrequencyVo> createViewHolder(int position) {
-                return new ViewHolderBase<FrequencyVo>() {
-
-                    TextView tv_goDateTime;
-                    TextView tv_startStation;
-                    TextView tv_endStation;
-                    TextView tv_salePrice;
-                    LinearLayout ly_fre_item;
-                    TextView tv_tickets_amount;
-
-                    @Override
-                    public View createView(LayoutInflater layoutInflater) {
-                        View view = layoutInflater.inflate(R.layout.frequency_list_item, null);
-                        tv_goDateTime = ButterKnife.findById(view, R.id.tv_goDateTime);
-                        tv_startStation = ButterKnife.findById(view, R.id.tv_startStation);
-                        tv_endStation = ButterKnife.findById(view, R.id.tv_endStation);
-                        tv_salePrice = ButterKnife.findById(view, R.id.tv_salePrice);
-                        ly_fre_item = ButterKnife.findById(view, R.id.ly_fre_item);
-                        tv_tickets_amount = ButterKnife.findById(view, R.id.tv_tickets_amount);
-                        return view;
-                    }
-
-                    @Override
-                    public void showData(int position, FrequencyVo itemData) {
-                        tv_goDateTime.setText(itemData.getGoTime());
-                        tv_startStation.setText(itemData.getStartStationName());
-                        tv_endStation.setText(itemData.getStopStationName());
-                        tv_salePrice.setText(itemData.getTicketPrice());
-                        tv_tickets_amount.setText("剩票(" + itemData.getRemainingTicketsAmount() + ")张");
-                        ly_fre_item.setTag(itemData);
-                        ly_fre_item.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                FrequencyVo frequencyVo = (FrequencyVo) v.getTag();
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("frequencyVo", frequencyVo);
-                                readyGo(CreateOrderActivity.class, bundle);
-                            }
-                        });
-                    }
-                };
-            }
-        });
-
-        this.lv_frquency.setAdapter(this.listViewDataAdapter);
+        studentTripAdapter = new StudentTripAdapter();
+        this.lv_frquency.setAdapter(studentTripAdapter);
         getRoutingList(extras.getString("goDate"));
     }
 
@@ -219,16 +167,16 @@ public class StudentListActivity extends BaseActivity {
             public void onResponse(Response<TravelRoutingListVoResp<List<TravelRoutingListVo>>> response, Retrofit retrofit) {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<TravelRoutingListVo> frquecyList = response.body().getTravelRoutingList();
-                    if (frquecyList != null && frquecyList.size() == 0) {
+                    List<TravelRoutingListVo> routingListVos = response.body().getTravelRoutingList();
+                    if (routingListVos != null && routingListVos.size() == 0) {
                         if (tv_empty != null) {
                             tv_empty.setVisibility(View.VISIBLE);
                             lv_frquency.setVisibility(View.GONE);
                         }
                     }
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(frquecyList);
-                    listViewDataAdapter.notifyDataSetChanged();
+                    studentTripAdapter.getDataList().clear();
+                    studentTripAdapter.getDataList().addAll(routingListVos);
+                    studentTripAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
                         TravelRoutingListVoResp<List<TravelRoutingListVo>> body = response.body();

@@ -22,13 +22,19 @@ import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
+import com.ticket.bean.PlaceListResp;
+import com.ticket.bean.PlaceVo;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
+import com.ticket.bean.TravelOrderDetailsVo;
+import com.ticket.bean.TravelOrdersVo;
+import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.bean.TravelRoutingVo;
 import com.ticket.bean.TravelRoutingVoResp;
 import com.ticket.bean.UserVo;
+import com.ticket.bean.VehicleOrdersDetailsVo;
 import com.ticket.bean.WXPayVo;
 
 import java.util.List;
@@ -171,6 +177,7 @@ public interface Apis {
 
     /**
      * 通过省市和开始城市筛选 到达城市
+     *
      * @param startCityID
      * @param provinceID
      */
@@ -294,6 +301,7 @@ public interface Apis {
 
     /**
      * 学生出行 平台发布路线预览
+     *
      * @return
      */
     @GET("Travel/GetTravelRoutingPreview.ashx")
@@ -301,9 +309,10 @@ public interface Apis {
 
     /**
      * 学生出行 路线详情列表
+     *
      * @param startCityID 开始城市
-     * @param stopCityID 结束城市
-     * @param goDate 出发日期
+     * @param stopCityID  结束城市
+     * @param goDate      出发日期
      * @return
      */
     @GET("Travel/GetTravelRoutingList.ashx")
@@ -311,15 +320,16 @@ public interface Apis {
             @Query("startCityID") String startCityID,
             @Query("stopCityID") String stopCityID,
             @Query("goDate") String goDate
-        );
+    );
 
     /**
      * 发布众筹
+     *
      * @param startPlaceID 出发城市ID
-     * @param stopPlaceID 到达城市ID
-     * @param userID 用户ID
-     * @param goDate 出发日期(格式:2015-11-12)
-     * @param hopeGoTime 期望出发时间
+     * @param stopPlaceID  到达城市ID
+     * @param userID       用户ID
+     * @param goDate       出发日期(格式:2015-11-12)
+     * @param hopeGoTime   期望出发时间
      * @return
      */
     @GET("Travel/CreateTravel.ashx")
@@ -329,10 +339,11 @@ public interface Apis {
             @Query("userID") String userID,
             @Query("goDate") String goDate,
             @Query("hopeGoTime") String hopeGoTime
-        );
+    );
 
     /**
      * 获取账户余额
+     *
      * @param userID 用户ID
      * @return
      */
@@ -341,6 +352,7 @@ public interface Apis {
 
     /**
      * 获取账单情况
+     *
      * @param userID
      * @return
      */
@@ -351,6 +363,7 @@ public interface Apis {
 
     /**
      * 账户充值使用支付宝签名
+     *
      * @param userID
      * @return
      */
@@ -362,6 +375,7 @@ public interface Apis {
 
     /**
      * 账户充值使用微信签名
+     *
      * @param userID
      * @return
      */
@@ -404,5 +418,80 @@ public interface Apis {
             @Query("bankName") String bankName,
             @Query("bankAccount") String bankAccount,
             @Query("bankRealName") String bankRealName
+    );
+
+    /**
+     * 获取出发地市
+     * @param cityID
+     * @return
+     */
+    @GET("Travel/GetPlaceList.ashx")
+    Call<PlaceListResp<List<PlaceVo>>> getPlaceList(@Query("cityID") String cityID);
+
+    /**
+     * 关联第三方登陆
+     * @return
+     */
+    @GET("User/ExternalSystemAuthentication.ashx")
+    Call<UserVo> externalSystemAuthentication(
+            @Query("headPicture") String headPicture,
+            @Query("platform") String platform,
+            @Query("openID") String openID,
+            @Query("nickName") String nickName
+    );
+
+    /**
+     * @desc 创建包车出行订单
+     * userID：用户ID
+     * goDate：出发日期
+     * passengerAmount：出发人数
+     * trip：行程(格式: 1,成都-安岳|1,安岳-自贡|2,自贡-宜宾|2,宜宾-成都 )  1：代表出行的第几天，成都-安岳代表出行的目的地和到达地
+     * @return
+     */
+    @GET("LeasedVehicle/CreateLeasedVehicleOrder.ashx")
+    Call<UserVo> CreateLeasedVehicleOrder(
+            @Query("userID") String userID,
+            @Query("goDate") String goDate,
+            @Query("passengerAmount") String passengerAmount,
+            @Query("trip") String trip
+    );
+
+    /**
+     * 包车订单列表
+     * @param userID
+     * @return
+     */
+    @GET("Orders/GetLeasedVehicleOrders.ashx")
+    Call<TravelOrdersVoResp<List<TravelOrdersVo>>> getLeasedVehicleOrders(
+            @Query("userID") String userID
+    );
+    /**
+     * 包车订单详情
+     * @param userID
+     * @return
+     */
+    @GET("Orders/GetLeasedVehicleOrdersDetails.ashx")
+    Call<VehicleOrdersDetailsVo> getLeasedVehicleOrdersDetails(
+            @Query("userID") String userID
+    );
+
+    /**
+     * 学生出行订单
+     * @param userID
+     * @return
+     */
+    @GET("Orders/GetTravelOrders.ashx")
+    Call<TravelOrdersVoResp<List<TravelOrdersVo>>> getTravelOrders(
+            @Query("userID") String userID
+    );
+
+    /**
+     * 学生出行订单详情
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/GetTravelOrderDetails.ashx")
+    Call<TravelOrderDetailsVo> getTravelOrderDetails(
+            @Query("orderID") String orderID
     );
 }

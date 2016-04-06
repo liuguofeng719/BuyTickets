@@ -15,6 +15,16 @@ public class BalanceChangeVo implements Serializable {
     private String changeDateTime;
     @SerializedName("Description")
     private String description;
+    @SerializedName("BalanceTotalPrice")
+    private String balanceTotalPrice;
+
+    public String getBalanceTotalPrice() {
+        return balanceTotalPrice;
+    }
+
+    public void setBalanceTotalPrice(String balanceTotalPrice) {
+        this.balanceTotalPrice = balanceTotalPrice;
+    }
 
     public String getChangePrice() {
         return changePrice;

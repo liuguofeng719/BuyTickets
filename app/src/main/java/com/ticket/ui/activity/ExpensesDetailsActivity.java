@@ -82,6 +82,7 @@ public class ExpensesDetailsActivity extends BaseActivity {
                         tv_trade_type.setText(itemData.getDescription());
                         tv_trade_amount.setText(itemData.getChangePrice());
                         tv_trade_date.setText(itemData.getChangeDateTime());
+                        tv_trade_total_amount.setText(itemData.getBalanceTotalPrice());
                     }
                 };
             }

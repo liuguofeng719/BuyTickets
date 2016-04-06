@@ -49,24 +49,38 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     ImageView iv_weixin_login;
 
     @OnClick(R.id.iv_qq_login)
-    public void qqLogin(){
-        authorize(new QQ(this));
+    public void qqLogin() {
+        authorize(new QQ(this), "QQ");
     }
 
     @OnClick(R.id.iv_weixin_login)
-    public void weixinLogin(){
-        authorize(new Wechat(this));
+    public void weixinLogin() {
+        authorize(new Wechat(this), "WeiXin");
     }
 
-    private void authorize(Platform plat) {
+    private void authorize(Platform plat, String type) {
         if (plat.isValid()) {
-            String userId = plat.getDb().getUserId();
-            if (!TextUtils.isEmpty(userId)) {
-                TLog.d(TAG_LOG, userId + " plat= " + plat.getName());
-//                UIHandler.sendEmptyMessage(MSG_USERID_FOUND, this);
-//                login(plat.getName(), userId, null);
-                return;
-            }
+            String userId = plat.getDb().getUserId();//关联唯一ID
+            final String nickName = plat.getDb().getUserName();//nickname
+            final String userIcon = plat.getDb().getUserIcon();
+            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(userIcon, type, userId, nickName);
+            userVoCall.enqueue(new Callback<UserVo>() {
+                @Override
+                public void onResponse(Response<UserVo> response, Retrofit retrofit) {
+                    if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                        String newUserId = response.body().getUserId();
+                        AppPreferences.putString("userId", newUserId);
+                        AppPreferences.putString("nickName", nickName);
+                        AppPreferences.putString("userIcon", userIcon);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
         plat.setPlatformActionListener(this);
         plat.SSOSetting(true);

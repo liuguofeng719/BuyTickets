@@ -22,7 +22,7 @@ public class StudentTripAdapter extends BaseAdapter {
 
     List<TravelRoutingListVo> listVos = new ArrayList<>();
 
-    public List<TravelRoutingListVo> getListVos() {
+    public List<TravelRoutingListVo> getDataList() {
         return listVos;
     }
 
