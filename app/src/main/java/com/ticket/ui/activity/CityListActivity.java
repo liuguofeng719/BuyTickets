@@ -21,7 +21,6 @@ import com.ticket.bean.ProvincesVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.CityListAdapter;
 import com.ticket.ui.base.BaseActivity;
-import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 import com.ticket.widgets.PinnedHeaderListView;
 import com.ticket.widgets.SiderBar;
@@ -42,7 +41,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class PlaceListActivity extends BaseActivity implements SiderBar.OnTouchingLetterChangedListener {
+public class CityListActivity extends BaseActivity implements SiderBar.OnTouchingLetterChangedListener {
 
     @InjectView(R.id.btn_back)
     ImageView btn_back;
@@ -199,43 +198,19 @@ public class PlaceListActivity extends BaseActivity implements SiderBar.OnTouchi
                     hideLoading();
                     if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                         final List<CityVo> cityList = response.body().getCityList();
-                        //获取热门城市
-                        Call<CityListResp<List<CityVo>>> callHotCity = getApis().getHotDestinationCities(extras.getString("startCityId")).clone();
-                        callHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
-
+                        Collections.sort(cityList, new Comparator<CityVo>() {
                             @Override
-                            public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
-                                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                    List<CityVo> hotCity = response.body().getCityList();
-                                    if (hotCity != null) {
-                                        TLog.d(TAG_LOG, "" + hotCity.size());
-                                        for (CityVo cityVo : hotCity) {
-                                            cityVo.setFirstLatter("热门");
-                                        }
-                                        TLog.d(TAG_LOG, hotCity.toString());
-                                        Collections.sort(cityList, new Comparator<CityVo>() {
-                                            @Override
-                                            public int compare(CityVo lhs, CityVo rhs) {
-                                                if (lhs.getFirstLatter().equals("热门")) {
-                                                    return -1;
-                                                } else if (rhs.getFirstLatter().equals("热门")) {
-                                                    return 1;
-                                                } else {
-                                                    return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
-                                                }
-                                            }
-                                        });
-                                        setCityData(hotCity, cityList);
-                                    }
+                            public int compare(CityVo lhs, CityVo rhs) {
+                                if (lhs.getFirstLatter().equals("热门")) {
+                                    return -1;
+                                } else if (rhs.getFirstLatter().equals("热门")) {
+                                    return 1;
+                                } else {
+                                    return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
                                 }
-                                hideLoading();
-                            }
-
-                            @Override
-                            public void onFailure(Throwable t) {
-                                hideLoading();
                             }
                         });
+                        setCityData(cityList);
                     }
                 }
 
@@ -258,36 +233,19 @@ public class PlaceListActivity extends BaseActivity implements SiderBar.OnTouchi
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     final List<CityVo> cityList = response.body().getCityList();
-                    //获取热门城市
-                    callStartHotCity = getApis().getHotOriginatingCity().clone();
-                    callStartHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
+                    Collections.sort(cityList, new Comparator<CityVo>() {
                         @Override
-                        public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
-                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                List<CityVo> hotCity = response.body().getCityList();
-                                if (hotCity != null) {
-                                    TLog.d(TAG_LOG, "" + hotCity.size());
-                                    for (CityVo cityVo : hotCity) {
-                                        cityVo.setFirstLatter("热门");
-                                    }
-                                    TLog.d(TAG_LOG, hotCity.toString());
-
-                                    setCityData(hotCity, cityList);
-                                }
+                        public int compare(CityVo lhs, CityVo rhs) {
+                            if (lhs.getFirstLatter().equals("热门")) {
+                                return -1;
+                            } else if (rhs.getFirstLatter().equals("热门")) {
+                                return 1;
                             } else {
-                                if (response.body() != null) {
-                                    CityListResp<List<CityVo>> body = response.body();
-                                    CommonUtils.make(PlaceListActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                                } else {
-                                    CommonUtils.make(PlaceListActivity.this, CommonUtils.getCodeToStr(response.code()));
-                                }
+                                return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
                             }
                         }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                        }
                     });
+                    setCityData(cityList);
                 }
             }
 
@@ -377,43 +335,19 @@ public class PlaceListActivity extends BaseActivity implements SiderBar.OnTouchi
                     }
                     tag_group.setTags(tagList, 0);
 
-                    //获取热门城市
-                    callEndHotCity = getApis().getHotDestinationCities(startId).clone();
-                    callEndHotCity.enqueue(new Callback<CityListResp<List<CityVo>>>() {
-
+                    Collections.sort(cityList, new Comparator<CityVo>() {
                         @Override
-                        public void onResponse(Response<CityListResp<List<CityVo>>> response, Retrofit retrofit) {
-                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                List<CityVo> hotCity = response.body().getCityList();
-                                if (hotCity != null) {
-                                    TLog.d(TAG_LOG, "" + hotCity.size());
-                                    for (CityVo cityVo : hotCity) {
-                                        cityVo.setFirstLatter("热门");
-                                    }
-                                    TLog.d(TAG_LOG, hotCity.toString());
-                                    Collections.sort(cityList, new Comparator<CityVo>() {
-                                        @Override
-                                        public int compare(CityVo lhs, CityVo rhs) {
-                                            if (lhs.getFirstLatter().equals("热门")) {
-                                                return -1;
-                                            } else if (rhs.getFirstLatter().equals("热门")) {
-                                                return 1;
-                                            } else {
-                                                return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
-                                            }
-                                        }
-                                    });
-                                    setCityData(hotCity, cityList);
-                                }
+                        public int compare(CityVo lhs, CityVo rhs) {
+                            if (lhs.getFirstLatter().equals("热门")) {
+                                return -1;
+                            } else if (rhs.getFirstLatter().equals("热门")) {
+                                return 1;
+                            } else {
+                                return lhs.getFirstLatter().compareTo(rhs.getFirstLatter());
                             }
-                            hideLoading();
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                            hideLoading();
                         }
                     });
+                    setCityData(cityList);
                 }
             }
 
@@ -438,11 +372,10 @@ public class PlaceListActivity extends BaseActivity implements SiderBar.OnTouchi
         }
     }
 
-    private void setCityData(List<CityVo> hotCity, List<CityVo> cityList) {
+    private void setCityData(List<CityVo> cityList) {
         if (lv_city != null) {
             Collections.sort(cityList, new CityComparator());
-            hotCity.addAll(cityList);
-            this.cityVoList = hotCity;
+            this.cityVoList = cityList;
             mAdapter = new CityListAdapter(this.cityVoList);
             lv_city.setAdapter(mAdapter);
             lv_city.setOnScrollListener(mAdapter);

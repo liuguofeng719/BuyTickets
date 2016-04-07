@@ -39,13 +39,21 @@ public class MyFragment extends BaseFragment {
     //我的余额
     @OnClick(R.id.tv_my_balance)
     public void myBalance() {
-        readyGo(MyWalletActivity.class);
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            readyGo(MyWalletActivity.class);
+        } else {
+            readyGo(LoginActivity.class);
+        }
     }
 
     //账号与安全
     @OnClick(R.id.tv_account_safety)
     public void accountSafety() {
-        readyGo(AccountSafetyActivity.class);
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            readyGo(AccountSafetyActivity.class);
+        } else {
+            readyGo(LoginActivity.class);
+        }
     }
 
     @OnClick(R.id.tv_quit)

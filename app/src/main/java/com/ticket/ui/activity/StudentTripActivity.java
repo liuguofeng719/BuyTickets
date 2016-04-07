@@ -196,7 +196,7 @@ public class StudentTripActivity extends BaseActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("city", "start");
-                readyGoForResult(PlaceListActivity.class, 1, bundle);
+                readyGoForResult(CityListActivity.class, 1, bundle);
             }
         });
         this.ly_end_city.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +206,7 @@ public class StudentTripActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("city", "end");
                     bundle.putString("startCityId", startCityId);
-                    readyGoForResult(PlaceListActivity.class, 1, bundle);
+                    readyGoForResult(CityListActivity.class, 1, bundle);
                 } else {
                     CommonUtils.make(StudentTripActivity.this, getString(R.string.start_tip_city));
                 }

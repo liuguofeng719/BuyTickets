@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.ticket.R;
 import com.ticket.bean.BankAccountVo;
 import com.ticket.bean.BankAccountVoResp;
+import com.ticket.bean.BaseInfoVo;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
@@ -47,8 +49,10 @@ public class WithdrawActivity extends BaseActivity {
     @InjectView(R.id.edit_withraw_money)
     EditText edit_withraw_money;
 
-    String money;
+    private String money;
     private Call<BankAccountVoResp<BankAccountVo>> bankAccountVoRespCall;
+    private Call<BaseInfoVo> forWithdrawal;
+    private Dialog mDialog;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
@@ -58,10 +62,37 @@ public class WithdrawActivity extends BaseActivity {
     @OnClick(R.id.tv_withdraw_action)
     public void withDrawAction() {
         String validate = validate();
-        if (TextUtils.isEmpty(validate)) {
+        if (!TextUtils.isEmpty(validate)) {
             CommonUtils.make(this, validate);
             return;
         }
+        mDialog.show();
+        forWithdrawal = getApis().applicationForWithdrawal(
+                AppPreferences.getString("userId"),
+                edit_withraw_money.getText().toString(),
+                edit_bank.getText().toString(),
+                edit_car_number.getText().toString(),
+                edit_home_name.getText().toString()
+        );
+
+        forWithdrawal.enqueue(new Callback<BaseInfoVo>() {
+
+            @Override
+            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                CommonUtils.dismiss(mDialog);
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    CommonUtils.make(WithdrawActivity.this,"提现成功");
+                    finish();
+                }else{
+                    CommonUtils.make(WithdrawActivity.this,"提现失败，请稍后重试！");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                CommonUtils.dismiss(mDialog);
+            }
+        });
     }
 
     private String validate() {
@@ -100,6 +131,7 @@ public class WithdrawActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
+        mDialog = CommonUtils.showDialog(this,"正在提交申请");
         tv_header_title.setText("提现");
         tv_total_amount.setText(money);
         showLoading("数据加载中");
@@ -130,6 +162,20 @@ public class WithdrawActivity extends BaseActivity {
         super.onStop();
         if (bankAccountVoRespCall != null) {
             bankAccountVoRespCall.cancel();
+        }
+        if (forWithdrawal != null) {
+            forWithdrawal.cancel();
+        }
+        if(mDialog!=null){
+            CommonUtils.dismiss(mDialog);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mDialog!=null){
+            CommonUtils.dismiss(mDialog);
         }
     }
 }

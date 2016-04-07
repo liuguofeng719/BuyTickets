@@ -13,6 +13,16 @@ public class PlaceVo implements Serializable {
     private String placeId;
     @SerializedName("PlaceName")
     private String placeName;
+    @SerializedName("FirstLatter")
+    private String firstLatter;
+
+    public String getFirstLatter() {
+        return firstLatter;
+    }
+
+    public void setFirstLatter(String firstLatter) {
+        this.firstLatter = firstLatter;
+    }
 
     public String getPlaceId() {
         return placeId;

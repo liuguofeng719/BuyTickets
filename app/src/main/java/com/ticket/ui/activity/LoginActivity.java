@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                     AppPreferences.putString("userId", user.getUserId());
                                     AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
                                     AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
-                                    readyGoThenKill(IndexActivity.class);
+                                    finish();
                                 } else {
                                     if (response.body() != null) {
                                         UserVo body = response.body();

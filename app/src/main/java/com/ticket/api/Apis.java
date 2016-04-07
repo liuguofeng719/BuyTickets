@@ -392,15 +392,6 @@ public interface Apis {
     Call<BankAccountVoResp<BankAccountVo>> getBankAccount(@Query("userID") String userID);
 
     /**
-     * 提现
-     */
-    @GET("User/ApplicationForWithdrawal.ashx")
-    Call<BaseInfoVo> applicationForWithdrawal(
-            @Query("userID") String userID,
-            @Query("withdrawalPrice") String withdrawalPrice
-    );
-
-    /**
      * 加入API
      */
     @GET("Travel/JoinTravel.ashx")
@@ -410,18 +401,25 @@ public interface Apis {
     );
 
     /**
-     * 保存用户银行帐号
+     * 提现API
+     * @param userID
+     * @param withdrawalPrice
+     * @param bankName
+     * @param bankAccount
+     * @param bankRealName
+     * @return
      */
-    @GET("User/SaveUserBankAccount.ashx")
-    Call<BaseInfoVo> saveUserBankAccount(
+    @GET("User/ApplicationForWithdrawal.ashx")
+    Call<BaseInfoVo> applicationForWithdrawal(
             @Query("userID") String userID,
+            @Query("withdrawalPrice") String withdrawalPrice,
             @Query("bankName") String bankName,
             @Query("bankAccount") String bankAccount,
             @Query("bankRealName") String bankRealName
     );
 
     /**
-     * 获取出发地市
+     * 获取包车出行地市
      * @param cityID
      * @return
      */
