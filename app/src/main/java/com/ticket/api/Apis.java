@@ -34,7 +34,7 @@ import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.bean.TravelRoutingVo;
 import com.ticket.bean.TravelRoutingVoResp;
 import com.ticket.bean.UserVo;
-import com.ticket.bean.VehicleOrdersDetailsVo;
+import com.ticket.bean.VehicleOrdersDetailsVoResp;
 import com.ticket.bean.WXPayVo;
 
 import java.util.List;
@@ -467,7 +467,7 @@ public interface Apis {
      * @return
      */
     @GET("Orders/GetLeasedVehicleOrdersDetails.ashx")
-    Call<VehicleOrdersDetailsVo> getLeasedVehicleOrdersDetails(
+    Call<VehicleOrdersDetailsVoResp> getLeasedVehicleOrdersDetails(
             @Query("userID") String userID
     );
 

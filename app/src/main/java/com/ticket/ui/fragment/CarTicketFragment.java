@@ -44,7 +44,7 @@ public class CarTicketFragment extends BaseFragment {
 
     }
 
-    private void getStatusOrder(int isPaid) {
+    private void getStatusOrder() {
         showLoading(getString(R.string.common_loading_message));
         Call<OrderVoResp<List<OrderVo>>> orderCall = getApis().GetTicketOrders(AppPreferences.getString("userId")).clone();
         orderCall.enqueue(new Callback<OrderVoResp<List<OrderVo>>>() {
@@ -92,7 +92,7 @@ public class CarTicketFragment extends BaseFragment {
 
     @Override
     protected void initViewsAndEvents() {
-        getStatusOrder(1);//已支付
+        getStatusOrder();
         this.listViewDataAdapter = new ListViewDataAdapter<OrderVo>(new ViewHolderCreator<OrderVo>() {
             @Override
             public ViewHolderBase<OrderVo> createViewHolder(int position) {

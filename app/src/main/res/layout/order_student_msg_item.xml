@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.ticket.widgets.CircleImageView
+        android:id="@+id/iv_face"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+        android:src="@drawable/apple"
+        android:layout_marginRight="@dimen/common_padding"
+    />
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="张三丰"
+        android:textSize="15sp"
+        android:textColor="@color/text_color"
+        android:layout_toRightOf="@+id/iv_face"
+    />
+    <TextView
+        android:id="@+id/tv_send_date"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2016-04-08 12:50"
+        android:layout_alignParentRight="true"
+    />
+    <TextView
+        android:id="@+id/tv_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_color_hint"
+        android:text="我靠这么酷"
+        android:layout_toRightOf="@+id/iv_face"
+        android:layout_alignBottom="@+id/iv_face"
+    />
+</RelativeLayout>

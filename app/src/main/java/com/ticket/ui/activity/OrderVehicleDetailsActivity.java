@@ -31,7 +31,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class OrderDetailsActivity extends BaseActivity {
+public class OrderVehicleDetailsActivity extends BaseActivity {
 
     @InjectView(R.id.tv_order_code)
     TextView tv_order_code;
@@ -43,7 +43,6 @@ public class OrderDetailsActivity extends BaseActivity {
     TextView tv_order_status;
     @InjectView(R.id.tv_order_price)
     TextView tv_order_price;
-
     @InjectView(R.id.btn_back)
     ImageView btn_back;
     @InjectView(R.id.tv_header_title)
@@ -84,7 +83,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.order_details;
+        return R.layout.order_vehicle_details;
     }
 
     @Override
@@ -94,7 +93,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        this.tv_header_title.setText(getString(R.string.order_detail_title));
+        this.tv_header_title.setText("包车出行订单详情");
 
         listViewDataAdapter = new ListViewDataAdapter<PassengerDetailVo>(new ViewHolderCreator<PassengerDetailVo>() {
             @Override
@@ -115,7 +114,6 @@ public class OrderDetailsActivity extends BaseActivity {
                         tv_delete.setVisibility(View.INVISIBLE);
                         return view;
                     }
-
                     @Override
                     public void showData(int position, PassengerDetailVo itemData) {
                         TLog.d(TAG_LOG, itemData.toString());
@@ -129,7 +127,7 @@ public class OrderDetailsActivity extends BaseActivity {
                             tv_delete.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    final Dialog dialog = CommonUtils.showDialog(OrderDetailsActivity.this);
+                                    final Dialog dialog = CommonUtils.showDialog(OrderVehicleDetailsActivity.this);
                                     dialog.show();
                                     Call<BaseInfoVo> refundCall = getApis().refundTicket(v.getTag().toString()).clone();
                                     refundCall.enqueue(new Callback<BaseInfoVo>() {
@@ -137,14 +135,14 @@ public class OrderDetailsActivity extends BaseActivity {
                                         public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
                                             CommonUtils.dismiss(dialog);
                                             if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                                CommonUtils.make(OrderDetailsActivity.this, "退票成功");
+                                                CommonUtils.make(OrderVehicleDetailsActivity.this, "退票成功");
                                                 getOrderDetails();
                                             } else {
                                                 if (response.body() != null) {
                                                     BaseInfoVo body = response.body();
-                                                    CommonUtils.make(OrderDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                                                    CommonUtils.make(OrderVehicleDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                                 } else {
-                                                    CommonUtils.make(OrderDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                                    CommonUtils.make(OrderVehicleDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
                                                 }
                                             }
                                         }
@@ -166,7 +164,7 @@ public class OrderDetailsActivity extends BaseActivity {
     }
 
     private void getOrderDetails() {
-        dialogDataInit = CommonUtils.showDialog(OrderDetailsActivity.this);
+        dialogDataInit = CommonUtils.showDialog(OrderVehicleDetailsActivity.this);
         dialogDataInit.show();
         Call<OrderDeatilResp<OrderDetailVo>> callOrder = getApis().getOrderDetails(extras.getString("orderId")).clone();
         callOrder.enqueue(new Callback<OrderDeatilResp<OrderDetailVo>>() {
@@ -192,7 +190,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     listViewDataAdapter.getDataList().addAll(passengerVos);
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
-                    CommonUtils.make(OrderDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
             }
 

@@ -20,11 +20,29 @@ public class TravelOrdersVo implements Serializable {
     @SerializedName("IsPaid")
     private boolean isPaid;
     @SerializedName("TravelStatus")
-    private int travelStatus;
+    private String travelStatus;//0：询价中;1：等待达成出行;2：达成出行;
     @SerializedName("GoDateTime")
     private String goDateTime;
+    @SerializedName("OrderStatusDescription")
+    public String orderStatusDescription;//订单状态说明
     @SerializedName("PassengerAmount")
     private String passengerAmount;
+
+    public String getOrderTotalPrice() {
+        return orderTotalPrice;
+    }
+
+    public void setOrderTotalPrice(String orderTotalPrice) {
+        this.orderTotalPrice = orderTotalPrice;
+    }
+
+    public String getOrderStatusDescription() {
+        return orderStatusDescription;
+    }
+
+    public void setOrderStatusDescription(String orderStatusDescription) {
+        this.orderStatusDescription = orderStatusDescription;
+    }
 
     public String getOrderId() {
         return orderId;
@@ -50,14 +68,6 @@ public class TravelOrdersVo implements Serializable {
         this.trip = trip;
     }
 
-    public String getOrderTotalPrice() {
-        return orderTotalPrice;
-    }
-
-    public void setOrderTotalPrice(String orderTotalPrice) {
-        this.orderTotalPrice = orderTotalPrice;
-    }
-
     public boolean isPaid() {
         return isPaid;
     }
@@ -66,11 +76,11 @@ public class TravelOrdersVo implements Serializable {
         this.isPaid = isPaid;
     }
 
-    public int getTravelStatus() {
+    public String getTravelStatus() {
         return travelStatus;
     }
 
-    public void setTravelStatus(int travelStatus) {
+    public void setTravelStatus(String travelStatus) {
         this.travelStatus = travelStatus;
     }
 
@@ -92,14 +102,15 @@ public class TravelOrdersVo implements Serializable {
 
     @Override
     public String toString() {
-        return "LeasedVehicleVo{" +
+        return "TravelOrdersVo{" +
                 "orderId='" + orderId + '\'' +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", trip='" + trip + '\'' +
                 ", orderTotalPrice='" + orderTotalPrice + '\'' +
                 ", isPaid=" + isPaid +
-                ", travelStatus=" + travelStatus +
+                ", travelStatus='" + travelStatus + '\'' +
                 ", goDateTime='" + goDateTime + '\'' +
+                ", orderStatusDescription='" + orderStatusDescription + '\'' +
                 ", passengerAmount='" + passengerAmount + '\'' +
                 '}';
     }
