@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by liuguofeng719 on 2016/4/6.
  */
-public class VehicleOrdersDetailsVo extends BaseInfoVo {
+public class VehicleOrdersDetailsVoResp extends BaseInfoVo {
 
     @SerializedName("LeasedVehicleOrderTripList")
     List<TripVo> leasedVehicleOrderTripList;
