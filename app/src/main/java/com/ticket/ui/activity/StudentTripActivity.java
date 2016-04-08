@@ -77,8 +77,6 @@ public class StudentTripActivity extends BaseActivity {
     private String startCityName;
     private String endCityName;
 
-    private String provinceName;
-    private String cityName;
     private ListViewDataAdapter listViewDataAdapter;
 
     @OnClick(R.id.iv_car)
@@ -196,7 +194,7 @@ public class StudentTripActivity extends BaseActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("city", "start");
-                readyGoForResult(CityListActivity.class, 1, bundle);
+                readyGoForResult(CityActivity.class, 1, bundle);
             }
         });
         this.ly_end_city.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +204,7 @@ public class StudentTripActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("city", "end");
                     bundle.putString("startCityId", startCityId);
-                    readyGoForResult(CityListActivity.class, 1, bundle);
+                    readyGoForResult(CityActivity.class, 1, bundle);
                 } else {
                     CommonUtils.make(StudentTripActivity.this, getString(R.string.start_tip_city));
                 }
@@ -280,7 +278,7 @@ public class StudentTripActivity extends BaseActivity {
 
         @Override
         public void onClick(View widget) {
-           readyGo(CrowdFundingActivity.class);
+            readyGo(CrowdFundingActivity.class);
         }
     }
 

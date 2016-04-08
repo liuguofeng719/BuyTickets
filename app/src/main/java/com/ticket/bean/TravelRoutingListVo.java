@@ -52,8 +52,8 @@ public class TravelRoutingListVo implements Serializable {
     @SerializedName("PublishedType")
     private String publishedType;
     //状态
-    @SerializedName("Status")
-    private String status;
+    @SerializedName("State")
+    private String State;
     //发布人
     @SerializedName("CreateUser")
     private String createUser;
@@ -66,12 +66,12 @@ public class TravelRoutingListVo implements Serializable {
         this.createUser = createUser;
     }
 
-    public String getStatus() {
-        return status;
+    public String getState() {
+        return State;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setState(String state) {
+        State = state;
     }
 
     public String getStartPlaceName() {

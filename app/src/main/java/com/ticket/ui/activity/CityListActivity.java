@@ -1,7 +1,6 @@
 package com.ticket.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,7 +17,6 @@ import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
-import com.ticket.common.Constants;
 import com.ticket.ui.adpater.CityListAdapter;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.TLog;
@@ -113,17 +111,14 @@ public class CityListActivity extends BaseActivity implements SiderBar.OnTouchin
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view.findViewById(R.id.city_list_item_name);
                 TLog.d(TAG_LOG, textView.getTag().toString() + " = " + textView.getText());
-                Intent intent = new Intent();
-                intent.putExtra("cityId", textView.getTag().toString());
-                intent.putExtra("cityName", textView.getText());
-                if ("start".equals(extras.getString("city"))) {
-                    setResult(Constants.comm.START_CITY_SUCCESS, intent);
-                } else {
-                    setResult(Constants.comm.END_CITY_SUCCESS, intent);
-                }
-                finish();
+                Bundle bundle = new Bundle();
+                bundle.putString("cityId", textView.getTag().toString());
+                bundle.putString("cityName", textView.getText().toString());
+                bundle.putString("city", extras.getString("city"));
+                readyGo(PlaceActivity.class, bundle);
             }
         });
+
         //处理搜索功能
         this.ed_search.addTextChangedListener(new TextWatcher() {
 

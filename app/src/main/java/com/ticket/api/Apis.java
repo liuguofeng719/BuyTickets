@@ -26,7 +26,7 @@ import com.ticket.bean.PlaceListResp;
 import com.ticket.bean.PlaceVo;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
-import com.ticket.bean.TravelOrderDetailsVo;
+import com.ticket.bean.TravelOrderDetailVoResp;
 import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.bean.TravelRoutingListVo;
@@ -329,7 +329,6 @@ public interface Apis {
      * @param stopPlaceID  到达城市ID
      * @param userID       用户ID
      * @param goDate       出发日期(格式:2015-11-12)
-     * @param hopeGoTime   期望出发时间
      * @return
      */
     @GET("Travel/CreateTravel.ashx")
@@ -337,8 +336,7 @@ public interface Apis {
             @Query("startPlaceID") String startPlaceID,
             @Query("stopPlaceID") String stopPlaceID,
             @Query("userID") String userID,
-            @Query("goDate") String goDate,
-            @Query("hopeGoTime") String hopeGoTime
+            @Query("goDate") String goDate
     );
 
     /**
@@ -489,7 +487,7 @@ public interface Apis {
      * @return
      */
     @GET("Orders/GetTravelOrderDetails.ashx")
-    Call<TravelOrderDetailsVo> getTravelOrderDetails(
+    Call<TravelOrderDetailVoResp> getTravelOrderDetails(
             @Query("orderID") String orderID
     );
 }

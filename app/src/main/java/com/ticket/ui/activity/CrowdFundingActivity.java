@@ -1,15 +1,22 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.BaseInfoVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +24,10 @@ import java.util.Date;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by liuguofeng719 on 2016/4/2.
@@ -42,16 +53,52 @@ public class CrowdFundingActivity extends BaseActivity {
     TextView end_city;
     @InjectView(R.id.go_time)
     TextView go_time;
+    @InjectView(R.id.btn_submit)
+    Button btn_submit;
+    @InjectView(R.id.iv_car)
+    ImageView iv_car;
 
     private String date_time;
     private String startCityName;
     private String startCityId;
     private String endCityName;
     private String endCityId;
+    private Call<BaseInfoVo> infoVoCall;
+    private Dialog dialog;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
+    }
+
+    @OnClick(R.id.iv_car)
+    public void chooseCity() {
+        if (TextUtils.isEmpty(start_city.getText())) {
+            CommonUtils.make(this, getString(R.string.start_tip_city));
+            return;
+        }
+        if (TextUtils.isEmpty(end_city.getText())) {
+            CommonUtils.make(this, getString(R.string.end_tip_city));
+            return;
+        }
+        swapCity();
+    }
+
+    /**
+     * 切换城市
+     */
+    private void swapCity() {
+
+        String tempCity = startCityName;
+        startCityName = endCityName;
+        endCityName = tempCity;
+
+        String tempCityId = startCityId;
+        startCityId = endCityId;
+        endCityId = tempCityId;
+
+        start_city.setText(startCityName);
+        end_city.setText(endCityName);
     }
 
     @Override
@@ -59,16 +106,64 @@ public class CrowdFundingActivity extends BaseActivity {
         if (resultCode == Constants.comm.PICKER_SUCCESS) {
             Date dt = (Date) data.getSerializableExtra("date");
             setCurrentTime(dt);
-        } else if (resultCode == Constants.comm.START_CITY_SUCCESS) {
-            startCityName = data.getStringExtra("cityName");
-            start_city.setText(startCityName);
-            startCityId = data.getStringExtra("cityId");
-        } else if (resultCode == Constants.comm.END_CITY_SUCCESS) {
-            endCityName = data.getStringExtra("cityName");
-            end_city.setText(endCityName);
-            endCityId = data.getStringExtra("cityId");
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if ("start".equals(intent.getStringExtra("city"))) {
+            startCityName = intent.getStringExtra("cityName");
+            start_city.setText(startCityName);
+            startCityId = intent.getStringExtra("cityId");
+        } else {
+            endCityName = intent.getStringExtra("cityName");
+            end_city.setText(endCityName);
+            endCityId = intent.getStringExtra("cityId");
+        }
+    }
+
+    @OnClick(R.id.btn_submit)
+    public void submit() {
+        if (TextUtils.isEmpty(start_city.getText())) {
+            CommonUtils.make(this, getString(R.string.start_tip_city));
+            return;
+        }
+        if (TextUtils.isEmpty(end_city.getText())) {
+            CommonUtils.make(this, getString(R.string.end_tip_city));
+            return;
+        }
+        if (TextUtils.isEmpty(edit_person_number.getText())) {
+            CommonUtils.make(this, "出行人数不能为空");
+            return;
+        }
+        if (Integer.parseInt(edit_person_number.getText().toString()) == 0) {
+            CommonUtils.make(this, "出行人数不能为0");
+            return;
+        }
+        if (TextUtils.isEmpty(go_time.getText())) {
+            CommonUtils.make(this, getString(R.string.tip_start_time));
+            return;
+        }
+        dialog.show();
+        infoVoCall = getApis().createTravel(startCityId, endCityId, AppPreferences.getString("userId"), date_time).clone();
+        infoVoCall.enqueue(new Callback<BaseInfoVo>() {
+            @Override
+            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                CommonUtils.dismiss(dialog);
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    CommonUtils.make(CrowdFundingActivity.this, "发布众筹成功");
+                }else{
+                    CommonUtils.make(CrowdFundingActivity.this, "发布众筹失败，请稍后重试");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                CommonUtils.dismiss(dialog);
+            }
+        });
     }
 
     private void setCurrentTime(Date dt) {
@@ -94,7 +189,51 @@ public class CrowdFundingActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
+        dialog = CommonUtils.showDialog(this, "正在发布");
         tv_header_title.setText("众筹拼车发布");
+        this.ly_start_city.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("city", "start");
+                readyGo(CityListActivity.class, bundle);
+            }
+        });
+        this.ly_end_city.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(start_city.getText())) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("city", "end");
+                    bundle.putString("startCityId", startCityId);
+                    readyGo(CityListActivity.class, bundle);
+                } else {
+                    CommonUtils.make(CrowdFundingActivity.this, getString(R.string.start_tip_city));
+                }
+            }
+        });
+        this.go_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGoForResult(PickerActivity.class, 1);
+            }
+        });
         setCurrentTime(new Date());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (infoVoCall != null) {
+            infoVoCall.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            CommonUtils.dismiss(dialog);
+        }
     }
 }

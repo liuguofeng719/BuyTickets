@@ -155,18 +155,18 @@
         android:layout_below="@+id/ll_content"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="190dp"
         android:cacheColorHint="@color/transparent"
+        android:listSelector="@color/transparent"
         android:divider="@color/transparent"
         >
     </ListView>
     <TextView
         android:id="@+id/tv_text_info"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/lv_recommend"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="没有您想去的地方？发布一条众筹路线试试"
     />
 </RelativeLayout>

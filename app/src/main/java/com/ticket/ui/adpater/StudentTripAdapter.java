@@ -20,6 +20,16 @@ import butterknife.InjectView;
  */
 public class StudentTripAdapter extends BaseAdapter {
 
+    public interface OnShareJoinListener {
+        public void onShareListener(View view);
+        public void onJoinListener(View view);
+    }
+    public OnShareJoinListener onShareJoinListener;
+
+    public void setOnShareJoinListener(OnShareJoinListener onShareJoinListener) {
+        this.onShareJoinListener = onShareJoinListener;
+    }
+
     List<TravelRoutingListVo> listVos = new ArrayList<>();
 
     public List<TravelRoutingListVo> getDataList() {
@@ -58,15 +68,27 @@ public class StudentTripAdapter extends BaseAdapter {
             platformHolder.tv_goDateTime.setText(routingListVo.getGoDate());
             platformHolder.tv_type_text.setText(routingListVo.getPublishedType());
             platformHolder.tv_person_count.setText("已定" + routingListVo.getReachSeatAmount() + "人");
-            platformHolder.tv_status.setText(getStatus(routingListVo.getStatus()));
+            platformHolder.tv_status.setText(getStatus(routingListVo.getState()));
             platformHolder.tv_startStation.setText(routingListVo.getStartPlaceName());
             platformHolder.tv_endStation.setText(routingListVo.getStopPlaceName());
             platformHolder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
             platformHolder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
             platformHolder.tv_seat_amount.setText(routingListVo.getCarName());
             platformHolder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
-            platformHolder.btn_text_share.setOnClickListener(null);
-            platformHolder.btn_text_join.setOnClickListener(null);
+            platformHolder.btn_text_share.setTag(routingListVo);
+            platformHolder.btn_text_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onShareJoinListener.onShareListener(v);
+                }
+            });
+            platformHolder.btn_text_join.setTag(routingListVo);
+            platformHolder.btn_text_join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onShareJoinListener.onJoinListener(v);
+                }
+            });
         } else {
             CrowFundingHolder crowFundingHolder = null;
             if (convertView == null) {
@@ -79,12 +101,24 @@ public class StudentTripAdapter extends BaseAdapter {
             }
             crowFundingHolder.tv_goDateTime.setText(routingListVo.getGoDate());
             crowFundingHolder.tv_type_text.setText(routingListVo.getPublishedType());
-            crowFundingHolder.tv_status.setText(getStatus(routingListVo.getStatus()));
+            crowFundingHolder.tv_status.setText(getStatus(routingListVo.getState()));
             crowFundingHolder.tv_startStation.setText(routingListVo.getStartPlaceName());
             crowFundingHolder.tv_endStation.setText(routingListVo.getStopPlaceName());
             crowFundingHolder.tv_creator.setText(routingListVo.getCreateUser());
-            crowFundingHolder.btn_text_share.setOnClickListener(null);
-            crowFundingHolder.btn_text_join.setOnClickListener(null);
+            crowFundingHolder.btn_text_share.setTag(routingListVo);
+            crowFundingHolder.btn_text_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onShareJoinListener.onShareListener(v);
+                }
+            });
+            crowFundingHolder.btn_text_join.setTag(routingListVo);
+            crowFundingHolder.btn_text_join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onShareJoinListener.onJoinListener(v);
+                }
+            });
         }
         return convertView;
     }
@@ -103,12 +137,12 @@ public class StudentTripAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         TravelRoutingListVo routingListVo = listVos.get(position);
-        if ("1".equals(routingListVo.getStatus())) {
+        if ("平台发布".equals(routingListVo.getPublishedType())) {
             return 1;
-        } else if("2".equals(routingListVo.getStatus())){
+        } else if ("众筹发布".equals(routingListVo.getPublishedType())) {
             return 1;
         }
-        return 2;
+        return 1;
     }
 
     @Override
