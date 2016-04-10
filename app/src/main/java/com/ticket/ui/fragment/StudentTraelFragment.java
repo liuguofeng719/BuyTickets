@@ -13,6 +13,7 @@ import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
+import com.ticket.ui.activity.OrderStudentDetailsActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -124,11 +125,12 @@ public class StudentTraelFragment extends BaseFragment {
 
                     @Override
                     public void showData(int position, TravelOrdersVo itemData) {
-                        if ("0".equals(itemData.getTravelStatus())) {
+                        if (itemData.isPaid()) {
                             btn_gopay.setVisibility(View.GONE);
                         }
                         tv_order_code.setText(itemData.getOrderNumber());
-                        tv_status.setText(itemData.getOrderStatusDescription());
+                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
+                        tv_status.setText(getStatus(itemData.getTravelStatus()) + " " + payStr);
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getOrderTotalPrice());
@@ -139,7 +141,13 @@ public class StudentTraelFragment extends BaseFragment {
                             public void onClick(View v) {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("orderId", v.getTag().toString());
-                                readyGo(OrderDetailsActivity.class, bundle);
+                                readyGo(OrderStudentDetailsActivity.class, bundle);
+                            }
+                        });
+                        btn_gopay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
                             }
                         });
                         btn_text_share.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +156,17 @@ public class StudentTraelFragment extends BaseFragment {
 
                             }
                         });
+                    }
+
+                    public String getStatus(String type) {
+                        if ("0".equals(type)) {
+                            return "未询价";
+                        } else if ("1".equals(type)) {
+                            return "等待达成出行";
+                        } else if ("2".equals(type)) {
+                            return "达成出行";
+                        }
+                        return "";
                     }
                 };
             }

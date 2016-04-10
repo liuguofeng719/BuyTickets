@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,6 +16,9 @@ import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.StudentTripAdapter;
+import com.ticket.ui.adpater.base.ListViewDataAdapter;
+import com.ticket.ui.adpater.base.ViewHolderBase;
+import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
@@ -24,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.Call;
@@ -50,6 +56,8 @@ public class StudentListActivity extends BaseActivity {
 
     private Call<TravelRoutingListVoResp<List<TravelRoutingListVo>>> routingListVoRespCall = null;
     StudentTripAdapter studentTripAdapter;
+    ListViewDataAdapter listViewDataAdapter;
+
     private Date date = null;
     private Bundle extras;
 
@@ -148,11 +156,99 @@ public class StudentListActivity extends BaseActivity {
         isCurrDate();
         this.tv_time_content.setText(new SimpleDateFormat("MM月dd日").format(date));
         studentTripAdapter = new StudentTripAdapter();
+        this.listViewDataAdapter = new ListViewDataAdapter<TravelRoutingListVo>(new ViewHolderCreator<TravelRoutingListVo>() {
+            @Override
+            public ViewHolderBase<TravelRoutingListVo> createViewHolder(int position) {
+                return new ViewHolderBase<TravelRoutingListVo>() {
+                    PlatformHolder holder = new PlatformHolder();
+
+                    @Override
+                    public View createView(LayoutInflater layoutInflater) {
+                        View convertView = layoutInflater.inflate(R.layout.stu_platform_list_item, null);
+                        ButterKnife.inject(holder, convertView);
+                        return convertView;
+                    }
+
+                    @Override
+                    public void showData(int position, TravelRoutingListVo routingListVo) {
+                        holder.tv_goDateTime.setText(routingListVo.getGoDate());
+                        holder.tv_type_text.setText(routingListVo.getPublishedType());
+                        holder.tv_person_count.setText("已定" + routingListVo.getReachSeatAmount() + "人");
+                        holder.tv_status.setText(getStatus(routingListVo.getState()));
+                        holder.tv_startStation.setText(routingListVo.getStartPlaceName());
+                        holder.tv_endStation.setText(routingListVo.getStopPlaceName());
+                        holder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
+                        holder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
+                        holder.tv_seat_amount.setText(routingListVo.getCarName());
+                        holder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
+                        holder.btn_text_share.setTag(routingListVo);
+                        holder.btn_text_share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                        holder.btn_text_join.setTag(routingListVo);
+                        holder.btn_text_join.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                        holder.ly_fre_item.setTag(routingListVo);
+                        holder.ly_fre_item.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                    }
+
+                    public String getStatus(String type) {
+                        if ("0".equals(type)) {
+                            return "未询价";
+                        } else if ("1".equals(type)) {
+                            return "已询价等待达成出行";
+                        } else if ("2".equals(type)) {
+                            return "达成出行";
+                        }
+                        return "";
+                    }
+                };
+            }
+        });
         this.lv_frquency.setAdapter(studentTripAdapter);
         getRoutingList(extras.getString("goDate"));
     }
 
-
+    static class PlatformHolder {
+        @InjectView(R.id.ly_fre_item)
+        LinearLayout ly_fre_item;
+        @InjectView(R.id.tv_goDateTime)
+        TextView tv_goDateTime;
+        @InjectView(R.id.tv_type_text)
+        TextView tv_type_text;
+        @InjectView(R.id.tv_startStation)
+        TextView tv_startStation;
+        @InjectView(R.id.tv_endStation)
+        TextView tv_endStation;
+        @InjectView(R.id.tv_person_count)
+        TextView tv_person_count;
+        @InjectView(R.id.tv_status)
+        TextView tv_status;
+        @InjectView(R.id.tv_student_ticket)
+        TextView tv_student_ticket;
+        @InjectView(R.id.tv_adult_ticket)
+        TextView tv_adult_ticket;
+        @InjectView(R.id.tv_seat_amount)
+        TextView tv_seat_amount;
+        @InjectView(R.id.tv_reachSeat_amount)
+        TextView tv_reachSeat_amount;
+        @InjectView(R.id.btn_text_share)
+        TextView btn_text_share;
+        @InjectView(R.id.btn_text_join)
+        TextView btn_text_join;
+    }
 
     private void getRoutingList(String goDate) {
         tv_empty.setVisibility(View.GONE);

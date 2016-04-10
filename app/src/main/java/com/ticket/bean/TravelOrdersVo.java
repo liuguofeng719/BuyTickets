@@ -23,8 +23,8 @@ public class TravelOrdersVo implements Serializable {
     private String travelStatus;//0：询价中;1：等待达成出行;2：达成出行;
     @SerializedName("GoDateTime")
     private String goDateTime;
-    @SerializedName("OrderStatusDescription")
-    public String orderStatusDescription;//订单状态说明
+    @SerializedName("OrderStatusString")
+    public String orderStatusString;//订单状态说明
     @SerializedName("PassengerAmount")
     private String passengerAmount;
 
@@ -36,12 +36,16 @@ public class TravelOrdersVo implements Serializable {
         this.orderTotalPrice = orderTotalPrice;
     }
 
-    public String getOrderStatusDescription() {
-        return orderStatusDescription;
+    public String getOrderStatusString() {
+        return orderStatusString;
     }
 
-    public void setOrderStatusDescription(String orderStatusDescription) {
-        this.orderStatusDescription = orderStatusDescription;
+    public void setOrderStatusString(String orderStatusString) {
+        this.orderStatusString = orderStatusString;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public String getOrderId() {
@@ -110,7 +114,7 @@ public class TravelOrdersVo implements Serializable {
                 ", isPaid=" + isPaid +
                 ", travelStatus='" + travelStatus + '\'' +
                 ", goDateTime='" + goDateTime + '\'' +
-                ", orderStatusDescription='" + orderStatusDescription + '\'' +
+                ", orderStatusString='" + orderStatusString + '\'' +
                 ", passengerAmount='" + passengerAmount + '\'' +
                 '}';
     }

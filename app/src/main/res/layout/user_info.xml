@@ -43,7 +43,6 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="4dp"
-                    android:text="13988888888"
                     android:textColor="@color/button_text_color"
                     android:textSize="14sp"
                     android:visibility="gone" />

@@ -5,12 +5,14 @@
     android:layout_marginBottom="10dp"
     android:background="@color/white"
     android:orientation="vertical">
+
     <TextView
+        android:id="@+id/tv_day_number"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_padding"
-        android:text="第一天"
+        android:text="第1天"
         android:textColor="@color/text_color_hint"
         android:textSize="14sp"
         android:tag="time_day_next"
@@ -29,6 +31,7 @@
             android:id="@+id/start_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="成都" />
 
@@ -57,39 +60,4 @@
         android:layout_marginTop="10dp"
         android:layout_height="1px"
         android:background="@color/text_color_c" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:paddingBottom="@dimen/common_padding"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="成都" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/car" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="泸州" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="minus"
-            android:src="@drawable/minus" />
-    </LinearLayout>
 </LinearLayout>

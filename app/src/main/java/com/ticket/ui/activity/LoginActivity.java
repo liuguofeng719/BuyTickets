@@ -59,19 +59,19 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     }
 
     private void authorize(Platform plat, String type) {
+        plat.isClientValid();
         if (plat.isValid()) {
             String userId = plat.getDb().getUserId();//关联唯一ID
             final String nickName = plat.getDb().getUserName();//nickname
-            final String userIcon = plat.getDb().getUserIcon();
-            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(userIcon, type, userId, nickName);
+            final String userIcon = plat.getDb().getUserIcon().replaceAll("/40","/100");
+            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(userIcon, type, userId, nickName).clone();
             userVoCall.enqueue(new Callback<UserVo>() {
                 @Override
                 public void onResponse(Response<UserVo> response, Retrofit retrofit) {
                     if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                        String newUserId = response.body().getUserId();
-                        AppPreferences.putString("userId", newUserId);
-                        AppPreferences.putString("nickName", nickName);
-                        AppPreferences.putString("userIcon", userIcon);
+                        UserVo userVo = response.body();
+                        AppPreferences.putString("userId", userVo.getUserId());
+                        AppPreferences.putObject(userVo);
                         finish();
                     }
                 }
@@ -120,11 +120,10 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             public void onResponse(Response<UserVo> response, Retrofit retrofit) {
                                 CommonUtils.dismiss(mDialog);
                                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                    UserVo user = response.body();
-                                    TLog.d(TAG_LOG, user.toString());
-                                    AppPreferences.putString("userId", user.getUserId());
-                                    AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
-                                    AppPreferences.putString("userPwd", ed_user_pwd.getText().toString());
+                                    UserVo userVo = response.body();
+                                    TLog.d(TAG_LOG, userVo.toString());
+                                    AppPreferences.putString("userId", userVo.getUserId());
+                                    AppPreferences.putObject(userVo);
                                     finish();
                                 } else {
                                     if (response.body() != null) {

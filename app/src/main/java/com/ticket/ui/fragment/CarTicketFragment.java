@@ -13,6 +13,7 @@ import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
+import com.ticket.ui.activity.PayMentModeActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -105,6 +106,7 @@ public class CarTicketFragment extends BaseFragment {
                     TextView tv_person_count;//人数
                     TextView tv_total_price;//总金额
                     TextView btn_gopay;//去支付
+                    TextView btn_text_share;//分享
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
@@ -117,12 +119,26 @@ public class CarTicketFragment extends BaseFragment {
                         tv_total_price = ButterKnife.findById(view, R.id.tv_total_price);
                         tv_goDateTime = ButterKnife.findById(view, R.id.tv_goDateTime);
                         btn_gopay = ButterKnife.findById(view, R.id.btn_gopay);
+                        btn_text_share = ButterKnife.findById(view, R.id.btn_text_share);
                         btn_gopay.setVisibility(View.GONE);
                         return view;
                     }
 
                     @Override
-                    public void showData(int position, OrderVo itemData) {
+                    public void showData(int position,final OrderVo itemData) {
+                        if (!itemData.getIsPaid()) {
+                            btn_gopay.setVisibility(View.VISIBLE);
+                            btn_gopay.setTag(itemData.getOrderId());
+                            btn_gopay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("money", itemData.getTotalPrice());
+                                    bundle.putString("orderId", v.getTag().toString());
+                                    readyGo(PayMentModeActivity.class, bundle);
+                                }
+                            });
+                        }
                         tv_order_code.setText(itemData.getOrderNumber());
                         tv_status.setText(itemData.getOrderStatusDescription());
                         tv_station.setText(itemData.getTrip());
@@ -136,6 +152,12 @@ public class CarTicketFragment extends BaseFragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("orderId", v.getTag().toString());
                                 readyGo(OrderDetailsActivity.class, bundle);
+                            }
+                        });
+                        btn_text_share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CommonUtils.make(getActivity(),"1111");
                             }
                         });
                     }

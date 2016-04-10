@@ -14,6 +14,7 @@ import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
+import com.ticket.bean.VehicleOrdersDetailsVoResp;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -166,29 +167,29 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     private void getOrderDetails() {
         dialogDataInit = CommonUtils.showDialog(OrderVehicleDetailsActivity.this);
         dialogDataInit.show();
-        Call<OrderDeatilResp<OrderDetailVo>> callOrder = getApis().getOrderDetails(extras.getString("orderId")).clone();
-        callOrder.enqueue(new Callback<OrderDeatilResp<OrderDetailVo>>() {
+        Call<VehicleOrdersDetailsVoResp> callOrder = getApis().getLeasedVehicleOrdersDetails(extras.getString("orderId")).clone();
+        callOrder.enqueue(new Callback<VehicleOrdersDetailsVoResp>() {
             @Override
-            public void onResponse(Response<OrderDeatilResp<OrderDetailVo>> response, Retrofit retrofit) {
+            public void onResponse(Response<VehicleOrdersDetailsVoResp> response, Retrofit retrofit) {
                 CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
-                    tv_order_code.setText(orderDetails.getOrderNumber());
-                    tv_pay_time.setText(orderDetails.getPayDateTime());
-                    tv_pay_mode.setText(orderDetails.getPayFuncation());
-                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
-                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
-                    tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
-                    tv_startPoint.setText(orderDetails.getStartStationCityName());
-                    tv_destination.setText(orderDetails.getStopStationCityName());
-                    tv_startStation.setText(orderDetails.getStartStationName());
-                    tv_endStation.setText(orderDetails.getStopStationName());
-                    tv_ticket_price.setText("￥" + orderDetails.getTotalTicketPrice());
-                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
-                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
-                    List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
-                    listViewDataAdapter.getDataList().addAll(passengerVos);
-                    listViewDataAdapter.notifyDataSetChanged();
+//                    OrderDetailVo orderDetails = response.body().getVehicleOrdersDetails();
+//                    tv_order_code.setText(orderDetails.getOrderNumber());
+//                    tv_pay_time.setText(orderDetails.getPayDateTime());
+//                    tv_pay_mode.setText(orderDetails.getPayFuncation());
+//                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
+//                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
+//                    tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
+//                    tv_startPoint.setText(orderDetails.getStartStationCityName());
+//                    tv_destination.setText(orderDetails.getStopStationCityName());
+//                    tv_startStation.setText(orderDetails.getStartStationName());
+//                    tv_endStation.setText(orderDetails.getStopStationName());
+//                    tv_ticket_price.setText("￥" + orderDetails.getTotalTicketPrice());
+//                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
+//                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
+//                    List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
+//                    listViewDataAdapter.getDataList().addAll(passengerVos);
+//                    listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }

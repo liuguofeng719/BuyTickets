@@ -48,6 +48,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:text="微信"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
@@ -56,6 +57,7 @@
                 android:id="@+id/tv_wx_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/tv_img_wx_arrow"
                 android:text="guofeng719"
@@ -87,6 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:text="QQ"
                 android:textSize="14sp" />
 
@@ -94,6 +97,7 @@
                 android:id="@+id/tv_qq_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/tv_img_qq_arrow"
                 android:text="未绑定" />
@@ -125,6 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="手机号"
+                android:padding="6dp"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
@@ -132,6 +137,7 @@
                 android:id="@+id/tv_phone_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/tv_img_normal_arrow"
                 android:text="15882035337"

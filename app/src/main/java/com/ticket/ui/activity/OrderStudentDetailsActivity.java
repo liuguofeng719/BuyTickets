@@ -14,6 +14,8 @@ import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
+import com.ticket.bean.TravelOrderDetailVo;
+import com.ticket.bean.TravelOrderDetailVoResp;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -168,29 +170,30 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     private void getOrderDetails() {
         dialogDataInit = CommonUtils.showDialog(OrderStudentDetailsActivity.this);
         dialogDataInit.show();
-        Call<OrderDeatilResp<OrderDetailVo>> callOrder = getApis().getOrderDetails(extras.getString("orderId")).clone();
-        callOrder.enqueue(new Callback<OrderDeatilResp<OrderDetailVo>>() {
+        Call<TravelOrderDetailVoResp> callOrder = getApis().getTravelOrderDetails(extras.getString("orderId")).clone();
+        callOrder.enqueue(new Callback<TravelOrderDetailVoResp>() {
             @Override
-            public void onResponse(Response<OrderDeatilResp<OrderDetailVo>> response, Retrofit retrofit) {
+            public void onResponse(Response<TravelOrderDetailVoResp> response, Retrofit retrofit) {
                 CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
-                    tv_order_code.setText(orderDetails.getOrderNumber());
-                    tv_pay_time.setText(orderDetails.getPayDateTime());
-                    tv_pay_mode.setText(orderDetails.getPayFuncation());
-                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
-                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
-                    tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
-                    tv_startPoint.setText(orderDetails.getStartStationCityName());
-                    tv_destination.setText(orderDetails.getStopStationCityName());
-                    tv_startStation.setText(orderDetails.getStartStationName());
-                    tv_endStation.setText(orderDetails.getStopStationName());
-                    tv_ticket_price.setText("￥" + orderDetails.getTotalTicketPrice());
-                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
-                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
-                    List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
-                    listViewDataAdapter.getDataList().addAll(passengerVos);
-                    listViewDataAdapter.notifyDataSetChanged();
+                    TravelOrderDetailVoResp detailVoResp = response.body();
+//                    TravelOrderDetailVo orderDetails = detailVoResp.getTravelOrderDetail();
+//                    tv_order_code.setText(orderDetails.getOrderNumber());
+//                    tv_pay_time.setText(orderDetails.getPayDateTime());
+//                    tv_pay_mode.setText(orderDetails.getPayFuncation());
+//                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
+//                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
+//                    tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
+//                    tv_startPoint.setText(orderDetails.getStartStationCityName());
+//                    tv_destination.setText(orderDetails.getStopStationCityName());
+//                    tv_startStation.setText(orderDetails.getStartStationName());
+//                    tv_endStation.setText(orderDetails.getStopStationName());
+//                    tv_ticket_price.setText("￥" + orderDetails.getTotalTicketPrice());
+//                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
+//                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
+//                    List<PassengerDetailVo> passengerVos = detailVoResp.getPassengers();
+//                    listViewDataAdapter.getDataList().addAll(passengerVos);
+//                    listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     CommonUtils.make(OrderStudentDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
