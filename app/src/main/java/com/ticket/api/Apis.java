@@ -430,6 +430,7 @@ public interface Apis {
      */
     @GET("User/ExternalSystemAuthentication.ashx")
     Call<UserVo> externalSystemAuthentication(
+            @Query("userID") String userID,
             @Query("headPicture") String headPicture,
             @Query("platform") String platform,
             @Query("openID") String openID,

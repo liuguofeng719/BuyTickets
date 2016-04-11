@@ -61,10 +61,10 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private void authorize(Platform plat, String type) {
         plat.isClientValid();
         if (plat.isValid()) {
-            String userId = plat.getDb().getUserId();//关联唯一ID
+            String openID = plat.getDb().getUserId();//关联唯一ID
             final String nickName = plat.getDb().getUserName();//nickname
             final String userIcon = plat.getDb().getUserIcon().replaceAll("/40","/100");
-            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(userIcon, type, userId, nickName).clone();
+            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(AppPreferences.getString("userId"),userIcon, type, openID, nickName).clone();
             userVoCall.enqueue(new Callback<UserVo>() {
                 @Override
                 public void onResponse(Response<UserVo> response, Retrofit retrofit) {

@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:layout_marginRight="10dp"
+                android:textColor="@color/common_text_color"
                 android:layout_toLeftOf="@+id/tv_img_qq_arrow"
                 android:text="未绑定" />
 

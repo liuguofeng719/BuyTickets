@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class TravelRoutingListVo implements Serializable {
 
+    @SerializedName("TravelID")
+    private String travelId;
     //起点名称
     @SerializedName("StartPlaceName")
     private String startPlaceName;
@@ -57,6 +59,14 @@ public class TravelRoutingListVo implements Serializable {
     //发布人
     @SerializedName("CreateUser")
     private String createUser;
+
+    public String getTravelId() {
+        return travelId;
+    }
+
+    public void setTravelId(String travelId) {
+        this.travelId = travelId;
+    }
 
     public String getCreateUser() {
         return createUser;

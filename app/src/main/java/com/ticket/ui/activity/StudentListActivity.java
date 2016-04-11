@@ -171,16 +171,32 @@ public class StudentListActivity extends BaseActivity {
 
                     @Override
                     public void showData(int position, TravelRoutingListVo routingListVo) {
-                        holder.tv_goDateTime.setText(routingListVo.getGoDate());
-                        holder.tv_type_text.setText(routingListVo.getPublishedType());
-                        holder.tv_person_count.setText("已定" + routingListVo.getReachSeatAmount() + "人");
-                        holder.tv_status.setText(getStatus(routingListVo.getState()));
+
+                        if ("0".equals(routingListVo.getState())) {
+                            holder.btn_text_join.setVisibility(View.VISIBLE);
+                            holder.btn_text_pay.setVisibility(View.GONE);
+                        }
+
+                        if ("1".equals(routingListVo.getState())) {//询价成功 显示价格和已定的人数
+                            holder.btn_text_join.setVisibility(View.GONE);
+                            holder.btn_text_pay.setVisibility(View.VISIBLE);
+                            holder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
+                            holder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
+                            holder.tv_person_count.setText("已定" + routingListVo.getReachSeatAmount() + "人");
+                        }
+
+                        holder.tv_status.setText(getStatus(routingListVo.getState()));//平台类型
+                        holder.tv_goDateTime.setText(routingListVo.getGoDate());//出发日期
+                        holder.tv_type_text.setText(routingListVo.getPublishedType());//平台类型
                         holder.tv_startStation.setText(routingListVo.getStartPlaceName());
                         holder.tv_endStation.setText(routingListVo.getStopPlaceName());
-                        holder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
-                        holder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
-                        holder.tv_seat_amount.setText(routingListVo.getCarName());
-                        holder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
+
+                        if ("平台发布".equals(routingListVo.getPublishedType())) {
+                            holder.tv_seat_amount.setText(routingListVo.getCreateUser());
+                        } else if ("众筹发布".equals(routingListVo.getPublishedType())) {
+                            holder.tv_seat_amount.setText(routingListVo.getCarName());
+                            holder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
+                        }
                         holder.btn_text_share.setTag(routingListVo);
                         holder.btn_text_share.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -190,6 +206,13 @@ public class StudentListActivity extends BaseActivity {
                         });
                         holder.btn_text_join.setTag(routingListVo);
                         holder.btn_text_join.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                        holder.btn_text_pay.setTag(routingListVo);
+                        holder.btn_text_pay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
@@ -208,7 +231,7 @@ public class StudentListActivity extends BaseActivity {
                         if ("0".equals(type)) {
                             return "未询价";
                         } else if ("1".equals(type)) {
-                            return "已询价等待达成出行";
+                            return "等待达成出行";
                         } else if ("2".equals(type)) {
                             return "达成出行";
                         }
@@ -248,6 +271,8 @@ public class StudentListActivity extends BaseActivity {
         TextView btn_text_share;
         @InjectView(R.id.btn_text_join)
         TextView btn_text_join;
+        @InjectView(R.id.btn_text_pay)
+        TextView btn_text_pay;
     }
 
     private void getRoutingList(String goDate) {

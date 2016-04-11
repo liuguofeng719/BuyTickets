@@ -103,7 +103,7 @@ public class AccountSafetyActivity extends BaseActivity {
             String userId = plat.getDb().getUserId();//关联唯一ID
             final String nickName = plat.getDb().getUserName();//nickname
             final String userIcon = plat.getDb().getUserIcon().replaceAll("/40","/100");
-            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(userIcon, type, userId, nickName);
+            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(AppPreferences.getString("userId"),userIcon, type, userId, nickName);
             userVoCall.enqueue(new Callback<UserVo>() {
                 @Override
                 public void onResponse(Response<UserVo> response, Retrofit retrofit) {
