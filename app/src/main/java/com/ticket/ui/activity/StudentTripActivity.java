@@ -10,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -243,6 +244,7 @@ public class StudentTripActivity extends BaseActivity {
                         tv_endCity.setText(itemData.getStopCityName());
                         tv_startCity.setText(itemData.getStartCityName());
                         tv_goDateTime.setText("出发日期：" + itemData.getGoDate());
+                        tv_startCity.setTag(itemData);
                     }
                 };
             }
@@ -262,8 +264,19 @@ public class StudentTripActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
-
+            public void onFailure(Throwable t){
+            }
+        });
+        lv_recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TravelRoutingVo tag = (TravelRoutingVo) view.findViewById(R.id.tv_startCity).getTag();
+                Bundle bundle = new Bundle();
+                bundle.putString("station", tag.getStartCityName() + " - " + tag.getStopCityName());
+                bundle.putString("startCityID", tag.getStartCityID());
+                bundle.putString("stopCityID", tag.getStopCityID());
+                bundle.putString("goDate", tag.getGoDate());
+                readyGo(StudentListActivity.class, bundle);
             }
         });
     }

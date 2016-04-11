@@ -29,6 +29,7 @@ import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
+import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.PassengerAdapter;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
@@ -71,7 +72,9 @@ public class CreateStudentOrderActivity extends BaseActivity {
     @InjectView(R.id.tv_endStation)
     TextView tv_endStation;
     @InjectView(R.id.tv_ticket_price)
-    TextView tv_ticket_price;
+    CheckBox tv_ticket_price;
+    @InjectView(R.id.tv_ticket_student)
+    CheckBox tv_ticket_student;
     @InjectView(R.id.tv_service_price)
     TextView tv_service_price;
     @InjectView(R.id.lv_passenger)
@@ -102,20 +105,24 @@ public class CreateStudentOrderActivity extends BaseActivity {
 
     @InjectView(R.id.ly_insurance_price)
     LinearLayout ly_insurance_price;
+    @InjectView(R.id.ly_student_price)
+    LinearLayout ly_student_price;
+    @InjectView(R.id.ly_adult_price)
+    LinearLayout ly_adult_price;
 
     PassengerAdapter passengerAdapter;
     Dialog mDialog;
     ListView lv_passenger_list;
     List<PassengerVo> passengerVoList;
     View view_passenger;
-    FrequencyVo frequencyVo;
+    TravelRoutingListVo frequencyVo;
     Bundle extras;
     //已选择的乘客
     ListViewDataAdapter listViewDataAdapter;
     List<PassengerVo> selectPassengers;
     Map<String, Integer> selectedIds = new HashMap<>();//已选择的乘客编码
     boolean insuranceCheck = true;//是否选择保险,默认选择保险费
-    public static SparseBooleanArray checkItems;
+    public volatile SparseBooleanArray checkItems = new SparseBooleanArray();
     private double totalPrice;
 
     /**
@@ -144,6 +151,29 @@ public class CreateStudentOrderActivity extends BaseActivity {
     }
 
     /**
+     * 学生,成人
+     */
+    @OnClick({R.id.ly_student_price, R.id.ly_adult_price})
+    public void studentPrice() {
+        if (tv_ticket_student.isChecked()) {
+            tv_ticket_student.setChecked(false);
+            tv_ticket_price.setChecked(true);
+        } else {
+            tv_ticket_student.setChecked(true);
+            tv_ticket_price.setChecked(false);
+        }
+        double total = getTotalTicketsAndService();
+        if (selectedIds.size() > 0) {
+            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
+            if (insuranceCheck) {
+                total = total + insurancePrice;
+            }
+        }
+        setTotal(total);
+    }
+
+
+    /**
      * 是否选择保险费
      */
     @OnClick(R.id.ly_insurance_price)
@@ -157,7 +187,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
         }
         double total = getTotalTicketsAndService();
         if (selectedIds.size() > 0) {
-            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
+            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
             if (insuranceCheck) {
                 total = total + insurancePrice;
             }
@@ -199,16 +229,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
         mDialogInfo.show();
     }
 
-    /**
-     * 乘客意外保险
-     */
-//    @OnClick(R.id.tv_insurance_info)
-//    public void addInsuranceInfo() {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("insurancePrice", frequencyVo.getInsurancePrice());
-//        bundle.putBoolean("insuranceCheck", insuranceCheck);
-//        readyGoForResult(InsuranceActivity.class, 1, bundle);
-//    }
     @OnClick(R.id.btn_add_passenger)
     public void addPassenger() {
         if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
@@ -239,7 +259,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
 
     private void submitOrderHttp() {
         //路由ID
-        String routingId = frequencyVo.getRoutingId();
+        String routingId = frequencyVo.getTravelId();
         //userID
         String userID = AppPreferences.getString("userId");
         //乘客编码
@@ -307,11 +327,11 @@ public class CreateStudentOrderActivity extends BaseActivity {
         }
     }
 
-    public static void setCheckItemStatus(Integer index, Boolean flag) {
+    public void setCheckItemStatus(Integer index, Boolean flag) {
         checkItems.put(index, flag);
     }
 
-    public static void setCheckItemsStatus(Boolean flag) {
+    public void setCheckItemsStatus(Boolean flag) {
         for (int i = 0; i < checkItems.size(); i++) {
             checkItems.put(i, flag);
         }
@@ -334,7 +354,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
             insuranceCheck = data.getBooleanExtra("insuranceCheck", false);
             double total = getTotalTicketsAndService();
             if (selectedIds.size() > 0) {
-                double insurancePrice = (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
+                double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
                 if (insuranceCheck) {
                     total = total + insurancePrice;
                 }
@@ -350,7 +370,14 @@ public class CreateStudentOrderActivity extends BaseActivity {
      * @return double
      */
     private double getTotalTicketsAndService() {
-        return (Double.parseDouble(frequencyVo.getTicketPrice()) + Double.parseDouble(frequencyVo.getServicePrice())) * selectedIds.size();
+        double ticketPrice = 0.0;
+        if (tv_ticket_student.isChecked()) {
+            ticketPrice = Double.parseDouble(tv_ticket_student.getTag().toString());
+        }
+        if (tv_ticket_price.isChecked()) {
+            ticketPrice = Double.parseDouble(tv_ticket_price.getTag().toString());
+        }
+        return (ticketPrice + Double.parseDouble(frequencyVo.getServicePrice())) * selectedIds.size();
     }
 
     /**
@@ -373,7 +400,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
         this.listViewDataAdapter.notifyDataSetChanged();
         double total = getTotalTicketsAndService();
         if (insuranceCheck) {
-            total = total + (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
+            total = total + (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
         }
         setTotal(total);
     }
@@ -381,7 +408,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
     @Override
     protected void getBundleExtras(Bundle extras) {
         this.extras = extras;
-        this.frequencyVo = (FrequencyVo) extras.getSerializable("frequencyVo");
+        this.frequencyVo = (TravelRoutingListVo) extras.getSerializable("routingListVo");
     }
 
     @OnClick(R.id.btn_back)
@@ -391,7 +418,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.create_order;
+        return R.layout.create_student_order;
     }
 
     @Override
@@ -403,13 +430,16 @@ public class CreateStudentOrderActivity extends BaseActivity {
     protected void initViewsAndEvents() {
         this.tv_header_title.setText(getString(R.string.write_order_title));
         tv_station_title.setText(frequencyVo.getGoDate() + "  " + frequencyVo.getGoTime() + "发车");
-        tv_startPoint.setText(frequencyVo.getStartCityName());
-        tv_destination.setText(frequencyVo.getStopCityName());
-        tv_startStation.setText(frequencyVo.getStartStationName());
-        tv_endStation.setText(frequencyVo.getStopStationName());
-        tv_ticket_price.setText("￥" + frequencyVo.getTicketPrice());
+        tv_startPoint.setText(frequencyVo.getStartPlaceName());
+        tv_destination.setText(frequencyVo.getStopPlaceName());
+//        tv_startStation.setText(frequencyVo.getStartStationName());
+//        tv_endStation.setText(frequencyVo.getStopStationName());
+        tv_ticket_price.setText("￥" + frequencyVo.getNormalPrice());
+        tv_ticket_price.setTag(frequencyVo.getNormalPrice());
+        tv_ticket_student.setText("￥" + frequencyVo.getStudentPrice());
+        tv_ticket_student.setTag(frequencyVo.getStudentPrice());
         tv_service_price.setText("￥" + frequencyVo.getServicePrice());
-        tv_insurance_price.setText("￥" + frequencyVo.getInsurancePrice());
+        tv_insurance_price.setText("￥" + frequencyVo.getInsurcePrice());
         this.listViewDataAdapter = new ListViewDataAdapter<PassengerVo>(new ViewHolderCreator<PassengerVo>() {
             @Override
             public ViewHolderBase<PassengerVo> createViewHolder(int position) {
@@ -438,7 +468,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
                                     selectedIds.remove(passengerVo.getPassengerId());
                                     double total = getTotalTicketsAndService();
                                     if (insuranceCheck) {
-                                        total = total + (Double.parseDouble(frequencyVo.getInsurancePrice()) * selectedIds.size());
+                                        total = total + (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
                                     }
                                     setTotal(total);
                                 }

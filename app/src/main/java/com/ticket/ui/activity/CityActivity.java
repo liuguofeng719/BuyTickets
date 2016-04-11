@@ -461,7 +461,9 @@ public class CityActivity extends BaseActivity implements SiderBar.OnTouchingLet
                 messageView.setVisibility(View.INVISIBLE);
             }
         }, 2000);
-        lv_city.setSelection(this.mAdapter.getPositionForSection(findIndex(s)));
+        if(!TextUtils.isEmpty(s)){
+            lv_city.setSelection(this.mAdapter.getPositionForSection(findIndex(s)));
+        }
     }
 
     //根据s找到对应的s的位置

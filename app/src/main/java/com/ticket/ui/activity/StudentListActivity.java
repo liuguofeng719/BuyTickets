@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.BaseInfoVo;
+import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.common.Constants;
@@ -20,6 +23,7 @@ import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
@@ -55,11 +59,11 @@ public class StudentListActivity extends BaseActivity {
     TextView tv_empty;
 
     private Call<TravelRoutingListVoResp<List<TravelRoutingListVo>>> routingListVoRespCall = null;
-    StudentTripAdapter studentTripAdapter;
     ListViewDataAdapter listViewDataAdapter;
 
     private Date date = null;
     private Bundle extras;
+    private Dialog dialog;
 
     @OnClick(R.id.btn_back)
     public void back() {
@@ -155,7 +159,6 @@ public class StudentListActivity extends BaseActivity {
         }
         isCurrDate();
         this.tv_time_content.setText(new SimpleDateFormat("MM月dd日").format(date));
-        studentTripAdapter = new StudentTripAdapter();
         this.listViewDataAdapter = new ListViewDataAdapter<TravelRoutingListVo>(new ViewHolderCreator<TravelRoutingListVo>() {
             @Override
             public ViewHolderBase<TravelRoutingListVo> createViewHolder(int position) {
@@ -170,7 +173,7 @@ public class StudentListActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void showData(int position, TravelRoutingListVo routingListVo) {
+                    public void showData(int position, final TravelRoutingListVo routingListVo) {
 
                         if ("0".equals(routingListVo.getState())) {
                             holder.btn_text_join.setVisibility(View.VISIBLE);
@@ -192,10 +195,10 @@ public class StudentListActivity extends BaseActivity {
                         holder.tv_endStation.setText(routingListVo.getStopPlaceName());
 
                         if ("平台发布".equals(routingListVo.getPublishedType())) {
-                            holder.tv_seat_amount.setText(routingListVo.getCreateUser());
-                        } else if ("众筹发布".equals(routingListVo.getPublishedType())) {
                             holder.tv_seat_amount.setText(routingListVo.getCarName());
                             holder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
+                        } else if ("用户发布".equals(routingListVo.getPublishedType())) {
+                            holder.tv_seat_amount.setText("发起人:" + routingListVo.getCreateUser());
                         }
                         holder.btn_text_share.setTag(routingListVo);
                         holder.btn_text_share.setOnClickListener(new View.OnClickListener() {
@@ -208,14 +211,17 @@ public class StudentListActivity extends BaseActivity {
                         holder.btn_text_join.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                shareButton(routingListVo);
                             }
                         });
                         holder.btn_text_pay.setTag(routingListVo);
                         holder.btn_text_pay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                TravelRoutingListVo routingListVo = (TravelRoutingListVo) v.getTag();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("routingListVo", routingListVo);
+                                readyGo(CreateStudentOrderActivity.class,bundle);
                             }
                         });
                         holder.ly_fre_item.setTag(routingListVo);
@@ -240,8 +246,30 @@ public class StudentListActivity extends BaseActivity {
                 };
             }
         });
-        this.lv_frquency.setAdapter(studentTripAdapter);
+        this.lv_frquency.setAdapter(listViewDataAdapter);
         getRoutingList(extras.getString("goDate"));
+    }
+
+    private void shareButton(TravelRoutingListVo routingListVo) {
+        dialog = CommonUtils.showDialog(this, "正在加入");
+        dialog.show();
+        Call<BaseInfoVo> infoVoCall = getApis().joinTravel(routingListVo.getTravelId(), AppPreferences.getString("userId")).clone();
+        infoVoCall.enqueue(new Callback<BaseInfoVo>() {
+            @Override
+            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                CommonUtils.dismiss(dialog);
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    CommonUtils.make(StudentListActivity.this, "加入成功");
+                } else {
+                    CommonUtils.make(StudentListActivity.this, response.body().getErrorMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                CommonUtils.dismiss(dialog);
+            }
+        });
     }
 
     static class PlatformHolder {
@@ -295,9 +323,9 @@ public class StudentListActivity extends BaseActivity {
                             lv_frquency.setVisibility(View.GONE);
                         }
                     }
-                    studentTripAdapter.getDataList().clear();
-                    studentTripAdapter.getDataList().addAll(routingListVos);
-                    studentTripAdapter.notifyDataSetChanged();
+                    listViewDataAdapter.getDataList().clear();
+                    listViewDataAdapter.getDataList().addAll(routingListVos);
+                    listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
                         TravelRoutingListVoResp<List<TravelRoutingListVo>> body = response.body();
@@ -320,6 +348,14 @@ public class StudentListActivity extends BaseActivity {
         super.onStop();
         if (routingListVoRespCall != null) {
             routingListVoRespCall.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            CommonUtils.dismiss(dialog);
         }
     }
 }
