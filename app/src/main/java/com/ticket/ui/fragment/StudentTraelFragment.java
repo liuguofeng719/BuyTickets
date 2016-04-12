@@ -162,8 +162,10 @@ public class StudentTraelFragment extends BaseFragment {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(travelOrders);
+                    if (travelOrders != null) {
+                        listViewDataAdapter.getDataList().clear();
+                        listViewDataAdapter.getDataList().addAll(travelOrders);
+                    }
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {

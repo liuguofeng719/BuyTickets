@@ -300,7 +300,7 @@
                 android:cacheColorHint="@color/transparent"
                 android:fadingEdge="none"
                 android:listSelector="@color/transparent"
-                android:scrollbars="none"></com.ticket.widgets.ListViewForScrollView>
+                android:scrollbars="none"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -323,15 +323,15 @@
                 android:cacheColorHint="@color/transparent"
                 android:fadingEdge="none"
                 android:listSelector="@color/transparent"
-                android:scrollbars="none"></com.ticket.widgets.ListViewForScrollView>
+                android:scrollbars="none"/>
 
             <TextView
                 android:id="@+id/tv_msg_more"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@color/list_selector_color"
-                android:gravity="center_vertical"
-                android:text="更多"
+                android:gravity="center"
+                android:text="更多消息"
                 android:textColor="@color/text_color" />
         </LinearLayout>
     </ScrollView>

@@ -1,12 +1,14 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
@@ -193,7 +195,18 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     @Override
                     public void showData(int position, MessagesVo itemData) {
                         TLog.d(TAG_LOG, itemData.toString());
-                        ImageLoader.getInstance().displayImage(itemData.getHeadPicture(), iv_face);
+
+                        DisplayImageOptions options = new DisplayImageOptions
+                                .Builder()
+                                .showImageForEmptyUri(R.drawable.face)
+                                .showImageOnFail(R.drawable.face)
+                                .showImageOnLoading(R.drawable.face)
+                                .cacheInMemory(true)
+                                .cacheOnDisk(true)
+                                .bitmapConfig(Bitmap.Config.RGB_565)
+                                .build();
+
+                        ImageLoader.getInstance().displayImage(itemData.getHeadPicture(), iv_face,options);
                         tv_nickname.setText(itemData.getNickName());
                         tv_send_date.setText(itemData.getPublishDateTime());
                         tv_msg.setText(itemData.getContent());

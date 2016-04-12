@@ -30,16 +30,26 @@
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:tag="time_day_next"
-        android:text="第1天"
+        android:text="行程日期"
         android:textColor="@color/text_color_hint"
-        android:textSize="14sp"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/spinner_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+    />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line_color"
     />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        >
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"

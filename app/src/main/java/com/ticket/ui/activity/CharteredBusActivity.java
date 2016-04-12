@@ -1,14 +1,18 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ticket.R;
@@ -24,7 +28,16 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,6 +63,7 @@ public class CharteredBusActivity extends BaseActivity {
     private Dialog mDialog;
     private ListViewDataAdapter viewDataAdapter;
     private ArrayList dataList;
+    private SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
@@ -58,27 +72,59 @@ public class CharteredBusActivity extends BaseActivity {
 
     @OnClick(R.id.iv_plus)
     public void plus() {
-        dataList = viewDataAdapter.getDataList();
         mDialog = CommonUtils.createDialog(this);
         mDialog.setContentView(R.layout.chartered_bus_dialog);
         mDialog.setCancelable(true);
         mDialog.setCanceledOnTouchOutside(true);
         final EditText startCity = (EditText) mDialog.findViewById(R.id.start_city);
-        final TextView tv_day_number = (TextView) mDialog.findViewById(R.id.tv_day_number);
-        tv_day_number.setText(dataList.size() == 0 ? "第1天" : "第" + dataList.size() + "天");
         final EditText endCity = (EditText) mDialog.findViewById(R.id.end_city);
+        final Spinner spinner_days = (Spinner) mDialog.findViewById(R.id.spinner_days);
+        String[] mItems = getResources().getStringArray(R.array.spinedays);
+        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mItems);
+        //第三步：为适配器设置下拉列表下拉时的菜单样式。
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //第四步：将适配器添加到下拉列表上
+        spinner_days.setAdapter(adapter);
         mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskPlans taskPlans = new TaskPlans();
-                taskPlans.setStartCity(startCity.getText().toString());
-                taskPlans.setEndCity(endCity.getText().toString());
-                dataList.add(taskPlans);
+                if (taskMap.get(spinner_days.getSelectedItem()) != null) {
+                    List<TaskPlans> taskPlanses = taskMap.get(spinner_days.getSelectedItem().toString().trim());
+                    TaskPlans taskPlans = new TaskPlans();
+                    taskPlans.setStartCity(startCity.getText().toString());
+                    taskPlans.setEndCity(endCity.getText().toString());
+                    taskPlanses.add(taskPlans);
+                } else {
+                    List<TaskPlans> taskPlanses = new ArrayList<TaskPlans>();
+                    TaskPlans taskPlans = new TaskPlans();
+                    taskPlans.setStartCity(startCity.getText().toString());
+                    taskPlans.setEndCity(endCity.getText().toString());
+                    taskPlanses.add(taskPlans);
+                    taskMap.put(spinner_days.getSelectedItem().toString().trim(), taskPlanses);
+                }
+
+                Set<Map.Entry<String, List<TaskPlans>>> entries = taskMap.entrySet();
+                viewDataAdapter.getDataList().clear();
+                for (Map.Entry<String, List<TaskPlans>> entry : entries) {
+                    ListTaskPlans listTaskPlans = new ListTaskPlans();
+                    String key = entry.getKey();
+                    List<TaskPlans> value = entry.getValue();
+                    listTaskPlans.setDays(key);
+                    listTaskPlans.setTaskPlansList(value);
+                    viewDataAdapter.getDataList().add(listTaskPlans);
+                }
                 viewDataAdapter.notifyDataSetChanged();
+                hideKeyBord();
                 mDialog.dismiss();
             }
         });
         mDialog.show();
+    }
+
+    private void hideKeyBord() {
+        InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override
@@ -101,44 +147,96 @@ public class CharteredBusActivity extends BaseActivity {
             }
         });
 
-        this.viewDataAdapter = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
+        this.viewDataAdapter = new ListViewDataAdapter<ListTaskPlans>(new ViewHolderCreator<ListTaskPlans>() {
 
             @Override
             public ViewHolderBase createViewHolder(int position) {
-                return new ViewHolderBase<TaskPlans>() {
+                return new ViewHolderBase<ListTaskPlans>() {
                     TextView tv_day_number;
-                    TextView start_city;
-                    TextView end_city;
-                    ImageView iv_minus;
+                    ListView lv_scheduling_items;
+                    ListViewDataAdapter itemListViewData;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
                         View view = getLayoutInflater().inflate(R.layout.chartered_bus_scheduling, null);
                         tv_day_number = ButterKnife.findById(view, R.id.tv_day_number);
-                        start_city = ButterKnife.findById(view, R.id.start_city);
-                        end_city = ButterKnife.findById(view, R.id.end_city);
-                        iv_minus = ButterKnife.findById(view, R.id.iv_minus);
+                        lv_scheduling_items = ButterKnife.findById(view, R.id.lv_scheduling_items);
                         return view;
                     }
 
                     @Override
-                    public void showData(final int position, TaskPlans itemData) {
-                        int days = position + 1;
-                        tv_day_number.setText("第" + days + "天");
-                        start_city.setText(itemData.getStartCity());
-                        end_city.setText(itemData.getEndCity());
-                        iv_minus.setOnClickListener(new View.OnClickListener() {
+                    public void showData(final int ps,final ListTaskPlans taskPlans) {
+                        tv_day_number.setText(taskPlans.getDays());
+                        itemListViewData = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
                             @Override
-                            public void onClick(View v) {
-                                viewDataAdapter.getDataList().remove(position);
-                                viewDataAdapter.notifyDataSetChanged();
+                            public ViewHolderBase<TaskPlans> createViewHolder(int position) {
+                                return new ViewHolderBase<TaskPlans>() {
+                                    TextView start_city;
+                                    TextView end_city;
+                                    ImageView iv_minus;
+
+                                    @Override
+                                    public View createView(LayoutInflater layoutInflater) {
+                                        View view = getLayoutInflater().inflate(R.layout.chartered_bus_item, null);
+                                        start_city = ButterKnife.findById(view, R.id.start_city);
+                                        end_city = ButterKnife.findById(view, R.id.end_city);
+                                        iv_minus = ButterKnife.findById(view, R.id.iv_minus);
+                                        return view;
+                                    }
+
+                                    @Override
+                                    public void showData(final int position, TaskPlans itemData) {
+                                        start_city.setText(itemData.getStartCity());
+                                        end_city.setText(itemData.getEndCity());
+                                        iv_minus.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                taskMap.get(taskPlans.getDays()).remove(position);
+                                                itemListViewData.getDataList().remove(position);
+                                                if (itemListViewData.getDataList().isEmpty()) {
+                                                    viewDataAdapter.getDataList().remove(ps);
+                                                    taskMap.remove(taskPlans.getDays());
+                                                    itemListViewData.notifyDataSetChanged();
+                                                    viewDataAdapter.notifyDataSetChanged();
+                                                } else {
+                                                    itemListViewData.notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                                    }
+                                };
                             }
                         });
+                        itemListViewData.getDataList().addAll(taskPlans.getTaskPlansList());
+                        lv_scheduling_items.setAdapter(itemListViewData);
                     }
                 };
             }
         });
         lv_scheduling.setAdapter(this.viewDataAdapter);
+    }
+
+    class ListTaskPlans {
+
+        private String days;
+
+        private List<TaskPlans> taskPlansList;
+
+        public void setTaskPlansList(List<TaskPlans> taskPlansList) {
+            this.taskPlansList = taskPlansList;
+        }
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
+
+        public List<TaskPlans> getTaskPlansList() {
+            return taskPlansList;
+        }
     }
 
     class TaskPlans implements Serializable {

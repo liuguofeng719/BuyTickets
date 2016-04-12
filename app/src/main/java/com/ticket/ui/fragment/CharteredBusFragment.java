@@ -45,8 +45,6 @@ public class CharteredBusFragment extends BaseFragment {
 
     }
 
-
-
     @Override
     protected void onUserVisible() {
         if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
@@ -122,6 +120,7 @@ public class CharteredBusFragment extends BaseFragment {
                             }
                         });
                     }
+
                     public String getStatus(String type) {
                         if ("0".equals(type)) {
                             return "未询价";
@@ -148,8 +147,10 @@ public class CharteredBusFragment extends BaseFragment {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(travelOrders);
+                    if (travelOrders != null) {
+                        listViewDataAdapter.getDataList().clear();
+                        listViewDataAdapter.getDataList().addAll(travelOrders);
+                    }
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
@@ -167,6 +168,7 @@ public class CharteredBusFragment extends BaseFragment {
             }
         });
     }
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.my_order;

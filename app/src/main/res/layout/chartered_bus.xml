@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,8 +17,10 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/ly_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/fy_header"
         android:orientation="vertical"
         android:paddingLeft="@dimen/common_padding"
         android:paddingRight="@dimen/common_padding"
@@ -37,6 +39,7 @@
             android:layout_height="44dp"
             android:background="@null"
             android:inputType="number"
+            android:focusable="false"
             android:text="35"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
@@ -67,6 +70,8 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_tips_scheduling"
+        android:layout_below="@+id/ly_header"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/bg_line_color"
@@ -77,29 +82,42 @@
         android:textSize="14sp" />
     <ListView
         android:id="@+id/lv_scheduling"
+        android:layout_below="@+id/tv_tips_scheduling"
+        android:layout_above="@+id/ly_bottom"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
         android:cacheColorHint="@color/transparent"
         android:listSelector="@color/transparent"
+        android:divider="@null"
+        android:scrollbars="none"
         >
     </ListView>
-    <ImageView
-        android:id="@+id/iv_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/plus" />
-    <TextView
+    <LinearLayout
+        android:id="@+id/ly_bottom"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginRight="@dimen/common_padding"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:text="提交询价"
-        android:background="@drawable/my_ok_button"
-    />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView
+            android:id="@+id/iv_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/plus" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="@dimen/common_padding"
+            android:layout_marginRight="@dimen/common_padding"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="提交询价"
+            android:background="@drawable/my_ok_button"
+        />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -17,47 +16,13 @@
         android:textSize="14sp"
         android:tag="time_day_next"
     />
-
-    <LinearLayout
-        android:id="@+id/ly_route_simple"
+    <com.ticket.widgets.ListViewForScrollView
+        android:id="@+id/lv_scheduling_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <TextView
-            android:id="@+id/start_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="成都" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/car" />
-
-        <TextView
-            android:id="@+id/end_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="泸州" />
-
-        <ImageView
-            android:id="@+id/iv_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="minus"
-            android:src="@drawable/minus" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1px"
-        android:background="@color/text_color_c" />
+        android:cacheColorHint="@color/transparent"
+        android:listSelector="@color/transparent"
+        android:divider="@null"
+        >
+    </com.ticket.widgets.ListViewForScrollView>
 </LinearLayout>

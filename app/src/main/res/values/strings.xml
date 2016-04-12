@@ -109,4 +109,11 @@
     <string name="paying">支付中</string>
     <string name="get_prepayid_succ">获取prepayid成功</string>
     <string name="get_prepayid_fail" formatted="false">获取prepayid失败，原因%s</string>
+    <string-array name="spinedays">
+        <item>第1天</item>
+        <item>第2天</item>
+        <item>第3天</item>
+        <item>第4天</item>
+        <item>第5天</item>
+    </string-array>
 </resources>
