@@ -195,7 +195,7 @@
                                 android:layout_gravity="center"
                                 android:background="@null"
                                 android:button="@null"
-                                android:checked="false"
+                                android:checked="true"
                                 android:focusable="false"
                                 android:clickable="false"
                                 android:text="￥320"
@@ -247,14 +247,6 @@
                                         android:textColor="@drawable/ticket_color_selected"
                                         android:textSize="14sp" />
                                 </LinearLayout>
-
-                                <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:layout_toRightOf="@+id/ly_service_price"-->
-                                <!--android:scaleType="centerCrop"-->
-                                <!--android:src="@drawable/tips" />-->
                             </RelativeLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -370,37 +362,6 @@
                         android:src="@drawable/tips" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ly_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/white"
-                    android:gravity="left|center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="5dp"
-                        android:gravity="center_vertical"
-                        android:text="服务费" />
-
-                    <ImageView
-                        android:id="@+id/iv_tips_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tips" />
-
-                    <TextView
-                        android:id="@+id/tv_service_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="￥3"
-                        android:textColor="@color/text_price_color"
-                        android:textSize="14sp" />
-                </LinearLayout>
             </RelativeLayout>
 
             <View

@@ -1,23 +1,17 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +19,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ticket.R;
-import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.OrderCreateVoResp;
-import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.common.Constants;
-import com.ticket.ui.adpater.PassengerAdapter;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -40,12 +31,13 @@ import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 import com.ticket.widgets.ListViewForScrollView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -75,8 +67,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
     CheckBox tv_ticket_price;
     @InjectView(R.id.tv_ticket_student)
     CheckBox tv_ticket_student;
-    @InjectView(R.id.tv_service_price)
-    TextView tv_service_price;
     @InjectView(R.id.lv_passenger)
     ListViewForScrollView lv_passenger;
     @InjectView(R.id.btn_add_passenger)
@@ -86,20 +76,12 @@ public class CreateStudentOrderActivity extends BaseActivity {
     @InjectView(R.id.iv_submit_order)
     Button iv_submit_order;
 
-    @InjectView(R.id.iv_tips_info)
-    ImageView iv_tips_info;
-
-//    @InjectView(R.id.tv_insurance_info)
-//    TextView tv_insurance_info;
-
     @InjectView(R.id.iv_notice)
     ImageView iv_notice;
-
     @InjectView(R.id.iv_q)
     ImageView iv_q;
     @InjectView(R.id.tv_insurance_price)
     CheckBox tv_insurance_price;
-
     @InjectView(R.id.tv_coupon)
     TextView tv_coupon;
 
@@ -110,19 +92,17 @@ public class CreateStudentOrderActivity extends BaseActivity {
     @InjectView(R.id.ly_adult_price)
     LinearLayout ly_adult_price;
 
-    PassengerAdapter passengerAdapter;
     Dialog mDialog;
-    ListView lv_passenger_list;
-    List<PassengerVo> passengerVoList;
-    View view_passenger;
     TravelRoutingListVo frequencyVo;
     Bundle extras;
+
     //已选择的乘客
     ListViewDataAdapter listViewDataAdapter;
     List<PassengerVo> selectPassengers;
     Map<String, Integer> selectedIds = new HashMap<>();//已选择的乘客编码
     boolean insuranceCheck = true;//是否选择保险,默认选择保险费
-    public volatile SparseBooleanArray checkItems = new SparseBooleanArray();
+    boolean isStudentPrice = false;//是否选择学生票
+    private volatile SparseBooleanArray checkItems = new SparseBooleanArray();
     private double totalPrice;
 
     /**
@@ -131,68 +111,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
     @OnClick(R.id.tv_coupon)
     public void coupon() {
         readyGo(CouponActivity.class);
-    }
-
-    /**
-     * 服务费提示信息
-     */
-    @OnClick(R.id.iv_tips_info)
-    public void tipsInfo() {
-        final Dialog mDialogInfo = CommonUtils.createDialog(this);
-        mDialogInfo.setContentView(R.layout.dialog_tips_info);
-        mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogInfo.dismiss();
-            }
-        });
-        mDialogInfo.setCancelable(false);
-        mDialogInfo.show();
-    }
-
-    /**
-     * 学生,成人
-     */
-    @OnClick({R.id.ly_student_price, R.id.ly_adult_price})
-    public void studentPrice() {
-        if (tv_ticket_student.isChecked()) {
-            tv_ticket_student.setChecked(false);
-            tv_ticket_price.setChecked(true);
-        } else {
-            tv_ticket_student.setChecked(true);
-            tv_ticket_price.setChecked(false);
-        }
-        double total = getTotalTicketsAndService();
-        if (selectedIds.size() > 0) {
-            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
-            if (insuranceCheck) {
-                total = total + insurancePrice;
-            }
-        }
-        setTotal(total);
-    }
-
-
-    /**
-     * 是否选择保险费
-     */
-    @OnClick(R.id.ly_insurance_price)
-    public void insurancePrice() {
-        if (tv_insurance_price.isChecked()) {
-            tv_insurance_price.setChecked(false);
-            insuranceCheck = false;
-        } else {
-            tv_insurance_price.setChecked(true);
-            insuranceCheck = true;
-        }
-        double total = getTotalTicketsAndService();
-        if (selectedIds.size() > 0) {
-            double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
-            if (insuranceCheck) {
-                total = total + insurancePrice;
-            }
-        }
-        setTotal(total);
     }
 
     /**
@@ -205,21 +123,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
         ((TextView) mDialogInfo.findViewById(R.id.tv_tips_title)).setText(R.string.notice_title);
         ((TextView) mDialogInfo.findViewById(R.id.tv_tips_content)).setText(R.string.notice);
         mDialogInfo.setCancelable(false);
-        mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogInfo.dismiss();
-            }
-        });
-        mDialogInfo.show();
-    }
-
-    @OnClick(R.id.iv_q)
-    public void insuranceInfo() {
-        final Dialog mDialogInfo = CommonUtils.createDialog(this);
-        mDialogInfo.setContentView(R.layout.dialog_tips_info);
-        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_content)).setText(getString(R.string.tips_info_content_insurance));
-        ((TextView) mDialogInfo.findViewById(R.id.tv_tips_title)).setText("乘车保险协议介绍");
         mDialogInfo.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,14 +166,14 @@ public class CreateStudentOrderActivity extends BaseActivity {
         //userID
         String userID = AppPreferences.getString("userId");
         //乘客编码
-        String passengers = getPassengersIds();
-        //isBuyInsurance 是否购买保险
-        int isBuyInsurance = 0;//false
-        if (insuranceCheck) { //勾选不买，否则买
-            isBuyInsurance = 1;//true
+        String passengers = null;
+        try {
+            passengers = URLEncoder.encode(getPassengersIds(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-        Call<OrderCreateVoResp> callOrder = getApis().createOrder(routingId, userID, passengers, isBuyInsurance).clone();
+        Call<OrderCreateVoResp> callOrder = getApis().CreateTravelOrder(userID, routingId, passengers).clone();
         callOrder.enqueue(new Callback<OrderCreateVoResp>() {
 
             @Override
@@ -305,61 +208,25 @@ public class CreateStudentOrderActivity extends BaseActivity {
      * @return
      */
     public String getPassengersIds() {
-        Set<String> keys = selectedIds.keySet();
-        Iterator<String> it = keys.iterator();
-        StringBuffer sb = new StringBuffer();
-        int size = keys.size();
-        while (it.hasNext()) {
-            String key = it.next();
-            if (size == 1) {
-                sb.append(key);
+        StringBuffer sbStr = new StringBuffer();
+        ArrayList<PassengerVo> dataList = this.listViewDataAdapter.getDataList();
+        for (int i = 0; i < dataList.size(); i++) {
+            PassengerVo passengerVo = dataList.get(i);
+            if (checkItems.get(i)) {
+                sbStr.append(passengerVo.getPassengerId()).append(",1").append("|");
             } else {
-                sb.append(key).append(",");
+                sbStr.append(passengerVo.getPassengerId()).append(",0").append("|");
             }
-            size--;
         }
-        return sb.toString();
+        String substring = sbStr.substring(0, sbStr.lastIndexOf("|"));
+        return substring.toString();
     }
 
-    private void init(List passengerVoList) {
-        for (int i = 0; i < passengerVoList.size(); i++) {
-            checkItems.put(i, false);
-        }
-    }
-
-    public void setCheckItemStatus(Integer index, Boolean flag) {
-        checkItems.put(index, flag);
-    }
-
-    public void setCheckItemsStatus(Boolean flag) {
-        for (int i = 0; i < checkItems.size(); i++) {
-            checkItems.put(i, flag);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mDialog != null) {
-            mDialog.dismiss();
-            mDialog = null;
-        }
-        super.onDestroy();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.comm.PASSENGER_SUCCESS) {
             loadSelectPass(data);
-        } else if (resultCode == Constants.comm.INSURANCE_PRICE_SUCCESS) {
-            insuranceCheck = data.getBooleanExtra("insuranceCheck", false);
-            double total = getTotalTicketsAndService();
-            if (selectedIds.size() > 0) {
-                double insurancePrice = (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
-                if (insuranceCheck) {
-                    total = total + insurancePrice;
-                }
-            }
-            setTotal(total);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -370,14 +237,30 @@ public class CreateStudentOrderActivity extends BaseActivity {
      * @return double
      */
     private double getTotalTicketsAndService() {
-        double ticketPrice = 0.0;
-        if (tv_ticket_student.isChecked()) {
-            ticketPrice = Double.parseDouble(tv_ticket_student.getTag().toString());
+        Map<String, Integer> mapType = getPersonTypeMap();
+        double studentPrice = (Double.parseDouble(tv_ticket_student.getTag().toString()) + Double.parseDouble(frequencyVo.getInsurcePrice())) * mapType.get("student");
+        double adultPrice = (Double.parseDouble(tv_ticket_price.getTag().toString()) + Double.parseDouble(frequencyVo.getInsurcePrice())) * mapType.get("adult");
+        return studentPrice + adultPrice;
+    }
+
+    /**
+     * @return
+     */
+    public Map<String, Integer> getPersonTypeMap() {
+        Map<String, Integer> integerMap = new Hashtable<>();
+        int size = checkItems.size();
+        int student = 0;
+        int adult = 0;
+        for (int i = 0; i < size; i++) {
+            if (checkItems.get(i)) {
+                student++;
+            } else {
+                adult++;
+            }
         }
-        if (tv_ticket_price.isChecked()) {
-            ticketPrice = Double.parseDouble(tv_ticket_price.getTag().toString());
-        }
-        return (ticketPrice + Double.parseDouble(frequencyVo.getServicePrice())) * selectedIds.size();
+        integerMap.put("student", student);
+        integerMap.put("adult", adult);
+        return integerMap;
     }
 
     /**
@@ -385,7 +268,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
      *
      * @param data
      */
-
     private void loadSelectPass(Intent data) {
         String passengerVoList = data.getStringExtra("passengerVoList");
         String mapStr = data.getStringExtra("selectedIds");
@@ -396,12 +278,9 @@ public class CreateStudentOrderActivity extends BaseActivity {
         }.getType());
         this.listViewDataAdapter.getDataList().clear();
         this.listViewDataAdapter.getDataList().addAll(selectPassengers);
-        this.init(selectPassengers);
         this.listViewDataAdapter.notifyDataSetChanged();
+        this.init();
         double total = getTotalTicketsAndService();
-        if (insuranceCheck) {
-            total = total + (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
-        }
         setTotal(total);
     }
 
@@ -430,15 +309,14 @@ public class CreateStudentOrderActivity extends BaseActivity {
     protected void initViewsAndEvents() {
         this.tv_header_title.setText(getString(R.string.write_order_title));
         tv_station_title.setText(frequencyVo.getGoDate() + "  " + frequencyVo.getGoTime() + "发车");
-        tv_startPoint.setText(frequencyVo.getStartPlaceName());
-        tv_destination.setText(frequencyVo.getStopPlaceName());
-//        tv_startStation.setText(frequencyVo.getStartStationName());
-//        tv_endStation.setText(frequencyVo.getStopStationName());
+        tv_startPoint.setText(frequencyVo.getStartCity());
+        tv_destination.setText(frequencyVo.getStopCity());
+        tv_startStation.setText(frequencyVo.getStartPlaceName());
+        tv_endStation.setText(frequencyVo.getStopPlaceName());
         tv_ticket_price.setText("￥" + frequencyVo.getNormalPrice());
         tv_ticket_price.setTag(frequencyVo.getNormalPrice());
         tv_ticket_student.setText("￥" + frequencyVo.getStudentPrice());
         tv_ticket_student.setTag(frequencyVo.getStudentPrice());
-        tv_service_price.setText("￥" + frequencyVo.getServicePrice());
         tv_insurance_price.setText("￥" + frequencyVo.getInsurcePrice());
         this.listViewDataAdapter = new ListViewDataAdapter<PassengerVo>(new ViewHolderCreator<PassengerVo>() {
             @Override
@@ -466,10 +344,8 @@ public class CreateStudentOrderActivity extends BaseActivity {
                                 PassengerVo passengerVo = (PassengerVo) v.getTag();
                                 if (selectedIds.get(passengerVo.getPassengerId()) != null) {
                                     selectedIds.remove(passengerVo.getPassengerId());
+                                    delCheckItemStatus(position);
                                     double total = getTotalTicketsAndService();
-                                    if (insuranceCheck) {
-                                        total = total + (Double.parseDouble(frequencyVo.getInsurcePrice()) * selectedIds.size());
-                                    }
                                     setTotal(total);
                                 }
                                 listViewDataAdapter.getDataList().remove(passengerVo);
@@ -481,9 +357,13 @@ public class CreateStudentOrderActivity extends BaseActivity {
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                 if (isChecked) {
                                     setCheckItemStatus(position, true);
+                                    isStudentPrice = true;
                                 } else {
                                     setCheckItemStatus(position, false);
+                                    isStudentPrice = false;
                                 }
+                                double total = getTotalTicketsAndService();
+                                setTotal(total);
                             }
                         });
                     }
@@ -493,6 +373,25 @@ public class CreateStudentOrderActivity extends BaseActivity {
         lv_passenger.setAdapter(listViewDataAdapter);
     }
 
+    public void init() {
+        for (int i = 0; i < selectedIds.size(); i++) {
+            checkItems.put(i, false);
+        }
+    }
+
+    public void delCheckItemStatus(int index) {
+        checkItems.delete(index);
+    }
+
+    public void setCheckItemStatus(Integer index, Boolean flag) {
+        checkItems.put(index, flag);
+    }
+
+    public void setCheckItemsStatus(Boolean flag) {
+        for (int i = 0; i < checkItems.size(); i++) {
+            checkItems.put(i, flag);
+        }
+    }
 
     //设置总金额
     private void setTotal(double price) {
@@ -509,5 +408,14 @@ public class CreateStudentOrderActivity extends BaseActivity {
         TextView tv_delete;
         @InjectView(R.id.cbo_student_sel)
         CheckBox cbo_student_sel;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+            mDialog = null;
+        }
+        super.onDestroy();
     }
 }

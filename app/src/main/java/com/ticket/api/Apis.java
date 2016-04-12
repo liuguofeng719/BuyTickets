@@ -473,7 +473,21 @@ public interface Apis {
     );
 
     /**
-     * 学生出行订单
+     * 学生创建订单
+     * @param userID
+     * @param travelID
+     * @param passengers 乘客ID和是否为学生票（格式： passengerID,1|passengerID,0 passengerID:乘客ID，0和1 代表是否为学生）
+     * @return
+     */
+    @GET("Orders/CreateTravelOrder.ashx")
+    Call<OrderCreateVoResp> CreateTravelOrder(
+            @Query("userID") String userID,
+            @Query("travelID") String travelID ,
+            @Query("passengers") String passengers
+    );
+
+    /**
+     * 学生出行订单列表
      * @param userID
      * @return
      */

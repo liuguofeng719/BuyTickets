@@ -17,6 +17,12 @@ public class TravelRoutingListVo implements Serializable {
     //终点名称
     @SerializedName("StopPlaceName")
     private String stopPlaceName;
+    //出发城市名称
+    @SerializedName("StartCity")
+    private String startCity;
+    // 终点城市名称
+    @SerializedName("StopCity")
+    private String stopCity;
     //出发日期
     @SerializedName("GoDate")
     private String goDate;
@@ -59,6 +65,22 @@ public class TravelRoutingListVo implements Serializable {
     //发布人
     @SerializedName("CreateUser")
     private String createUser;
+
+    public String getStartCity() {
+        return startCity;
+    }
+
+    public void setStartCity(String startCity) {
+        this.startCity = startCity;
+    }
+
+    public String getStopCity() {
+        return stopCity;
+    }
+
+    public void setStopCity(String stopCity) {
+        this.stopCity = stopCity;
+    }
 
     public String getTravelId() {
         return travelId;
