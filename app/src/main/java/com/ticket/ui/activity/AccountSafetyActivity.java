@@ -64,7 +64,7 @@ public class AccountSafetyActivity extends BaseActivity {
         UserVo userVo = AppPreferences.getObject(UserVo.class);
 
         if (userVo.getIsBindingWeiXin()) {
-            tv_wx_account.setText(userVo.getWeixinOpenId());
+            tv_wx_account.setText("已绑定");
         } else {
             tv_wx_account.setText("未绑定");
             tv_wx_account.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class AccountSafetyActivity extends BaseActivity {
             });
         }
         if (userVo.getIsBindingQQ()) {
-            tv_qq_account.setText(userVo.getQqOpenId());
+            tv_qq_account.setText("已绑定");
         } else {
             tv_qq_account.setText("未绑定");
             tv_qq_account.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +111,6 @@ public class AccountSafetyActivity extends BaseActivity {
                         UserVo userVo = response.body();
                         AppPreferences.putString("userId", userVo.getUserId());
                         AppPreferences.putObject(userVo);
-                        finish();
                     }
                 }
 

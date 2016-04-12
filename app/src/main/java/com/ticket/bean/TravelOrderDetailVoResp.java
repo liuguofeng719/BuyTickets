@@ -10,17 +10,17 @@ import java.util.List;
 public class TravelOrderDetailVoResp extends BaseInfoVo {
 
     @SerializedName("Passengers")
-    List<PassengerVo> passengers;
+    List<StudentPassengerVo> passengers;
     @SerializedName("Messages")
     List<MessagesVo> messages;
     @SerializedName("TravelOrderDetail")
     TravelOrderDetailVo travelOrderDetail;
 
-    public List<PassengerVo> getPassengers() {
+    public List<StudentPassengerVo> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(List<PassengerVo> passengers) {
+    public void setPassengers(List<StudentPassengerVo> passengers) {
         this.passengers = passengers;
     }
 

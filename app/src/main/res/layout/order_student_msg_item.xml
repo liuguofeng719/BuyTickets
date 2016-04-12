@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     >
     <com.ticket.widgets.CircleImageView
         android:id="@+id/iv_face"
@@ -41,5 +42,12 @@
         android:text="我靠这么酷"
         android:layout_toRightOf="@+id/iv_face"
         android:layout_alignBottom="@+id/iv_face"
+    />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_msg"
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_line_color"
     />
 </RelativeLayout>

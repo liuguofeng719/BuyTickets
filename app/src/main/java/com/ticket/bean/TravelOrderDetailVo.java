@@ -24,10 +24,46 @@ public class TravelOrderDetailVo implements Serializable{
     private String orderStatusString;//订单状态描述
     @SerializedName("GoDateTime")
     private String goDateTime;//发车时间
-    @SerializedName("TripOfCity")
-    private String tripOfCity;//行程（城市名-城市名）
-    @SerializedName("TripOfPlace")
-    private String tripOfPlace;//行程（发车地址-下车地址）
+    @SerializedName("StartCity")
+    private String startCity;
+    @SerializedName("StopCity")
+    private String stopCity;
+    @SerializedName("StartCityPlace")
+    private String startCityPlace;//行程（城市名-城市名）
+    @SerializedName("StopCityPlace")
+    private String stopCityPlace;//行程（发车地址-下车地址）
+
+    public String getStartCity() {
+        return startCity;
+    }
+
+    public void setStartCity(String startCity) {
+        this.startCity = startCity;
+    }
+
+    public String getStopCity() {
+        return stopCity;
+    }
+
+    public void setStopCity(String stopCity) {
+        this.stopCity = stopCity;
+    }
+
+    public String getStartCityPlace() {
+        return startCityPlace;
+    }
+
+    public void setStartCityPlace(String startCityPlace) {
+        this.startCityPlace = startCityPlace;
+    }
+
+    public String getStopCityPlace() {
+        return stopCityPlace;
+    }
+
+    public void setStopCityPlace(String stopCityPlace) {
+        this.stopCityPlace = stopCityPlace;
+    }
 
     @Override
     public String toString() {
@@ -40,8 +76,10 @@ public class TravelOrderDetailVo implements Serializable{
                 ", dealSeatAmont='" + dealSeatAmont + '\'' +
                 ", orderStatusString='" + orderStatusString + '\'' +
                 ", goDateTime='" + goDateTime + '\'' +
-                ", tripOfCity='" + tripOfCity + '\'' +
-                ", tripOfPlace='" + tripOfPlace + '\'' +
+                ", startCity='" + startCity + '\'' +
+                ", stopCity='" + stopCity + '\'' +
+                ", startCityPlace='" + startCityPlace + '\'' +
+                ", stopCityPlace='" + stopCityPlace + '\'' +
                 '}';
     }
 
@@ -107,21 +145,5 @@ public class TravelOrderDetailVo implements Serializable{
 
     public void setGoDateTime(String goDateTime) {
         this.goDateTime = goDateTime;
-    }
-
-    public String getTripOfCity() {
-        return tripOfCity;
-    }
-
-    public void setTripOfCity(String tripOfCity) {
-        this.tripOfCity = tripOfCity;
-    }
-
-    public String getTripOfPlace() {
-        return tripOfPlace;
-    }
-
-    public void setTripOfPlace(String tripOfPlace) {
-        this.tripOfPlace = tripOfPlace;
     }
 }

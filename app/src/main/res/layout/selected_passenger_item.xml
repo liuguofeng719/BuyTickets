@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:descendantFocusability="blocksDescendants"
-    android:padding="@dimen/common_padding">
-
+    android:orientation="vertical"
+    >
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="@dimen/common_padding"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
         <LinearLayout
@@ -46,13 +45,9 @@
             android:textColor="@color/text_color_hint"
             android:textSize="14sp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textColor="@color/text_price_color"
-        android:textSize="14sp"
-        android:text="删除" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line_color"
+    />
 </LinearLayout>

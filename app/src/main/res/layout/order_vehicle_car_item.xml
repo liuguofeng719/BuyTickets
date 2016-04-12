@@ -1,8 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_line_color"
-    android:orientation="vertical">
+    android:layout_height="80dp"
+    android:paddingTop="5dp"
+    android:paddingRight="@dimen/common_padding"
+    >
+    <ImageView
+        android:id="@+id/iv_car"
+        android:layout_width="142px"
+        android:layout_height="142px"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="@dimen/common_padding"
+        android:src="@drawable/apple" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_subordinate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/iv_car"
+        android:text="成都汽车运输集团"
+        android:textColor="@color/text_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_car_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_subordinate"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/iv_car"
+        android:text="车型：50座大巴"
+        android:textColor="@color/text_color_hint"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_car_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_car_type"
+        android:layout_toRightOf="@+id/iv_car"
+        android:text="承运价格：2000元"
+        android:textColor="@color/text_color_hint"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_choose_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/order_btn_corner"
+        android:padding="5dp"
+        android:text="就选它"
+        android:textColor="@color/common_text_color"
+        android:layout_marginBottom="10dp"
+        android:textSize="14sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="@color/bg_line_color" />
+</RelativeLayout>

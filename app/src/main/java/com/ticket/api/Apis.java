@@ -296,6 +296,19 @@ public interface Apis {
     );
 
     /**
+     * 使用余额支付
+     * @param orderType 订单类型（说明：汽车票传入字符串"ticket"，学生出行传入字符串"travel"，包车出行传入字符串"leasedVehicle"）
+     * @return
+     */
+    @GET("Orders/PaymentByBanlance.ashx")
+    Call<BaseInfoVo> paymentByBanlance(
+            @Query("orderType") String orderType,
+            @Query("orderID") String orderID,
+            @Query("userID") String userID
+    );
+
+
+    /**
      * 获取轮播图接口
      */
     @GET("Advertisement/GetAdvertisementPictures.ashx")
@@ -482,6 +495,7 @@ public interface Apis {
     Call<TravelOrdersVoResp<List<TravelOrdersVo>>> getLeasedVehicleOrders(
             @Query("userID") String userID
     );
+
     /**
      * 包车订单详情
      * @param userID
@@ -524,5 +538,15 @@ public interface Apis {
     @GET("Orders/GetTravelOrderDetails.ashx")
     Call<TravelOrderDetailVoResp> getTravelOrderDetails(
             @Query("orderID") String orderID
+    );
+
+    /**
+     * 选择包车报价
+     * @param quoteID
+     * @return
+     */
+    @GET("Orders/ChooseCompanyQuote.ashx")
+    Call<BaseInfoVo> chooseCompanyQuote(
+            @Query("quoteID") String quoteID
     );
 }

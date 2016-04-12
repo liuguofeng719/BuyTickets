@@ -45,34 +45,7 @@ public class CharteredBusFragment extends BaseFragment {
 
     }
 
-    private void getStatusOrder() {
-        showLoading(getString(R.string.common_loading_message));
-        Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getLeasedVehicleOrders(AppPreferences.getString("userId")).clone();
-        travelOrdersVoRespCall.enqueue(new Callback<TravelOrdersVoResp<List<TravelOrdersVo>>>() {
-            @Override
-            public void onResponse(Response<TravelOrdersVoResp<List<TravelOrdersVo>>> response, Retrofit retrofit) {
-                hideLoading();
-                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(travelOrders);
-                    listViewDataAdapter.notifyDataSetChanged();
-                } else {
-                    if (response.body() != null) {
-                        TravelOrdersVoResp<List<TravelOrdersVo>> body = response.body();
-                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                    } else {
-                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                hideLoading();
-            }
-        });
-    }
 
     @Override
     protected void onUserVisible() {
@@ -93,7 +66,7 @@ public class CharteredBusFragment extends BaseFragment {
 
     @Override
     protected void initViewsAndEvents() {
-        getStatusOrder();
+
         this.listViewDataAdapter = new ListViewDataAdapter<TravelOrdersVo>(new ViewHolderCreator<TravelOrdersVo>() {
             @Override
             public ViewHolderBase<TravelOrdersVo> createViewHolder(int position) {
@@ -163,8 +136,37 @@ public class CharteredBusFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
+        getStatusOrder();
     }
 
+    private void getStatusOrder() {
+        showLoading(getString(R.string.common_loading_message));
+        Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getLeasedVehicleOrders(AppPreferences.getString("userId")).clone();
+        travelOrdersVoRespCall.enqueue(new Callback<TravelOrdersVoResp<List<TravelOrdersVo>>>() {
+            @Override
+            public void onResponse(Response<TravelOrdersVoResp<List<TravelOrdersVo>>> response, Retrofit retrofit) {
+                hideLoading();
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
+                    listViewDataAdapter.getDataList().clear();
+                    listViewDataAdapter.getDataList().addAll(travelOrders);
+                    listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    if (response.body() != null) {
+                        TravelOrdersVoResp<List<TravelOrdersVo>> body = response.body();
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                hideLoading();
+            }
+        });
+    }
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.my_order;

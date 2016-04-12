@@ -14,6 +14,7 @@ import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.activity.OrderStudentDetailsActivity;
+import com.ticket.ui.activity.PayMentStudentActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -43,35 +44,6 @@ public class StudentTraelFragment extends BaseFragment {
     @Override
     protected void onFirstUserVisible() {
 
-    }
-
-    private void getStatusOrder() {
-        showLoading(getString(R.string.common_loading_message));
-        Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getTravelOrders(AppPreferences.getString("userId")).clone();
-        travelOrdersVoRespCall.enqueue(new Callback<TravelOrdersVoResp<List<TravelOrdersVo>>>() {
-            @Override
-            public void onResponse(Response<TravelOrdersVoResp<List<TravelOrdersVo>>> response, Retrofit retrofit) {
-                hideLoading();
-                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(travelOrders);
-                    listViewDataAdapter.notifyDataSetChanged();
-                } else {
-                    if (response.body() != null) {
-                        TravelOrdersVoResp<List<TravelOrdersVo>> body = response.body();
-                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                    } else {
-                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                hideLoading();
-            }
-        });
     }
 
     @Override
@@ -143,10 +115,17 @@ public class StudentTraelFragment extends BaseFragment {
                                 readyGo(OrderStudentDetailsActivity.class, bundle);
                             }
                         });
+
+                        btn_gopay.setTag(itemData);
                         btn_gopay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                TravelOrdersVo travelOrdersVo = (TravelOrdersVo) v.getTag();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("orderNumber", travelOrdersVo.getOrderNumber());
+                                bundle.putString("orderId", travelOrdersVo.getOrderId());
+                                bundle.putString("money", "" + travelOrdersVo.getOrderTotalPrice());
+                                readyGo(PayMentStudentActivity.class, bundle);
                             }
                         });
                         btn_text_share.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +153,34 @@ public class StudentTraelFragment extends BaseFragment {
         getStatusOrder();
     }
 
+    private void getStatusOrder() {
+        showLoading(getString(R.string.common_loading_message));
+        Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getTravelOrders(AppPreferences.getString("userId")).clone();
+        travelOrdersVoRespCall.enqueue(new Callback<TravelOrdersVoResp<List<TravelOrdersVo>>>() {
+            @Override
+            public void onResponse(Response<TravelOrdersVoResp<List<TravelOrdersVo>>> response, Retrofit retrofit) {
+                hideLoading();
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
+                    listViewDataAdapter.getDataList().clear();
+                    listViewDataAdapter.getDataList().addAll(travelOrders);
+                    listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    if (response.body() != null) {
+                        TravelOrdersVoResp<List<TravelOrdersVo>> body = response.body();
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                hideLoading();
+            }
+        });
+    }
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.my_order;

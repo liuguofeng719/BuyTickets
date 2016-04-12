@@ -188,8 +188,8 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
 //                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
 //                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
 //                    List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
-//                    listViewDataAdapter.getDataList().addAll(passengerVos);
-//                    listViewDataAdapter.notifyDataSetChanged();
+//                    passengerAdpater.getDataList().addAll(passengerVos);
+//                    passengerAdpater.notifyDataSetChanged();
                 } else {
                     CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
