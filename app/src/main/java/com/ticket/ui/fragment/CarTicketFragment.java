@@ -45,35 +45,6 @@ public class CarTicketFragment extends BaseFragment {
 
     }
 
-    private void getStatusOrder() {
-        showLoading(getString(R.string.common_loading_message));
-        Call<OrderVoResp<List<OrderVo>>> orderCall = getApis().GetTicketOrders(AppPreferences.getString("userId")).clone();
-        orderCall.enqueue(new Callback<OrderVoResp<List<OrderVo>>>() {
-            @Override
-            public void onResponse(Response<OrderVoResp<List<OrderVo>>> response, Retrofit retrofit) {
-                hideLoading();
-                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<OrderVo> orderList = response.body().getOrders();
-                    listViewDataAdapter.getDataList().clear();
-                    listViewDataAdapter.getDataList().addAll(orderList);
-                    listViewDataAdapter.notifyDataSetChanged();
-                } else {
-                    if (response.body() != null) {
-                        OrderVoResp<List<OrderVo>> body = response.body();
-                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                    } else {
-                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                hideLoading();
-            }
-        });
-    }
-
     @Override
     protected void onUserVisible() {
         if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
@@ -93,7 +64,6 @@ public class CarTicketFragment extends BaseFragment {
 
     @Override
     protected void initViewsAndEvents() {
-        getStatusOrder();
         this.listViewDataAdapter = new ListViewDataAdapter<OrderVo>(new ViewHolderCreator<OrderVo>() {
             @Override
             public ViewHolderBase<OrderVo> createViewHolder(int position) {
@@ -165,6 +135,36 @@ public class CarTicketFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
+        getStatusOrder();
+    }
+
+    private void getStatusOrder() {
+        showLoading(getString(R.string.common_loading_message));
+        Call<OrderVoResp<List<OrderVo>>> orderCall = getApis().GetTicketOrders(AppPreferences.getString("userId")).clone();
+        orderCall.enqueue(new Callback<OrderVoResp<List<OrderVo>>>() {
+            @Override
+            public void onResponse(Response<OrderVoResp<List<OrderVo>>> response, Retrofit retrofit) {
+                hideLoading();
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    List<OrderVo> orderList = response.body().getOrders();
+                    listViewDataAdapter.getDataList().clear();
+                    listViewDataAdapter.getDataList().addAll(orderList);
+                    listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    if (response.body() != null) {
+                        OrderVoResp<List<OrderVo>> body = response.body();
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                    } else {
+                        CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                hideLoading();
+            }
+        });
     }
 
     @Override

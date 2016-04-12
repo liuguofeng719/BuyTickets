@@ -276,6 +276,26 @@ public interface Apis {
     );
 
     /**
+     * 学生出行支付宝支付
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/PayTravelOrderByAlipay.ashx")
+    Call<AlipayVo> payTravelOrderByAlipay(
+            @Query("orderID") String orderID
+    );
+
+    /**
+     * 学生出行微信支付
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/PayTravelOrderByWeiChat.ashx")
+    Call<WXPayVo> payTravelOrderByWeiChat(
+            @Query("orderID") String orderID
+    );
+
+    /**
      * 获取轮播图接口
      */
     @GET("Advertisement/GetAdvertisementPictures.ashx")

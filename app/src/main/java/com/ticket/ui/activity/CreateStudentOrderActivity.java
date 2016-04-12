@@ -100,8 +100,6 @@ public class CreateStudentOrderActivity extends BaseActivity {
     ListViewDataAdapter listViewDataAdapter;
     List<PassengerVo> selectPassengers;
     Map<String, Integer> selectedIds = new HashMap<>();//已选择的乘客编码
-    boolean insuranceCheck = true;//是否选择保险,默认选择保险费
-    boolean isStudentPrice = false;//是否选择学生票
     private volatile SparseBooleanArray checkItems = new SparseBooleanArray();
     private double totalPrice;
 
@@ -184,7 +182,7 @@ public class CreateStudentOrderActivity extends BaseActivity {
                     bundle.putString("orderNumber", response.body().getOrderNumber());
                     bundle.putString("orderId", response.body().getOrderId());
                     bundle.putString("money", "" + totalPrice);
-                    readyGo(PayMentModeActivity.class, bundle);
+                    readyGo(PayMentStudentActivity.class, bundle);
                 } else {
                     if (response.body() != null) {
                         OrderCreateVoResp body = response.body();
@@ -357,10 +355,8 @@ public class CreateStudentOrderActivity extends BaseActivity {
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                 if (isChecked) {
                                     setCheckItemStatus(position, true);
-                                    isStudentPrice = true;
                                 } else {
                                     setCheckItemStatus(position, false);
-                                    isStudentPrice = false;
                                 }
                                 double total = getTotalTicketsAndService();
                                 setTotal(total);

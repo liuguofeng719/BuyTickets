@@ -93,7 +93,6 @@ public class StudentTraelFragment extends BaseFragment {
 
     @Override
     protected void initViewsAndEvents() {
-        getStatusOrder();
         this.listViewDataAdapter = new ListViewDataAdapter<TravelOrdersVo>(new ViewHolderCreator<TravelOrdersVo>() {
             @Override
             public ViewHolderBase<TravelOrdersVo> createViewHolder(int position) {
@@ -172,6 +171,7 @@ public class StudentTraelFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
+        getStatusOrder();
     }
 
     @Override

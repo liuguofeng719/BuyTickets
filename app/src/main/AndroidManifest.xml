@@ -128,7 +128,12 @@
             android:name=".ui.activity.PayMentModeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PayMentStudentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.AboutActivity"
             android:configChanges="orientation|keyboardHidden"
