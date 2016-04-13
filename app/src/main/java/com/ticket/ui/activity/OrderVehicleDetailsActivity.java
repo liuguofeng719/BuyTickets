@@ -1,6 +1,7 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +10,34 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
+import com.ticket.bean.QuoteVo;
+import com.ticket.bean.TripVo;
 import com.ticket.bean.VehicleOrdersDetailsVoResp;
+import com.ticket.bean.VehicleOrdersVo;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
+import com.ticket.widgets.ListViewForScrollView;
 
+import org.w3c.dom.Text;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,35 +55,22 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     TextView tv_pay_time;
     @InjectView(R.id.tv_pay_mode)
     TextView tv_pay_mode;
-    @InjectView(R.id.tv_order_status)
-    TextView tv_order_status;
-    @InjectView(R.id.tv_order_price)
-    TextView tv_order_price;
+    @InjectView(R.id.tv_order_status_desc)
+    TextView tv_order_status_desc;
     @InjectView(R.id.btn_back)
     ImageView btn_back;
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
-    @InjectView(R.id.tv_station_title)
-    TextView tv_station_title;
-    @InjectView(R.id.tv_startPoint)
-    TextView tv_startPoint;
-    @InjectView(R.id.tv_destination)
-    TextView tv_destination;
-    @InjectView(R.id.tv_startStation)
-    TextView tv_startStation;
-    @InjectView(R.id.tv_endStation)
-    TextView tv_endStation;
-    @InjectView(R.id.tv_ticket_price)
-    TextView tv_ticket_price;
-    @InjectView(R.id.tv_service_price)
-    TextView tv_service_price;
-    @InjectView(R.id.tv_insurance_price)
-    CheckBox tv_insurance_price;
-    @InjectView(R.id.lv_passenger)
-    ListView lv_passenger;
+    @InjectView(R.id.lv_scheduling)
+    ListViewForScrollView lv_scheduling;
+    @InjectView(R.id.lv_price_list)
+    ListViewForScrollView lv_price_list;
 
     ListViewDataAdapter listViewDataAdapter;
     private Dialog dialogDataInit;
+    private ListViewDataAdapter companyQuoteAdapter;
+    private ListViewDataAdapter tripDataAdapter;
+    private SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
 
     @OnClick(R.id.btn_back)
     public void back() {
@@ -96,73 +98,124 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     protected void initViewsAndEvents() {
         this.tv_header_title.setText("包车出行订单详情");
 
-        listViewDataAdapter = new ListViewDataAdapter<PassengerDetailVo>(new ViewHolderCreator<PassengerDetailVo>() {
+        this.tripDataAdapter = new ListViewDataAdapter<ListTaskPlans>(new ViewHolderCreator<ListTaskPlans>() {
             @Override
-            public ViewHolderBase<PassengerDetailVo> createViewHolder(int position) {
-                return new ViewHolderBase<PassengerDetailVo>() {
-                    TextView tv_pass_name;
-                    TextView tv_id_card;
-                    TextView tv_delete;
-                    TextView tv_phone;
+            public ViewHolderBase<ListTaskPlans> createViewHolder(int position) {
+                return new ViewHolderBase<ListTaskPlans>() {
+                    TextView tv_day_number;
+                    ListView lv_scheduling_items;
+                    ListViewDataAdapter itemListViewData;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
-                        View view = layoutInflater.inflate(R.layout.selected_passenger_item, null);
-                        tv_pass_name = ButterKnife.findById(view, R.id.tv_pass_name);
-                        tv_id_card = ButterKnife.findById(view, R.id.tv_id_card);
-                        tv_delete = ButterKnife.findById(view, R.id.tv_delete);
-                        tv_phone = ButterKnife.findById(view, R.id.tv_phone);
-                        tv_delete.setVisibility(View.INVISIBLE);
+                        View view = getLayoutInflater().inflate(R.layout.chartered_bus_scheduling, null);
+                        tv_day_number = ButterKnife.findById(view, R.id.tv_day_number);
+                        lv_scheduling_items = ButterKnife.findById(view, R.id.lv_scheduling_items);
                         return view;
                     }
-                    @Override
-                    public void showData(int position, PassengerDetailVo itemData) {
-                        TLog.d(TAG_LOG, itemData.toString());
-                        tv_pass_name.setText(itemData.getPassengerName());
-                        tv_id_card.setText(itemData.getIdCard());
-                        tv_phone.setText(itemData.getMobileNumber());
-                        if (itemData.isCanbeRefund()) {
-                            tv_delete.setVisibility(View.VISIBLE);
-                            tv_delete.setTag(itemData.getOrderDetailID());
-                            tv_delete.setText(getString(R.string.refund_ticket));
-                            tv_delete.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    final Dialog dialog = CommonUtils.showDialog(OrderVehicleDetailsActivity.this);
-                                    dialog.show();
-                                    Call<BaseInfoVo> refundCall = getApis().refundTicket(v.getTag().toString()).clone();
-                                    refundCall.enqueue(new Callback<BaseInfoVo>() {
-                                        @Override
-                                        public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
-                                            CommonUtils.dismiss(dialog);
-                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                                CommonUtils.make(OrderVehicleDetailsActivity.this, "退票成功");
-                                                getOrderDetails();
-                                            } else {
-                                                if (response.body() != null) {
-                                                    BaseInfoVo body = response.body();
-                                                    CommonUtils.make(OrderVehicleDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                                                } else {
-                                                    CommonUtils.make(OrderVehicleDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
-                                                }
-                                            }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Throwable t) {
-                                            CommonUtils.dismiss(dialog);
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                    @Override
+                    public void showData(final int ps, final ListTaskPlans taskPlans) {
+                        tv_day_number.setText(taskPlans.getDays());
+                        itemListViewData = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
+                            @Override
+                            public ViewHolderBase<TaskPlans> createViewHolder(int position) {
+                                return new ViewHolderBase<TaskPlans>() {
+                                    TextView start_city;
+                                    TextView end_city;
+                                    ImageView iv_minus;
+
+                                    @Override
+                                    public View createView(LayoutInflater layoutInflater) {
+                                        View view = getLayoutInflater().inflate(R.layout.chartered_bus_item, null);
+                                        start_city = ButterKnife.findById(view, R.id.start_city);
+                                        end_city = ButterKnife.findById(view, R.id.end_city);
+                                        iv_minus = ButterKnife.findById(view, R.id.iv_minus);
+                                        iv_minus.setVisibility(View.GONE);
+                                        return view;
+                                    }
+
+                                    @Override
+                                    public void showData(final int position, TaskPlans itemData) {
+                                        start_city.setText(itemData.getStartCity());
+                                        end_city.setText(itemData.getEndCity());
+                                    }
+                                };
+                            }
+                        });
+                        itemListViewData.getDataList().addAll(taskPlans.getTaskPlansList());
+                        lv_scheduling_items.setAdapter(itemListViewData);
                     }
                 };
             }
         });
-        lv_passenger.setAdapter(listViewDataAdapter);
+
+        this.companyQuoteAdapter = new ListViewDataAdapter<QuoteVo>(new ViewHolderCreator<QuoteVo>() {
+            @Override
+            public ViewHolderBase<QuoteVo> createViewHolder(int position) {
+                return new ViewHolderBase<QuoteVo>() {
+                    ImageView iv_car;
+                    TextView tv_subordinate;
+                    TextView tv_car_type;
+                    TextView tv_car_price;
+                    TextView tv_choose_car;
+
+                    @Override
+                    public View createView(LayoutInflater layoutInflater) {
+                        View view = layoutInflater.inflate(R.layout.order_vehicle_car_item, null);
+                        iv_car = ButterKnife.findById(view, R.id.iv_car);
+                        tv_subordinate = ButterKnife.findById(view, R.id.tv_subordinate);
+                        tv_car_type = ButterKnife.findById(view, R.id.tv_car_type);
+                        tv_car_price = ButterKnife.findById(view, R.id.tv_car_price);
+                        tv_choose_car = ButterKnife.findById(view, R.id.tv_choose_car);
+                        return view;
+                    }
+
+                    @Override
+                    public void showData(int position, QuoteVo itemData) {
+//                        DisplayImageOptions options = new DisplayImageOptions
+//                                .Builder()
+//                                .showImageForEmptyUri(R.drawable.face)
+//                                .showImageOnFail(R.drawable.face)
+//                                .showImageOnLoading(R.drawable.face)
+//                                .cacheInMemory(true)
+//                                .cacheOnDisk(true)
+//                                .bitmapConfig(Bitmap.Config.RGB_565)
+//                                .build();
+                        ImageLoader.getInstance().displayImage(itemData.getCarPicture(), iv_car);
+                        tv_subordinate.setText(itemData.getCompanyName());
+                        tv_car_type.setText("车型：" + itemData.getCarTypeName());
+                        tv_car_price.setText("承运价格：" + itemData.getQuotePrice());
+                        tv_choose_car.setTag(itemData.getQuoteId());
+                        tv_choose_car.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Call<BaseInfoVo> companyQuote = getApis().chooseCompanyQuote(v.getTag().toString()).clone();
+                                companyQuote.enqueue(new Callback<BaseInfoVo>() {
+                                    @Override
+                                    public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                            CommonUtils.make(OrderVehicleDetailsActivity.this, "选择包车成功");
+                                        } else {
+                                            CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                };
+            }
+        });
+        lv_price_list.setAdapter(companyQuoteAdapter);
         getOrderDetails();
     }
+
 
     private void getOrderDetails() {
         dialogDataInit = CommonUtils.showDialog(OrderVehicleDetailsActivity.this);
@@ -173,23 +226,19 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
             public void onResponse(Response<VehicleOrdersDetailsVoResp> response, Retrofit retrofit) {
                 CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-//                    OrderDetailVo orderDetails = response.body().getVehicleOrdersDetails();
-//                    tv_order_code.setText(orderDetails.getOrderNumber());
-//                    tv_pay_time.setText(orderDetails.getPayDateTime());
-//                    tv_pay_mode.setText(orderDetails.getPayFuncation());
-//                    tv_order_status.setText(orderDetails.getOrderStatusDescription());
-//                    tv_order_price.setText("￥" + orderDetails.getOrderTotalPrice());
-//                    tv_station_title.setText(orderDetails.getGoDate() + "  " + orderDetails.getGoTime() + "发车");
-//                    tv_startPoint.setText(orderDetails.getStartStationCityName());
-//                    tv_destination.setText(orderDetails.getStopStationCityName());
-//                    tv_startStation.setText(orderDetails.getStartStationName());
-//                    tv_endStation.setText(orderDetails.getStopStationName());
-//                    tv_ticket_price.setText("￥" + orderDetails.getTotalTicketPrice());
-//                    tv_service_price.setText("￥" + orderDetails.getTotalServicePrice());
-//                    tv_insurance_price.setText("￥" + orderDetails.getTotalInsurancePrice());
-//                    List<PassengerDetailVo> passengerVos = orderDetails.getPassengers();
-//                    passengerAdpater.getDataList().addAll(passengerVos);
-//                    passengerAdpater.notifyDataSetChanged();
+                    VehicleOrdersDetailsVoResp detailsVoResp = response.body();
+                    VehicleOrdersVo vehicleOrdersVo = detailsVoResp.getVehicleOrdersDetails();
+                    tv_order_code.setText(vehicleOrdersVo.getOrderNumber());
+                    tv_order_status_desc.setText(vehicleOrdersVo.getOrderStatusString());
+                    tv_pay_time.setText(vehicleOrdersVo.getPaymentDateTime());
+                    tv_pay_mode.setText(vehicleOrdersVo.getPaymentWay());
+//                    tv_car_type.setText(vehicleOrdersVo.getCarModel());
+//                    tv_passenger_paid_amount.setText(vehicleOrdersVo.getPassengerPaidAmount()+"人");
+//                    tv_deal_seat_amount.setText(vehicleOrdersVo.getDealSeatAmont()+"人");
+                    List<TripVo> tripList = detailsVoResp.getLeasedVehicleOrderTripList();
+                    initTrip(tripList);
+                    List<QuoteVo> companyQuote = detailsVoResp.getCompanyQuote();
+                    companyQuoteAdapter.getDataList().addAll(companyQuote);
                 } else {
                     CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
                 }
@@ -200,6 +249,85 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                 CommonUtils.dismiss(dialogDataInit);
             }
         });
+    }
+
+    /**
+     * 行程
+     *
+     * @param tripList
+     */
+    private void initTrip(List<TripVo> tripList) {
+        for (TripVo tripVo : tripList) {
+            if (taskMap.get(tripVo.getDay()) != null) {
+                List<TaskPlans> taskPlanses = taskMap.get(tripVo.getDay());
+                TaskPlans taskPlans = new TaskPlans();
+                taskPlans.setStartCity(tripVo.getStartCity());
+                taskPlans.setEndCity(tripVo.getEndCity());
+                taskPlanses.add(taskPlans);
+            } else {
+                List<TaskPlans> taskPlanses = new ArrayList<TaskPlans>();
+                TaskPlans taskPlans = new TaskPlans();
+                taskPlans.setStartCity(tripVo.getStartCity());
+                taskPlans.setEndCity(tripVo.getEndCity());
+                taskPlanses.add(taskPlans);
+                taskMap.put(tripVo.getDay(), taskPlanses);
+            }
+        }
+        Set<Map.Entry<String, List<TaskPlans>>> entries = taskMap.entrySet();
+        tripDataAdapter.getDataList().clear();
+        for (Map.Entry<String, List<TaskPlans>> entry : entries) {
+            ListTaskPlans listTaskPlans = new ListTaskPlans();
+            String key = entry.getKey();
+            List<TaskPlans> value = entry.getValue();
+            listTaskPlans.setDays(key);
+            listTaskPlans.setTaskPlansList(value);
+            tripDataAdapter.getDataList().add(listTaskPlans);
+        }
+    }
+
+    class ListTaskPlans {
+
+        private String days;
+
+        private List<TaskPlans> taskPlansList;
+
+        public void setTaskPlansList(List<TaskPlans> taskPlansList) {
+            this.taskPlansList = taskPlansList;
+        }
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
+
+        public List<TaskPlans> getTaskPlansList() {
+            return taskPlansList;
+        }
+    }
+
+    class TaskPlans implements Serializable {
+
+        private String startCity;
+        private String endCity;
+
+        public String getStartCity() {
+            return startCity;
+        }
+
+        public void setStartCity(String startCity) {
+            this.startCity = startCity;
+        }
+
+        public String getEndCity() {
+            return endCity;
+        }
+
+        public void setEndCity(String endCity) {
+            this.endCity = endCity;
+        }
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
 import com.ticket.bean.FrequencyListResp;
 import com.ticket.bean.FrequencyVo;
+import com.ticket.bean.LeasedVehicleListResp;
+import com.ticket.bean.LeasedVehicleOrder;
 import com.ticket.bean.MessageVo;
 import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.OrderDeatilResp;
@@ -392,6 +394,7 @@ public interface Apis {
             @Query("userID") String userID
     );
 
+
     /**
      * 账户充值使用支付宝签名
      *
@@ -479,7 +482,7 @@ public interface Apis {
      * @return
      */
     @GET("LeasedVehicle/CreateLeasedVehicleOrder.ashx")
-    Call<UserVo> CreateLeasedVehicleOrder(
+    Call<BaseInfoVo> CreateLeasedVehicleOrder(
             @Query("userID") String userID,
             @Query("goDate") String goDate,
             @Query("passengerAmount") String passengerAmount,
@@ -492,18 +495,18 @@ public interface Apis {
      * @return
      */
     @GET("Orders/GetLeasedVehicleOrders.ashx")
-    Call<TravelOrdersVoResp<List<TravelOrdersVo>>> getLeasedVehicleOrders(
+    Call<LeasedVehicleListResp<List<LeasedVehicleOrder>>> getLeasedVehicleOrders(
             @Query("userID") String userID
     );
 
     /**
      * 包车订单详情
-     * @param userID
+     * @param orderID
      * @return
      */
     @GET("Orders/GetLeasedVehicleOrdersDetails.ashx")
     Call<VehicleOrdersDetailsVoResp> getLeasedVehicleOrdersDetails(
-            @Query("userID") String userID
+            @Query("orderID") String orderID
     );
 
     /**

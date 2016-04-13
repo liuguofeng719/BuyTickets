@@ -2,16 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:paddingTop="5dp"
-    android:paddingRight="@dimen/common_padding"
+    android:padding="@dimen/common_padding"
+    android:background="@color/white"
     >
     <ImageView
         android:id="@+id/iv_car"
         android:layout_width="142px"
         android:layout_height="142px"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginRight="@dimen/common_padding"
-        android:src="@drawable/apple" />
+        android:src="@drawable/apple"
+    />
 
     <TextView
         android:id="@+id/tv_subordinate"
@@ -56,12 +55,5 @@
         android:textColor="@color/common_text_color"
         android:layout_marginBottom="10dp"
         android:textSize="14sp"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
-        android:background="@color/bg_line_color" />
+    />
 </RelativeLayout>

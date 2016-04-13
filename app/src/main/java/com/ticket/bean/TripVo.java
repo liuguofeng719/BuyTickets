@@ -10,8 +10,10 @@ import java.io.Serializable;
 public class TripVo implements Serializable {
     @SerializedName("Day")
     private String day;
-    @SerializedName("TripContent")
-    private String tripContent;
+    @SerializedName("StartCity")
+    private String startCity;
+    @SerializedName("EndCity")
+    private String endCity;
 
     public String getDay() {
         return day;
@@ -21,11 +23,19 @@ public class TripVo implements Serializable {
         this.day = day;
     }
 
-    public String getTripContent() {
-        return tripContent;
+    public String getStartCity() {
+        return startCity;
     }
 
-    public void setTripContent(String tripContent) {
-        this.tripContent = tripContent;
+    public void setStartCity(String startCity) {
+        this.startCity = startCity;
+    }
+
+    public String getEndCity() {
+        return endCity;
+    }
+
+    public void setEndCity(String endCity) {
+        this.endCity = endCity;
     }
 }

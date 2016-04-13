@@ -3,6 +3,7 @@ package com.ticket.ui.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.BaseInfoVo;
+import com.ticket.bean.UserVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.TLog;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +47,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by liuguofeng719 on 2016/4/3.
@@ -52,10 +61,14 @@ public class CharteredBusActivity extends BaseActivity {
     ImageView btn_back;
     @InjectView(R.id.tv_header_title)
     TextView tv_header_title;
-    @InjectView(R.id.iv_plus)
-    ImageView iv_plus;
+    @InjectView(R.id.edit_car_number)
+    EditText edit_car_number;
+    @InjectView(R.id.tv_tips_scheduling)
+    TextView tv_tips_scheduling;
     @InjectView(R.id.go_time)
     TextView go_time;
+    @InjectView(R.id.tv_enquiry)
+    TextView tv_enquiry;
     @InjectView(R.id.lv_scheduling)
     ListView lv_scheduling;
 
@@ -115,16 +128,76 @@ public class CharteredBusActivity extends BaseActivity {
                     viewDataAdapter.getDataList().add(listTaskPlans);
                 }
                 viewDataAdapter.notifyDataSetChanged();
-                hideKeyBord();
                 mDialog.dismiss();
             }
         });
         mDialog.show();
     }
 
-    private void hideKeyBord() {
-        InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    @OnClick(R.id.tv_enquiry)
+    public void enquiry() {
+
+        if (TextUtils.isEmpty(edit_car_number.getText().toString())) {
+            CommonUtils.make(this, "请填写出发人数");
+            return;
+        }
+
+        if (TextUtils.isEmpty(go_time.getText().toString())) {
+            CommonUtils.make(this, "请输入出发日期");
+            return;
+        }
+
+        StringBuilder tripSb = new StringBuilder();
+        Set<Map.Entry<String, List<TaskPlans>>> entries = taskMap.entrySet();
+        for (Map.Entry<String, List<TaskPlans>> entry : entries) {
+            String key = entry.getKey();
+            List<TaskPlans> value = entry.getValue();
+            for (TaskPlans taskPlans : value) {
+                tripSb.append(getDays(key) + ",").append(taskPlans.startCity).append("-").append(taskPlans.endCity).append("|");
+            }
+        }
+        int lastIndex = tripSb.lastIndexOf("|");
+        String trip = null;
+        try {
+            trip = URLEncoder.encode(tripSb.substring(0, lastIndex),"UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Call<BaseInfoVo> userVoCall = getApis().CreateLeasedVehicleOrder(
+                AppPreferences.getString("userId"),
+                date_time,
+                edit_car_number.getText().toString(),
+                trip).clone();
+
+        userVoCall.enqueue(new Callback<BaseInfoVo>() {
+            @Override
+            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    CommonUtils.make(CharteredBusActivity.this, "发布包车成功");
+                } else {
+                    CommonUtils.make(CharteredBusActivity.this, "发布包车失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    public String getDays(String type) {
+        if ("第1天".equals(type)) {
+            return "1";
+        } else if ("第2天".equals(type)) {
+            return "2";
+        } else if ("第3天".equals(type)) {
+            return "3";
+        } else if ("第4天".equals(type)) {
+            return "4";
+        } else {
+            return "5";
+        }
     }
 
     @Override
@@ -165,7 +238,7 @@ public class CharteredBusActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void showData(final int ps,final ListTaskPlans taskPlans) {
+                    public void showData(final int ps, final ListTaskPlans taskPlans) {
                         tv_day_number.setText(taskPlans.getDays());
                         itemListViewData = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
                             @Override

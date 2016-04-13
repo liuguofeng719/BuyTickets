@@ -7,9 +7,11 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/common_padding"
         android:background="@color/button_text_color">
-
-        <include layout="@layout/header" />
+        <TextView
+            android:id="@+id/tv_header_title"
+            style="@style/header_title" />
     </FrameLayout>
 
     <LinearLayout

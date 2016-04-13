@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.LeasedVehicleListResp;
+import com.ticket.bean.LeasedVehicleOrder;
 import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.ui.activity.LoginActivity;
@@ -65,10 +67,10 @@ public class CharteredBusFragment extends BaseFragment {
     @Override
     protected void initViewsAndEvents() {
 
-        this.listViewDataAdapter = new ListViewDataAdapter<TravelOrdersVo>(new ViewHolderCreator<TravelOrdersVo>() {
+        this.listViewDataAdapter = new ListViewDataAdapter<LeasedVehicleOrder>(new ViewHolderCreator<LeasedVehicleOrder>() {
             @Override
-            public ViewHolderBase<TravelOrdersVo> createViewHolder(int position) {
-                return new ViewHolderBase<TravelOrdersVo>() {
+            public ViewHolderBase<LeasedVehicleOrder> createViewHolder(int position) {
+                return new ViewHolderBase<LeasedVehicleOrder>() {
                     LinearLayout rl_order_number;
                     TextView tv_order_code;
                     TextView tv_status;
@@ -95,14 +97,14 @@ public class CharteredBusFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void showData(int position, TravelOrdersVo itemData) {
+                    public void showData(int position, LeasedVehicleOrder itemData) {
                         btn_gopay.setVisibility(View.GONE);
                         tv_order_code.setText(itemData.getOrderNumber());
 //                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
-                        tv_status.setText(getStatus(itemData.getTravelStatus()));
+                        tv_status.setText(getStatus(itemData.getState()));
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
-                        tv_total_price.setText("￥" + itemData.getOrderTotalPrice());
+                        tv_total_price.setText("￥" + itemData.getTotalPrice());
                         tv_goDateTime.setText(itemData.getGoDateTime());
                         rl_order_number.setTag(itemData.getOrderId());
                         rl_order_number.setOnClickListener(new View.OnClickListener() {
@@ -140,13 +142,13 @@ public class CharteredBusFragment extends BaseFragment {
 
     private void getStatusOrder() {
         showLoading(getString(R.string.common_loading_message));
-        Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getLeasedVehicleOrders(AppPreferences.getString("userId")).clone();
-        travelOrdersVoRespCall.enqueue(new Callback<TravelOrdersVoResp<List<TravelOrdersVo>>>() {
+        Call<LeasedVehicleListResp<List<LeasedVehicleOrder>>> travelOrdersVoRespCall = getApis().getLeasedVehicleOrders(AppPreferences.getString("userId")).clone();
+        travelOrdersVoRespCall.enqueue(new Callback<LeasedVehicleListResp<List<LeasedVehicleOrder>>>() {
             @Override
-            public void onResponse(Response<TravelOrdersVoResp<List<TravelOrdersVo>>> response, Retrofit retrofit) {
+            public void onResponse(Response<LeasedVehicleListResp<List<LeasedVehicleOrder>>> response, Retrofit retrofit) {
                 hideLoading();
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                    List<TravelOrdersVo> travelOrders = response.body().getTravelOrders();
+                    List<LeasedVehicleOrder> travelOrders = response.body().getLeasedVehicleOrderList();
                     if (travelOrders != null) {
                         listViewDataAdapter.getDataList().clear();
                         listViewDataAdapter.getDataList().addAll(travelOrders);
@@ -154,7 +156,7 @@ public class CharteredBusFragment extends BaseFragment {
                     listViewDataAdapter.notifyDataSetChanged();
                 } else {
                     if (response.body() != null) {
-                        TravelOrdersVoResp<List<TravelOrdersVo>> body = response.body();
+                        LeasedVehicleListResp<List<LeasedVehicleOrder>> body = response.body();
                         CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
                         CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));

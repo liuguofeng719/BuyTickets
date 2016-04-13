@@ -39,7 +39,6 @@
             android:layout_height="44dp"
             android:background="@null"
             android:inputType="number"
-            android:focusable="false"
             android:text="35"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
@@ -75,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/bg_line_color"
+        android:clickable="true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_padding"
         android:text="行程安排"
@@ -105,8 +105,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:clickable="true"
             android:src="@drawable/plus" />
         <TextView
+            android:id="@+id/tv_enquiry"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="12dp"
