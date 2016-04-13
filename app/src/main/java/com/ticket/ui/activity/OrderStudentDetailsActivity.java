@@ -85,7 +85,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
 
     @OnClick(R.id.tv_msg_more)
     public void msgMore() {
-
+        readyGo(ChatListActivity.class);
     }
 
     private Bundle extras;

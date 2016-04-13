@@ -62,7 +62,6 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     @InjectView(R.id.lv_price_list)
     ListViewForScrollView lv_price_list;
 
-    ListViewDataAdapter listViewDataAdapter;
     private Dialog dialogDataInit;
     private ListViewDataAdapter companyQuoteAdapter;
     private ListViewDataAdapter tripDataAdapter;

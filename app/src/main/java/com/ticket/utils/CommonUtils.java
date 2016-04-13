@@ -114,10 +114,18 @@ public class CommonUtils {
      * get format date
      *
      * @param timemillis
-     * @return
+     * @return String
      */
     public static String getFormatDate(long timemillis) {
         return new SimpleDateFormat("yyyy年MM月dd日").format(new Date(timemillis));
+    }
+
+    /**
+     * get currrent date
+     * @return String
+     */
+    public static String getCurrentDate() {
+        return new SimpleDateFormat("yyyy-MM-dd hh:ss").format(new Date());
     }
 
     /**
@@ -252,58 +260,6 @@ public class CommonUtils {
         toast.setView(view);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
-    }
-
-    public static String parseDate(String createTime) {
-        String res = "";
-        try {
-            Calendar today = Calendar.getInstance();
-            Calendar old = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date dt = sdf.parse(createTime);
-            old.setTime(dt);
-            //此处好像是去除0
-            today.set(Calendar.HOUR, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-            old.set(Calendar.HOUR, 0);
-            old.set(Calendar.MINUTE, 0);
-            old.set(Calendar.SECOND, 0);
-            //老的时间减去今天的时间
-            long intervalMilli = old.getTimeInMillis() - today.getTimeInMillis();
-            int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
-            // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
-
-            String str[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};//字符串数组
-            Calendar rightNow = Calendar.getInstance();
-            int day = rightNow.get(Calendar.DAY_OF_WEEK);//获取时间
-            rightNow.setTime(dt);
-            if (xcts >= -2 && xcts <= 2) {
-                String rest = String.valueOf(xcts);
-//                if (rest.equals("-2")) {
-//                    res = "前天";
-//                }
-//                if (rest.equals("-1")) {
-//                    res = "昨天";
-//                }
-                if (rest.equals("0")) {
-                    res = "今天";
-                }
-                if (rest.equals("1")) {
-                    res = "明天";
-                }
-                if (rest.equals("2")) {
-                    res = str[day - 1];
-                }
-            } else {
-                res = str[day - 1];
-            }
-
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return res;
     }
 
     public static String getCodeToStr(int code) {

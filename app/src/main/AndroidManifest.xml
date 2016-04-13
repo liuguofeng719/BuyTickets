@@ -211,6 +211,11 @@
             android:name=".ui.activity.OrderVehicleDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ChatListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
 
         <!-- 分享和第三方登陆 -->
         <activity
