@@ -63,8 +63,6 @@ public class CharteredBusActivity extends BaseActivity {
     TextView tv_header_title;
     @InjectView(R.id.edit_car_number)
     EditText edit_car_number;
-    @InjectView(R.id.tv_tips_scheduling)
-    TextView tv_tips_scheduling;
     @InjectView(R.id.go_time)
     TextView go_time;
     @InjectView(R.id.tv_enquiry)
@@ -77,6 +75,7 @@ public class CharteredBusActivity extends BaseActivity {
     private ListViewDataAdapter viewDataAdapter;
     private ArrayList dataList;
     private SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
+    private Call<BaseInfoVo> userVoCall;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
@@ -94,9 +93,9 @@ public class CharteredBusActivity extends BaseActivity {
         final Spinner spinner_days = (Spinner) mDialog.findViewById(R.id.spinner_days);
         String[] mItems = getResources().getStringArray(R.array.spinedays);
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drop_down_item, mItems);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.drop_down_item);
         //第四步：将适配器添加到下拉列表上
         spinner_days.setAdapter(adapter);
         mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
@@ -146,6 +145,10 @@ public class CharteredBusActivity extends BaseActivity {
             CommonUtils.make(this, "请输入出发日期");
             return;
         }
+        if (taskMap.size() == 0) {
+            CommonUtils.make(this, "行程不能为空");
+            return;
+        }
 
         StringBuilder tripSb = new StringBuilder();
         Set<Map.Entry<String, List<TaskPlans>>> entries = taskMap.entrySet();
@@ -159,11 +162,11 @@ public class CharteredBusActivity extends BaseActivity {
         int lastIndex = tripSb.lastIndexOf("|");
         String trip = null;
         try {
-            trip = URLEncoder.encode(tripSb.substring(0, lastIndex),"UTF-8");
+            trip = URLEncoder.encode(tripSb.substring(0, lastIndex), "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Call<BaseInfoVo> userVoCall = getApis().CreateLeasedVehicleOrder(
+        userVoCall = getApis().CreateLeasedVehicleOrder(
                 AppPreferences.getString("userId"),
                 date_time,
                 edit_car_number.getText().toString(),
@@ -378,5 +381,13 @@ public class CharteredBusActivity extends BaseActivity {
      */
     private void doView(View view) {
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (userVoCall != null) {
+            userVoCall.cancel();
+        }
     }
 }

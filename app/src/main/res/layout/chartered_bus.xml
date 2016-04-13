@@ -68,58 +68,64 @@
             android:textSize="18dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_tips_scheduling"
+    <ScrollView
         android:layout_below="@+id/ly_header"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/bg_line_color"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/common_padding"
-        android:text="行程安排"
-        android:textColor="@color/text_color_hint"
-        android:textSize="14sp" />
-    <ListView
-        android:id="@+id/lv_scheduling"
-        android:layout_below="@+id/tv_tips_scheduling"
-        android:layout_above="@+id/ly_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
-        android:divider="@null"
-        android:scrollbars="none"
-        >
-    </ListView>
-    <LinearLayout
-        android:id="@+id/ly_bottom"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        >
-        <ImageView
-            android:id="@+id/iv_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:src="@drawable/plus" />
-        <TextView
-            android:id="@+id/tv_enquiry"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/ly_bottom"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="@dimen/common_padding"
-            android:layout_marginRight="@dimen/common_padding"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="提交询价"
-            android:background="@drawable/my_ok_button"
-        />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_tips_scheduling"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ly_header"
+                android:background="@color/bg_line_color"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/common_padding"
+                android:text="行程安排"
+                android:textColor="@color/text_color_hint"
+                android:textSize="14sp" />
+
+            <com.ticket.widgets.ListViewForScrollView
+                android:id="@+id/lv_scheduling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_tips_scheduling"
+                android:background="@color/bg_line_color"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@null"
+                android:listSelector="@color/transparent"
+                android:scrollbars="none"/>
+
+            <ImageView
+                android:id="@+id/iv_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:src="@drawable/plus" />
+
+            <TextView
+                android:id="@+id/tv_enquiry"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:layout_marginRight="@dimen/common_padding"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/my_ok_button"
+                android:gravity="center"
+                android:text="提交询价"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

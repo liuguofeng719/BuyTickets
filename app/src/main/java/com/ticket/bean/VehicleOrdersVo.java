@@ -19,6 +19,26 @@ public class VehicleOrdersVo implements Serializable {
     private String orderStatusString;//订单状态描述
     @SerializedName("GoDateTime")
     private String goDateTime;//发车时间
+    @SerializedName("CompanyName")
+    private String companyName;//客运公司名称
+    @SerializedName("CarTypeName")
+    private String carTypeName;//车型描述
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
 
     @Override
     public String toString() {

@@ -552,4 +552,14 @@ public interface Apis {
     Call<BaseInfoVo> chooseCompanyQuote(
             @Query("quoteID") String quoteID
     );
+
+    /**
+     * 学生出行退票
+     * @param orderItemID
+     * @return
+     */
+    @GET("Orders/RefundTravel.ashx")
+    Call<BaseInfoVo> refundTravel(
+            @Query("orderItemID") String orderItemID
+    );
 }

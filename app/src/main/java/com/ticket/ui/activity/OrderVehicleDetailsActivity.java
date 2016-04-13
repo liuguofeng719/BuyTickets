@@ -1,22 +1,17 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
-import com.ticket.bean.OrderDeatilResp;
-import com.ticket.bean.OrderDetailVo;
-import com.ticket.bean.PassengerDetailVo;
 import com.ticket.bean.QuoteVo;
 import com.ticket.bean.TripVo;
 import com.ticket.bean.VehicleOrdersDetailsVoResp;
@@ -26,10 +21,7 @@ import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
-import com.ticket.utils.TLog;
 import com.ticket.widgets.ListViewForScrollView;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +49,10 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     TextView tv_pay_mode;
     @InjectView(R.id.tv_order_status_desc)
     TextView tv_order_status_desc;
+    @InjectView(R.id.tv_car_type)
+    TextView tv_car_type;
+    @InjectView(R.id.tv_company_name)
+    TextView tv_company_name;
     @InjectView(R.id.btn_back)
     ImageView btn_back;
     @InjectView(R.id.tv_header_title)
@@ -116,7 +112,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
 
                     @Override
                     public void showData(final int ps, final ListTaskPlans taskPlans) {
-                        tv_day_number.setText(taskPlans.getDays());
+                        tv_day_number.setText("第" + taskPlans.getDays() + "天");
                         itemListViewData = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
                             @Override
                             public ViewHolderBase<TaskPlans> createViewHolder(int position) {
@@ -129,7 +125,9 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                                     public View createView(LayoutInflater layoutInflater) {
                                         View view = getLayoutInflater().inflate(R.layout.chartered_bus_item, null);
                                         start_city = ButterKnife.findById(view, R.id.start_city);
+                                        start_city.setGravity(Gravity.LEFT);
                                         end_city = ButterKnife.findById(view, R.id.end_city);
+                                        end_city.setGravity(Gravity.RIGHT);
                                         iv_minus = ButterKnife.findById(view, R.id.iv_minus);
                                         iv_minus.setVisibility(View.GONE);
                                         return view;
@@ -149,7 +147,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                 };
             }
         });
-
+        lv_scheduling.setAdapter(tripDataAdapter);
         this.companyQuoteAdapter = new ListViewDataAdapter<QuoteVo>(new ViewHolderCreator<QuoteVo>() {
             @Override
             public ViewHolderBase<QuoteVo> createViewHolder(int position) {
@@ -232,9 +230,8 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                     tv_order_status_desc.setText(vehicleOrdersVo.getOrderStatusString());
                     tv_pay_time.setText(vehicleOrdersVo.getPaymentDateTime());
                     tv_pay_mode.setText(vehicleOrdersVo.getPaymentWay());
-//                    tv_car_type.setText(vehicleOrdersVo.getCarModel());
-//                    tv_passenger_paid_amount.setText(vehicleOrdersVo.getPassengerPaidAmount()+"人");
-//                    tv_deal_seat_amount.setText(vehicleOrdersVo.getDealSeatAmont()+"人");
+                    tv_car_type.setText(vehicleOrdersVo.getCarTypeName());
+                    tv_company_name.setText(vehicleOrdersVo.getCompanyName());
                     List<TripVo> tripList = detailsVoResp.getLeasedVehicleOrderTripList();
                     initTrip(tripList);
                     List<QuoteVo> companyQuote = detailsVoResp.getCompanyQuote();
