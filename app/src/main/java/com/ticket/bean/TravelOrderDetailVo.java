@@ -32,6 +32,16 @@ public class TravelOrderDetailVo implements Serializable{
     private String startCityPlace;//行程（城市名-城市名）
     @SerializedName("StopCityPlace")
     private String stopCityPlace;//行程（发车地址-下车地址）
+    @SerializedName("IsPaid")
+    private boolean isPaid; //是否支付
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
 
     public String getStartCity() {
         return startCity;

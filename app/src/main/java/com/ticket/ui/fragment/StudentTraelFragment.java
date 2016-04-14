@@ -52,6 +52,7 @@ public class StudentTraelFragment extends BaseFragment {
             readyGo(LoginActivity.class);
             return;
         }
+        getStatusOrder();
     }
 
     @Override

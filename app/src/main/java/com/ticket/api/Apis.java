@@ -14,7 +14,9 @@ import com.ticket.bean.FrequencyListResp;
 import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.LeasedVehicleListResp;
 import com.ticket.bean.LeasedVehicleOrder;
+import com.ticket.bean.MessageListResp;
 import com.ticket.bean.MessageVo;
+import com.ticket.bean.MessagesVo;
 import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
@@ -420,6 +422,26 @@ public interface Apis {
     );
 
     /**
+     * 获取包车签名
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/PayLeasedVehicleOrderByAlipay.ashx")
+    Call<AlipayVo> payLeasedVehicleOrderByAlipay(
+            @Query("orderID") String orderID
+    );
+
+    /**
+     * 获取包车微信签名
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/PayLeasedVehicleOrderByWeiChat.ashx")
+    Call<WXPayVo> PayLeasedVehicleOrderByWeiChat(
+            @Query("orderID") String orderID
+    );
+
+    /**
      * 获取用户银行帐号
      */
     @GET("User/GetBankAccount.ashx")
@@ -561,5 +583,27 @@ public interface Apis {
     @GET("Orders/RefundTravel.ashx")
     Call<BaseInfoVo> refundTravel(
             @Query("orderItemID") String orderItemID
+    );
+
+    /**
+     * 学生出行订单详情留言板消息获取
+     * @param orderID
+     * @return
+     */
+    @GET("Travel/GetTravelChatMessages.ashx")
+    Call<MessageListResp<List<MessagesVo>>> getTravelChatMessages(
+            @Query("orderID") String orderID
+    );
+
+    /**
+     * 学生出行订单详情添加留言板消息
+     * @param orderID
+     * @return
+     */
+    @GET("Travel/PublishMessage.ashx")
+    Call<BaseInfoVo> publishMessage(
+            @Query("orderID") String orderID,
+            @Query("userID") String userID,
+            @Query("message") String message
     );
 }

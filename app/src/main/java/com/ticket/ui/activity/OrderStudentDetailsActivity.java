@@ -78,6 +78,8 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     private Dialog dialogDataInit;
     private ListViewDataAdapter<MessagesVo> messageDataAdapter;
 
+    private boolean isPaid;
+
     @OnClick(R.id.btn_back)
     public void back() {
         finish();
@@ -85,7 +87,9 @@ public class OrderStudentDetailsActivity extends BaseActivity {
 
     @OnClick(R.id.tv_msg_more)
     public void msgMore() {
-        readyGo(ChatListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("orderId", extras.getString("orderId"));
+        readyGo(ChatListActivity.class, bundle);
     }
 
     private Bundle extras;
@@ -117,6 +121,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     TextView tv_pass_name;
                     TextView tv_id_card;
                     TextView tv_phone;
+                    TextView tv_delete;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
@@ -124,6 +129,8 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                         tv_pass_name = ButterKnife.findById(view, R.id.tv_pass_name);
                         tv_id_card = ButterKnife.findById(view, R.id.tv_id_card);
                         tv_phone = ButterKnife.findById(view, R.id.tv_phone);
+                        tv_delete = ButterKnife.findById(view, R.id.tv_delete);
+                        tv_delete.setVisibility(View.INVISIBLE);
                         return view;
                     }
 
@@ -133,41 +140,41 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                         tv_pass_name.setText(itemData.getPassengerName());
                         tv_id_card.setText(itemData.getIdCard());
                         tv_phone.setText(itemData.getPhoneNumber());
-//                        if (itemData.isCanbeRefund()) {
-//                            tv_delete.setVisibility(View.VISIBLE);
-//                            tv_delete.setTag(itemData.getOrderDetailID());
-//                            tv_delete.setText(getString(R.string.refund_ticket));
-//                            tv_delete.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    final Dialog dialog = CommonUtils.showDialog(OrderStudentDetailsActivity.this);
-//                                    dialog.show();
-//                                    Call<BaseInfoVo> refundCall = getApis().refundTicket(v.getTag().toString()).clone();
-//                                    refundCall.enqueue(new Callback<BaseInfoVo>() {
-//                                        @Override
-//                                        public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
-//                                            CommonUtils.dismiss(dialog);
-//                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-//                                                CommonUtils.make(OrderStudentDetailsActivity.this, "退票成功");
-//                                                getOrderDetails();
-//                                            } else {
-//                                                if (response.body() != null) {
-//                                                    BaseInfoVo body = response.body();
-//                                                    CommonUtils.make(OrderStudentDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-//                                                } else {
-//                                                    CommonUtils.make(OrderStudentDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
-//                                                }
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onFailure(Throwable t) {
-//                                            CommonUtils.dismiss(dialog);
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        }
+                        if (isPaid) {
+                            tv_delete.setVisibility(View.VISIBLE);
+                            tv_delete.setTag(itemData.getOrderItemId());
+                            tv_delete.setText(getString(R.string.refund_ticket));
+                            tv_delete.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final Dialog dialog = CommonUtils.showDialog(OrderStudentDetailsActivity.this);
+                                    dialog.show();
+                                    Call<BaseInfoVo> refundCall = getApis().refundTravel(v.getTag().toString()).clone();
+                                    refundCall.enqueue(new Callback<BaseInfoVo>() {
+                                        @Override
+                                        public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                            CommonUtils.dismiss(dialog);
+                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                                CommonUtils.make(OrderStudentDetailsActivity.this, "退票成功");
+                                                getOrderDetails();
+                                            } else {
+                                                if (response.body() != null) {
+                                                    BaseInfoVo body = response.body();
+                                                    CommonUtils.make(OrderStudentDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                                                } else {
+                                                    CommonUtils.make(OrderStudentDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            CommonUtils.dismiss(dialog);
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
                 };
             }
@@ -206,7 +213,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                                 .bitmapConfig(Bitmap.Config.RGB_565)
                                 .build();
 
-                        ImageLoader.getInstance().displayImage(itemData.getHeadPicture(), iv_face,options);
+                        ImageLoader.getInstance().displayImage(itemData.getHeadPicture(), iv_face, options);
                         tv_nickname.setText(itemData.getNickName());
                         tv_send_date.setText(itemData.getPublishDateTime());
                         tv_msg.setText(itemData.getContent());
@@ -215,7 +222,6 @@ public class OrderStudentDetailsActivity extends BaseActivity {
             }
         });
         lv_message.setAdapter(messageDataAdapter);
-        getOrderDetails();
     }
 
     private void getOrderDetails() {
@@ -229,13 +235,14 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     TravelOrderDetailVoResp detailVoResp = response.body();
                     TravelOrderDetailVo orderDetails = detailVoResp.getTravelOrderDetail();
+                    isPaid = orderDetails.isPaid();
                     tv_order_code.setText(orderDetails.getOrderNumber());
                     tv_order_status_desc.setText(orderDetails.getOrderStatusString());
                     tv_pay_time.setText(orderDetails.getPaymentDateTime());
                     tv_pay_mode.setText(orderDetails.getPaymentWay());
                     tv_car_type.setText(orderDetails.getCarModel());
-                    tv_passenger_paid_amount.setText(orderDetails.getPassengerPaidAmount()+"人");
-                    tv_deal_seat_amount.setText(orderDetails.getDealSeatAmont()+"人");
+                    tv_passenger_paid_amount.setText(orderDetails.getPassengerPaidAmount() + "人");
+                    tv_deal_seat_amount.setText(orderDetails.getDealSeatAmont() + "人");
                     tv_station_title.setText(orderDetails.getGoDateTime() + "发车");
                     tv_startPoint.setText(orderDetails.getStartCity());
                     tv_destination.setText(orderDetails.getStopCity());
@@ -243,9 +250,11 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     tv_endStation.setText(orderDetails.getStopCityPlace());
 
                     List<StudentPassengerVo> passengerVos = detailVoResp.getPassengers();
+                    passengerAdpater.getDataList().clear();
                     passengerAdpater.getDataList().addAll(passengerVos);
                     passengerAdpater.notifyDataSetChanged();
                     List<MessagesVo> messagesVos = detailVoResp.getMessages();
+                    messageDataAdapter.getDataList().clear();
                     messageDataAdapter.getDataList().addAll(messagesVos);
                     messageDataAdapter.notifyDataSetChanged();
                 } else {

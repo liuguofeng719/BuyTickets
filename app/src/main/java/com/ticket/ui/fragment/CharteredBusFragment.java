@@ -44,7 +44,7 @@ public class CharteredBusFragment extends BaseFragment {
 
     @Override
     protected void onFirstUserVisible() {
-
+        getStatusOrder();
     }
 
     @Override
@@ -53,6 +53,7 @@ public class CharteredBusFragment extends BaseFragment {
             readyGo(LoginActivity.class);
             return;
         }
+        getStatusOrder();
     }
 
     @Override
@@ -137,7 +138,6 @@ public class CharteredBusFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
-        getStatusOrder();
     }
 
     private void getStatusOrder() {
