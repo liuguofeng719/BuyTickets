@@ -102,11 +102,11 @@ public class CharteredBusActivity extends BaseActivity {
         mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(startCity.getText())){
+                if(TextUtils.isEmpty(startCity.getText().toString().trim())){
                     CommonUtils.make(CharteredBusActivity.this, "填写出发城市");
                     return;
                 }
-                if(TextUtils.isEmpty(endCity.getText())){
+                if(TextUtils.isEmpty(endCity.getText().toString().trim())){
                     CommonUtils.make(CharteredBusActivity.this, "填写到达城市");
                     return;
                 }
@@ -147,12 +147,12 @@ public class CharteredBusActivity extends BaseActivity {
     @OnClick(R.id.tv_enquiry)
     public void enquiry() {
 
-        if (TextUtils.isEmpty(edit_car_number.getText().toString())) {
+        if (TextUtils.isEmpty(edit_car_number.getText().toString().trim())) {
             CommonUtils.make(this, "请填写出发人数");
             return;
         }
 
-        if (TextUtils.isEmpty(go_time.getText().toString())) {
+        if (TextUtils.isEmpty(go_time.getText().toString().trim())) {
             CommonUtils.make(this, "请输入出发日期");
             return;
         }

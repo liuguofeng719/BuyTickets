@@ -221,7 +221,6 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
         callOrder.enqueue(new Callback<VehicleOrdersDetailsVoResp>() {
             @Override
             public void onResponse(Response<VehicleOrdersDetailsVoResp> response, Retrofit retrofit) {
-                CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     VehicleOrdersDetailsVoResp detailsVoResp = response.body();
                     VehicleOrdersVo vehicleOrdersVo = detailsVoResp.getVehicleOrdersDetails();
@@ -236,8 +235,9 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                     List<QuoteVo> companyQuote = detailsVoResp.getCompanyQuote();
                     companyQuoteAdapter.getDataList().addAll(companyQuote);
                 } else {
-                    CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? CommonUtils.getCodeToStr(response.code()) : response.body().getErrorMessage());
                 }
+                CommonUtils.dismiss(dialogDataInit);
             }
 
             @Override

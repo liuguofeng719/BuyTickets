@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     >
-
     <FrameLayout
         android:background="@color/button_text_color"
         android:layout_width="match_parent"
@@ -21,6 +19,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
-
     </WebView>
 </LinearLayout>

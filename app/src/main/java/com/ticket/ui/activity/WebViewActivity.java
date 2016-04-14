@@ -3,7 +3,9 @@ package com.ticket.ui.activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.ticket.R;
@@ -46,6 +48,19 @@ public class WebViewActivity extends BaseActivity {
         iv_preview.loadUrl(bundle.getString("navUrl"));
         iv_preview.getSettings().setJavaScriptEnabled(true);
         iv_preview.getSettings().setSupportZoom(false);
+        iv_preview.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+            }
+        });
+        iv_preview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+        });
     }
 
     @Override

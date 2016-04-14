@@ -160,9 +160,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                                             } else {
                                                 if (response.body() != null) {
                                                     BaseInfoVo body = response.body();
-                                                    CommonUtils.make(OrderStudentDetailsActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                                                } else {
-                                                    CommonUtils.make(OrderStudentDetailsActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                                    CommonUtils.make(OrderStudentDetailsActivity.this, body.getErrorMessage() == null ? CommonUtils.getCodeToStr(response.code()) : body.getErrorMessage());
                                                 }
                                             }
                                         }
@@ -231,7 +229,6 @@ public class OrderStudentDetailsActivity extends BaseActivity {
         callOrder.enqueue(new Callback<TravelOrderDetailVoResp>() {
             @Override
             public void onResponse(Response<TravelOrderDetailVoResp> response, Retrofit retrofit) {
-                CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     TravelOrderDetailVoResp detailVoResp = response.body();
                     TravelOrderDetailVo orderDetails = detailVoResp.getTravelOrderDetail();
@@ -258,8 +255,10 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     messageDataAdapter.getDataList().addAll(messagesVos);
                     messageDataAdapter.notifyDataSetChanged();
                 } else {
-                    CommonUtils.make(OrderStudentDetailsActivity.this, response.body().getErrorMessage().equals("") ? response.message() : response.body().getErrorMessage());
+                    CommonUtils.make(OrderStudentDetailsActivity.this, response.body().getErrorMessage().equals("") ? CommonUtils.getCodeToStr(response.code()) : response.body().getErrorMessage());
                 }
+
+                CommonUtils.dismiss(dialogDataInit);
             }
 
             @Override

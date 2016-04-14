@@ -51,7 +51,6 @@ public class CarTicketFragment extends BaseFragment {
             readyGo(LoginActivity.class);
             return;
         }
-        getStatusOrder();
     }
 
     @Override
@@ -153,7 +152,7 @@ public class CarTicketFragment extends BaseFragment {
                 } else {
                     if (response.body() != null) {
                         OrderVoResp<List<OrderVo>> body = response.body();
-                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(getParentFragment().getActivity(), body.getErrorMessage().equals("") ?CommonUtils.getCodeToStr(response.code()) : body.getErrorMessage());
                     } else {
                         CommonUtils.make(getParentFragment().getActivity(), CommonUtils.getCodeToStr(response.code()));
                     }

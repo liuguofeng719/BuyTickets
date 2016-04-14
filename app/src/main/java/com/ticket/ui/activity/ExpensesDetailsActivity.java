@@ -14,6 +14,7 @@ import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 
 import java.util.List;
 
@@ -57,7 +58,8 @@ public class ExpensesDetailsActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         tv_header_title.setText("收支明细");
-         listViewDataAdapter = new ListViewDataAdapter<BalanceChangeVo>(new ViewHolderCreator<BalanceChangeVo>() {
+        showLoading(getString(R.string.common_loading_message));
+        listViewDataAdapter = new ListViewDataAdapter<BalanceChangeVo>(new ViewHolderCreator<BalanceChangeVo>() {
             @Override
             public ViewHolderBase<BalanceChangeVo> createViewHolder(int position) {
 
@@ -92,15 +94,18 @@ public class ExpensesDetailsActivity extends BaseActivity {
         changeVoRespCall.enqueue(new Callback<BalanceChangeVoResp<List<BalanceChangeVo>>>() {
             @Override
             public void onResponse(Response<BalanceChangeVoResp<List<BalanceChangeVo>>> response, Retrofit retrofit) {
+                hideLoading();
                 if (response.isSuccess() && response.body() != null & response.body().isSuccessfully()) {
                     listViewDataAdapter.getDataList().addAll(response.body().getBalanceChangeList());
                     listViewDataAdapter.notifyDataSetChanged();
+                } else {
+                    CommonUtils.make(ExpensesDetailsActivity.this, response.body().getErrorMessage().equals("") ? CommonUtils.getCodeToStr(response.code()) : response.body().getErrorMessage());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                hideLoading();
             }
         });
     }

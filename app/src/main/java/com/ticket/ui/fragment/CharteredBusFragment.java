@@ -53,7 +53,6 @@ public class CharteredBusFragment extends BaseFragment {
             readyGo(LoginActivity.class);
             return;
         }
-        getStatusOrder();
     }
 
     @Override
