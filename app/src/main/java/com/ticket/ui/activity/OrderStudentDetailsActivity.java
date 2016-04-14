@@ -13,8 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.MessagesVo;
-import com.ticket.bean.PassengerDetailVo;
-import com.ticket.bean.PassengerVo;
 import com.ticket.bean.StudentPassengerVo;
 import com.ticket.bean.TravelOrderDetailVo;
 import com.ticket.bean.TravelOrderDetailVoResp;

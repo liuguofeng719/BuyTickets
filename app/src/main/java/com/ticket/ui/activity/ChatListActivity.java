@@ -1,7 +1,6 @@
 package com.ticket.ui.activity;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
