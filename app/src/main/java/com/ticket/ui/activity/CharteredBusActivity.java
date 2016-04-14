@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -101,6 +102,14 @@ public class CharteredBusActivity extends BaseActivity {
         mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(TextUtils.isEmpty(startCity.getText())){
+                    CommonUtils.make(CharteredBusActivity.this, "填写出发城市");
+                    return;
+                }
+                if(TextUtils.isEmpty(endCity.getText())){
+                    CommonUtils.make(CharteredBusActivity.this, "填写到达城市");
+                    return;
+                }
                 if (taskMap.get(spinner_days.getSelectedItem()) != null) {
                     List<TaskPlans> taskPlanses = taskMap.get(spinner_days.getSelectedItem().toString().trim());
                     TaskPlans taskPlans = new TaskPlans();
@@ -127,6 +136,8 @@ public class CharteredBusActivity extends BaseActivity {
                     viewDataAdapter.getDataList().add(listTaskPlans);
                 }
                 viewDataAdapter.notifyDataSetChanged();
+                //隐藏键盘
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 mDialog.dismiss();
             }
         });
@@ -290,6 +301,7 @@ public class CharteredBusActivity extends BaseActivity {
             }
         });
         lv_scheduling.setAdapter(this.viewDataAdapter);
+        setCurrentTime(new Date());
     }
 
     class ListTaskPlans {
