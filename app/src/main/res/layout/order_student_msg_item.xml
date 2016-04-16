@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingRight="@dimen/common_padding"
+    android:paddingLeft="@dimen/common_padding"
     android:background="@color/white"
+    android:paddingTop="@dimen/common_padding"
     >
     <com.ticket.widgets.CircleImageView
         android:id="@+id/iv_face"
@@ -47,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/tv_msg"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/bg_line_color"
     />
 </RelativeLayout>
