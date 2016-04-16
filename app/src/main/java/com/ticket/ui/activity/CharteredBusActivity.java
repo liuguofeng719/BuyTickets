@@ -186,7 +186,9 @@ public class CharteredBusActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-
+                if ("timeout".equals(t.getMessage())) {
+                    CommonUtils.make(CharteredBusActivity.this, "网络请求超时");
+                }
             }
         });
     }

@@ -81,6 +81,8 @@ public class ChatListActivity extends BaseActivity {
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
                 if (!response.isSuccess()) {
                     CommonUtils.make(ChatListActivity.this, CommonUtils.getCodeToStr(response.code()));
+                }else{
+                    edit_content.setText("");
                 }
             }
 
@@ -171,6 +173,9 @@ public class ChatListActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                if ("timeout".equals(t.getMessage())) {
+                    CommonUtils.make(ChatListActivity.this, "网络请求超时");
+                }
                 hideLoading();
             }
         });

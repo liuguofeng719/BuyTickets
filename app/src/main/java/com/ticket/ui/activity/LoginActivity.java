@@ -137,6 +137,9 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 
                             @Override
                             public void onFailure(Throwable t) {
+                                if ("timeout".equals(t.getMessage())) {
+                                    CommonUtils.make(LoginActivity.this, "网络请求超时");
+                                }
                                 CommonUtils.dismiss(mDialog);
                             }
                         });

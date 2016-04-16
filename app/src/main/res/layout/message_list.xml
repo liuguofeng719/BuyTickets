@@ -125,7 +125,10 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
         android:listSelector="@color/transparent"
-        android:scrollbars="none"></ListView>
+        android:scrollbars="none"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"
+        />
 
     <LinearLayout
         android:id="@+id/ly_footer"

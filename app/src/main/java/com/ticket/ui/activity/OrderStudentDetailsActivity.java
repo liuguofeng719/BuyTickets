@@ -218,6 +218,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
             }
         });
         lv_message.setAdapter(messageDataAdapter);
+        getOrderDetails();
     }
 
     private void getOrderDetails() {
@@ -249,6 +250,9 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     passengerAdpater.getDataList().addAll(passengerVos);
                     passengerAdpater.notifyDataSetChanged();
                     List<MessagesVo> messagesVos = detailVoResp.getMessages();
+                    if (messagesVos != null && messagesVos.size() == 0) {
+                        tv_msg_more.setVisibility(View.GONE);
+                    }
                     messageDataAdapter.getDataList().clear();
                     messageDataAdapter.getDataList().addAll(messagesVos);
                     messageDataAdapter.notifyDataSetChanged();
@@ -261,6 +265,9 @@ public class OrderStudentDetailsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                if ("timeout".equals(t.getMessage())) {
+                    CommonUtils.make(OrderStudentDetailsActivity.this, "网络请求超时");
+                }
                 CommonUtils.dismiss(dialogDataInit);
             }
         });

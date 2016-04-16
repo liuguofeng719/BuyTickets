@@ -84,7 +84,9 @@ public class AddPassengerActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Throwable t) {
-
+                            if ("timeout".equals(t.getMessage())) {
+                                CommonUtils.make(AddPassengerActivity.this, "网络请求超时");
+                            }
                         }
                     });
                 } else {
