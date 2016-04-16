@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,7 +70,7 @@ public class PayMentStudentActivity extends BaseActivity {
 
     private IWXAPI api;
     private Dialog mDialog;
-    private PayTypeVo itemData;
+    private PayTypeVo payTypeVo;
     private String partner;
     private Bundle extras;
     private ListViewDataAdapter listViewDataPay;
@@ -133,17 +132,17 @@ public class PayMentStudentActivity extends BaseActivity {
     };
 
 
+    List<PayTypeVo> payTypeVoList = new ArrayList<>();
     @Override
     protected void initViewsAndEvents() {
 
         tv_header_title.setText(getString(R.string.pay_mode_title));
         tv_total_price.setText("￥" + extras.getString("money") + "元");
 
-        final List<PayTypeVo> payTypeVoList = new ArrayList<>();
         payTypeVoList.add(new PayTypeVo(R.drawable.paybao, "支付宝", ALIPAY, Boolean.FALSE));
         payTypeVoList.add(new PayTypeVo(R.drawable.weixin, "微信钱包", WENXIN, Boolean.TRUE));
         payTypeVoList.add(new PayTypeVo(R.drawable.wallet_money, "余额支付", BALANCE, Boolean.FALSE));
-
+        payTypeVo= payTypeVoList.get(1);
         listViewDataPay = new ListViewDataAdapter<PayTypeVo>(new ViewHolderCreator<PayTypeVo>() {
             @Override
             public ViewHolderBase<PayTypeVo> createViewHolder(int position) {
@@ -179,7 +178,7 @@ public class PayMentStudentActivity extends BaseActivity {
                                 PayTypeVo itemData = (PayTypeVo) listViewDataPay.getDataList().get(position);
                                 itemData.setSelected(Boolean.TRUE);
                                 listViewDataPay.notifyDataSetChanged();
-                                itemData = ((PayTypeVo) v.getTag());
+                                payTypeVo = ((PayTypeVo) v.getTag());
                             }
                         });
                     }
@@ -284,7 +283,7 @@ public class PayMentStudentActivity extends BaseActivity {
 
     @OnClick(R.id.tv_pay_submit)
     public void paySubmit() {
-        String type = itemData.getType();
+        String type = payTypeVo.getType();
         if (WENXIN.equals(type)) {
             wenXinSubmit();
         } else if (ALIPAY.equals(type)) {

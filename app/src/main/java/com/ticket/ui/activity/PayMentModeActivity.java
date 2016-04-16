@@ -7,10 +7,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -144,7 +142,7 @@ public class PayMentModeActivity extends BaseActivity {
         payTypeVoList.add(new PayTypeVo(R.drawable.paybao, "支付宝", ALIPAY, Boolean.FALSE));
         payTypeVoList.add(new PayTypeVo(R.drawable.weixin, "微信钱包", WENXIN, Boolean.TRUE));
         payTypeVoList.add(new PayTypeVo(R.drawable.wallet_money, "余额支付", BALANCE, Boolean.FALSE));
-
+        payTypeVo= payTypeVoList.get(1);
         listViewDataPay = new ListViewDataAdapter<PayTypeVo>(new ViewHolderCreator<PayTypeVo>() {
             @Override
             public ViewHolderBase<PayTypeVo> createViewHolder(int position) {
