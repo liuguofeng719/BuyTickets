@@ -38,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="8000"
                 android:textColor="@color/common_text_color"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -65,7 +64,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:numeric="integer"
-                android:text="123456789" />
+                 />
 
             <View
                 android:layout_width="match_parent"
@@ -95,7 +94,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:numeric="integer"
-                android:text="123456789" />
+                 />
 
             <View
                 android:layout_width="match_parent"
@@ -125,7 +124,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:numeric="integer"
-                android:text="123456789" />
+             />
 
             <View
                 android:layout_width="match_parent"
@@ -155,7 +154,7 @@
                 android:background="@null"
                 android:inputType="number"
                 android:numeric="integer"
-                android:text="123456789" />
+            />
 
             <View
                 android:layout_width="match_parent"

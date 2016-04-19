@@ -60,7 +60,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="18dp"
-            android:text="3500.00"
             android:textSize="24sp"
             android:textColor="@color/white" />
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,11 +37,13 @@ public class MyWalletActivity extends BaseActivity {
     @InjectView(R.id.tv_trade_total_amount)
     TextView tv_trade_total_amount;
     private Call<BalanceVo> balanceVoCall;
+    private Dialog dialog;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
     }
+
     //充值
     @OnClick(R.id.tv_recharge)
     public void recharge() {
@@ -51,8 +54,8 @@ public class MyWalletActivity extends BaseActivity {
     @OnClick(R.id.tv_withdraw_deposit)
     public void withDrawDeposit() {
         Bundle bundle = new Bundle();
-        bundle.putString("money",tv_trade_total_amount.getText().toString());
-        readyGo(WithdrawActivity.class,bundle);
+        bundle.putString("money", tv_trade_total_amount.getText().toString());
+        readyGo(WithdrawActivity.class, bundle);
     }
 
     //收支明细
@@ -74,26 +77,37 @@ public class MyWalletActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         tv_header_title.setText("我的钱包");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getBanlance();
+    }
+
+    private void getBanlance() {
+        dialog = CommonUtils.createDialog(this);
+        dialog.show();
         balanceVoCall = getApis().getBanlance(AppPreferences.getString("userId")).clone();
         balanceVoCall.enqueue(new Callback<BalanceVo>() {
             @Override
             public void onResponse(Response<BalanceVo> response, Retrofit retrofit) {
+
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     BalanceVo balanceVo = response.body();
                     tv_trade_total_amount.setText(balanceVo.getBalance());
                 } else {
-                    if (response.body() != null) {
-                        BalanceVo body = response.body();
-                        CommonUtils.make(MyWalletActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
-                    } else {
-                        CommonUtils.make(MyWalletActivity.this, CommonUtils.getCodeToStr(response.code()));
+                    BalanceVo body = response.body();
+                    if (body != null) {
+                        CommonUtils.make(MyWalletActivity.this, body.getErrorMessage() == null ? CommonUtils.getCodeToStr(response.code()) : body.getErrorMessage());
                     }
                 }
+                CommonUtils.dismiss(dialog);
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                CommonUtils.dismiss(dialog);
             }
         });
     }
@@ -103,6 +117,14 @@ public class MyWalletActivity extends BaseActivity {
         super.onStop();
         if (balanceVoCall != null) {
             balanceVoCall.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            CommonUtils.dismiss(dialog);
         }
     }
 }
