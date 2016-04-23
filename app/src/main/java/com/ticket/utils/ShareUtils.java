@@ -25,12 +25,12 @@ public class ShareUtils {
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // text是分享文本，所有平台都需要这个字段
         oks.setText(shareVo.getText());
-        if (ShareVo.platform.WECHAT.name().equals(shareVo.getType())) {
+//        if (ShareVo.platform.WECHAT.name().equals(shareVo.getType())) {
             oks.setUrl(shareVo.getUrl());
-            oks.setTitle(shareVo.getTitle());
+//            oks.setTitle(shareVo.getTitle());
             params.put("shareType", Platform.SHARE_WEBPAGE);
-        }
-        if (ShareVo.platform.QQ.name().equals(shareVo.getType())) {
+//        }
+//        if (ShareVo.platform.QQ.name().equals(shareVo.getType())) {
             // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
             oks.setTitle(shareVo.getTitle());
             // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
@@ -41,7 +41,7 @@ public class ShareUtils {
             oks.setSite(shareVo.getSite());
             // siteUrl是分享此内容的网站地址，仅在QQ空间使用
             oks.setSiteUrl(shareVo.getSiteUrl());
-        }
+//        }
         // 启动分享GUI
         oks.show(context);
     }

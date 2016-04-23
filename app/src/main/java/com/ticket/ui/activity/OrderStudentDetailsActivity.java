@@ -138,7 +138,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                         tv_pass_name.setText(itemData.getPassengerName());
                         tv_id_card.setText(itemData.getIdCard());
                         tv_phone.setText(itemData.getPhoneNumber());
-                        if (isPaid) {
+                        if (itemData.isRefund()) {
                             tv_delete.setVisibility(View.VISIBLE);
                             tv_delete.setTag(itemData.getOrderItemId());
                             tv_delete.setText(getString(R.string.refund_ticket));

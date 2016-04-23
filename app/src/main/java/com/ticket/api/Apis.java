@@ -30,6 +30,7 @@ import com.ticket.bean.PlaceListResp;
 import com.ticket.bean.PlaceVo;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
+import com.ticket.bean.ShareMessageVo;
 import com.ticket.bean.TravelOrderDetailVoResp;
 import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
@@ -605,5 +606,15 @@ public interface Apis {
             @Query("orderID") String orderID,
             @Query("userID") String userID,
             @Query("message") String message
+    );
+
+    /**
+     * 订单分享
+     * @param ordernumber
+     * @return
+     */
+    @GET("orders/share.ashx")
+    Call<ShareMessageVo> share(
+        @Query("ordernumber") String ordernumber
     );
 }

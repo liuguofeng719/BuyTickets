@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.ticket.R;
 import com.ticket.bean.LeasedVehicleListResp;
 import com.ticket.bean.LeasedVehicleOrder;
-import com.ticket.bean.TravelOrdersVo;
-import com.ticket.bean.TravelOrdersVoResp;
+import com.ticket.bean.ShareMessageVo;
 import com.ticket.ui.activity.LoginActivity;
-import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.activity.OrderVehicleDetailsActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
@@ -22,6 +20,8 @@ import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
+import com.ticket.utils.ShareUtils;
+import com.ticket.utils.ShareVo;
 
 import java.util.List;
 
@@ -97,7 +97,7 @@ public class CharteredBusFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void showData(int position, LeasedVehicleOrder itemData) {
+                    public void showData(int position,final LeasedVehicleOrder itemData) {
                         btn_gopay.setVisibility(View.GONE);
                         tv_order_code.setText(itemData.getOrderNumber());
 //                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
@@ -118,7 +118,30 @@ public class CharteredBusFragment extends BaseFragment {
                         btn_text_share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Call<ShareMessageVo> messageVoCall = getApis().share(itemData.getOrderNumber()).clone();
+                                messageVoCall.enqueue(new Callback<ShareMessageVo>() {
+                                    @Override
+                                    public void onResponse(Response<ShareMessageVo> response, Retrofit retrofit) {
+                                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                            ShareVo shareVo = new ShareVo();
+                                            shareVo.setText(response.body().getShareMessage());
+                                            shareVo.setTitle(response.body().getShareMessage());
+                                            shareVo.setTitleUrl(response.body().getNavigateUrl());
+                                            shareVo.setUrl(response.body().getNavigateUrl());
+                                            shareVo.setComment("");
+                                            shareVo.setSite("");
+                                            shareVo.setSiteUrl("");
+                                            ShareUtils.showShare(getActivity(), shareVo);
+                                        } else {
+                                            CommonUtils.make(getActivity(),"分享失败");
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
                             }
                         });
                     }

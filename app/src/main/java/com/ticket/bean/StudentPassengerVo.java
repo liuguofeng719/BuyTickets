@@ -15,6 +15,16 @@ public class StudentPassengerVo {
     private String phoneNumber;
     @SerializedName("OrderItemID")
     private String orderItemId;
+    @SerializedName("IsRefund")
+    private boolean isRefund;//是否可退票（当值为true时，表示可以退票）
+
+    public boolean isRefund() {
+        return isRefund;
+    }
+
+    public void setRefund(boolean refund) {
+        isRefund = refund;
+    }
 
     public String getOrderItemId() {
         return orderItemId;

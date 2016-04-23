@@ -9,10 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ticket.R;
+import com.ticket.bean.ShareMessageVo;
 import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.ui.activity.LoginActivity;
-import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.activity.OrderStudentDetailsActivity;
 import com.ticket.ui.activity.PayMentStudentActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
@@ -21,6 +21,8 @@ import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
+import com.ticket.utils.ShareUtils;
+import com.ticket.utils.ShareVo;
 
 import java.util.List;
 
@@ -95,7 +97,7 @@ public class StudentTraelFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void showData(int position, TravelOrdersVo itemData) {
+                    public void showData(int position,final TravelOrdersVo itemData) {
                         if (itemData.isPaid()) {
                             btn_gopay.setVisibility(View.GONE);
                         }
@@ -131,7 +133,30 @@ public class StudentTraelFragment extends BaseFragment {
                         btn_text_share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Call<ShareMessageVo> messageVoCall = getApis().share(itemData.getOrderNumber()).clone();
+                                messageVoCall.enqueue(new Callback<ShareMessageVo>() {
+                                    @Override
+                                    public void onResponse(Response<ShareMessageVo> response, Retrofit retrofit) {
+                                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                            ShareVo shareVo = new ShareVo();
+                                            shareVo.setText(response.body().getShareMessage());
+                                            shareVo.setTitle(response.body().getShareMessage());
+                                            shareVo.setTitleUrl(response.body().getNavigateUrl());
+                                            shareVo.setUrl(response.body().getNavigateUrl());
+                                            shareVo.setComment("");
+                                            shareVo.setSite("");
+                                            shareVo.setSiteUrl("");
+                                            ShareUtils.showShare(getActivity(), shareVo);
+                                        } else {
+                                            CommonUtils.make(getActivity(),"分享失败");
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
                             }
                         });
                     }

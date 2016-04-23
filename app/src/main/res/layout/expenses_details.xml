@@ -19,5 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="@color/transparent"
-        android:listSelector="@null"></ListView>
+        android:divider="@null"
+        android:listSelector="@color/transparent"></ListView>
 </LinearLayout>

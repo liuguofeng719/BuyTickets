@@ -61,6 +61,15 @@ public class AccountSafetyActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         tv_header_title.setText("账号与安全");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initBindUser();
+    }
+
+    private void initBindUser() {
         UserVo userVo = AppPreferences.getObject(UserVo.class);
 
         if (userVo.getIsBindingWeiXin()) {
@@ -98,12 +107,12 @@ public class AccountSafetyActivity extends BaseActivity {
         }
     }
 
-    private void authorize(Platform plat, String type) {
+    private void authorize(Platform plat, final String type) {
         if (plat.isValid()) {
             String userId = plat.getDb().getUserId();//关联唯一ID
             final String nickName = plat.getDb().getUserName();//nickname
-            final String userIcon = plat.getDb().getUserIcon().replaceAll("/40","/100");
-            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(AppPreferences.getString("userId"),userIcon, type, userId, nickName);
+            final String userIcon = plat.getDb().getUserIcon().replaceAll("/40", "/100");
+            Call<UserVo> userVoCall = getApis().externalSystemAuthentication(AppPreferences.getString("userId"), userIcon, type, userId, nickName);
             userVoCall.enqueue(new Callback<UserVo>() {
                 @Override
                 public void onResponse(Response<UserVo> response, Retrofit retrofit) {
@@ -111,6 +120,12 @@ public class AccountSafetyActivity extends BaseActivity {
                         UserVo userVo = response.body();
                         AppPreferences.putString("userId", userVo.getUserId());
                         AppPreferences.putObject(userVo);
+                        if ("QQ".equals(type)) {
+                            tv_qq_account.setText("已绑定");
+                        }
+                        if ("WeiXin".equals(type)) {
+                            tv_qq_account.setText("已绑定");
+                        }
                     }
                 }
 
