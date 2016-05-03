@@ -27,6 +27,7 @@ import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.OrderCreateVoResp;
 import com.ticket.bean.PassengerListResp;
 import com.ticket.bean.PassengerVo;
+import com.ticket.bean.UserVo;
 import com.ticket.common.Constants;
 import com.ticket.ui.adpater.PassengerAdapter;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
@@ -207,7 +208,6 @@ public class CreateOrderActivity extends BaseActivity {
 //        bundle.putBoolean("insuranceCheck", insuranceCheck);
 //        readyGoForResult(InsuranceActivity.class, 1, bundle);
 //    }
-
     @OnClick(R.id.btn_add_passenger)
     public void addPassenger() {
         if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
@@ -224,6 +224,11 @@ public class CreateOrderActivity extends BaseActivity {
     @OnClick(R.id.iv_submit_order)
     public void submitOrder() {
         if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            if (!AppPreferences.getObject(UserVo.class).getIsBindingPhoneNumber()) {
+                Toast.makeText(this, "请绑定手机号码", Toast.LENGTH_SHORT).show();
+                readyGo(BindingUserMobileActivity.class);
+                return;
+            }
             if (listViewDataAdapter.getDataList().size() <= 0) {
                 Toast.makeText(this, "请选择乘客", Toast.LENGTH_SHORT).show();
                 return;
