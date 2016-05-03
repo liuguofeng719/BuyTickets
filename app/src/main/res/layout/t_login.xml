@@ -55,7 +55,7 @@
                 android:maxLength="16"
                 android:password="true"
                 android:singleLine="true"
-                android:text="a1b2c3d4e5"
+                android:text="123456"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color_hint" />
         </LinearLayout>

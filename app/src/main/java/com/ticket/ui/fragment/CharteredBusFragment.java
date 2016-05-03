@@ -44,7 +44,6 @@ public class CharteredBusFragment extends BaseFragment {
 
     @Override
     protected void onFirstUserVisible() {
-        getStatusOrder();
     }
 
     @Override
@@ -54,7 +53,11 @@ public class CharteredBusFragment extends BaseFragment {
             return;
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getStatusOrder();
+    }
     @Override
     protected void onUserInvisible() {
     }

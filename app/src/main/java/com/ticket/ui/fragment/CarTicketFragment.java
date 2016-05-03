@@ -45,7 +45,6 @@ public class CarTicketFragment extends BaseFragment {
 
     @Override
     protected void onFirstUserVisible() {
-        getStatusOrder();
     }
 
     @Override
@@ -161,6 +160,12 @@ public class CarTicketFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getStatusOrder();
     }
 
     private void getStatusOrder() {

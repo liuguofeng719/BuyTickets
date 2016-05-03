@@ -101,7 +101,7 @@ public class AccountSafetyActivity extends BaseActivity {
             tv_phone_account.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    readyGo(RegisterActivity.class);
+                    readyGo(BindingUserMobileActivity.class);
                 }
             });
         }

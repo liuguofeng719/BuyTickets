@@ -495,7 +495,15 @@ public interface Apis {
             @Query("openID") String openID,
             @Query("nickName") String nickName
     );
-
+    /**
+     * 关联手机号
+     * @return
+     */
+    @GET("User/BindingUserMobileNumber.ashx")
+    Call<UserVo> bindingUserMobileNumber(
+            @Query("userID") String userID,
+            @Query("mobileNumber") String mobileNumber
+    );
     /**
      * @desc 创建包车出行订单
      * userID：用户ID

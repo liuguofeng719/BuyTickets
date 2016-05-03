@@ -175,9 +175,12 @@ public class StudentTraelFragment extends BaseFragment {
             }
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
         getStatusOrder();
     }
-
     private void getStatusOrder() {
         showLoading(getString(R.string.common_loading_message));
         Call<TravelOrdersVoResp<List<TravelOrdersVo>>> travelOrdersVoRespCall = getApis().getTravelOrders(AppPreferences.getString("userId")).clone();

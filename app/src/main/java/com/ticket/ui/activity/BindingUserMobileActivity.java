@@ -25,12 +25,10 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class RegisterActivity extends BaseActivity {
+public class BindingUserMobileActivity extends BaseActivity {
 
     @InjectView(R.id.ed_user_phone)
     EditText ed_user_phone;
-    @InjectView(R.id.ed_user_pwd)
-    EditText ed_user_pwd;
     @InjectView(R.id.ed_verifyCode)
     EditText ed_verifyCode;
     @InjectView(R.id.btn_back)
@@ -46,7 +44,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.t_register;
+        return R.layout.bind_number;
     }
 
     @Override
@@ -57,7 +55,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         countTimer = new CountTimer(Constants.reg.millisInFuture, Constants.reg.countDownInterval);
-        this.tv_header_title.setText(getString(R.string.login_reg));
+        this.tv_header_title.setText("绑定手机");
         this.btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +66,7 @@ public class RegisterActivity extends BaseActivity {
         this.btn_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
+                if (NetUtils.isNetworkAvailable(BindingUserMobileActivity.this)) {
                     if (validateUserInfo()) return;
                     countTimer.start();//开启验证码
                     Call<MessageVo> callMsg = getApis().getVerifyCode(ed_user_phone.getText().toString()).clone();
@@ -85,7 +83,7 @@ public class RegisterActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    CommonUtils.make(RegisterActivity.this, getString(R.string.no_network));
+                    CommonUtils.make(BindingUserMobileActivity.this, getString(R.string.no_network));
                 }
             }
         });
@@ -93,46 +91,29 @@ public class RegisterActivity extends BaseActivity {
         this.btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
+                if (NetUtils.isNetworkAvailable(BindingUserMobileActivity.this)) {
                     if (validateSubmit()) {
-                        final Dialog mDialog = CommonUtils.showDialog(RegisterActivity.this, "正在注册并且登陆中");
+                        final Dialog mDialog = CommonUtils.showDialog(BindingUserMobileActivity.this, "正在绑定手机号");
                         mDialog.show();
-                        Call<BaseInfoVo> callRegister = getApis().register(
-                                ed_user_phone.getText().toString(),
-                                ed_user_pwd.getText().toString(),
-                                ed_verifyCode.getText().toString()).clone();
-                        callRegister.enqueue(new Callback<BaseInfoVo>() {
+                        Call<UserVo> bindingMobile = getApis().bindingUserMobileNumber(AppPreferences.getString("userId"), ed_user_phone.getText().toString()).clone();
+                        bindingMobile.enqueue(new Callback<UserVo>() {
                             @Override
-                            public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                            public void onResponse(Response<UserVo> response, Retrofit retrofit) {
                                 countTimer.cancel();
                                 if (response.isSuccess() && response.body().isSuccessfully()) {
-                                    //注册成功并且登陆
-                                    Call<UserVo> callLogin = getApis().login(ed_user_phone.getText().toString(), ed_user_pwd.getText().toString()).clone();
-                                    callLogin.enqueue(new Callback<UserVo>() {
-                                        @Override
-                                        public void onResponse(Response<UserVo> response, Retrofit retrofit) {
-                                            CommonUtils.dismiss(mDialog);
-                                            if (response.isSuccess() && response.body().isSuccessfully()) {
-                                                AppPreferences.putString("userId", response.body().getUserId());
-                                                AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
-                                                readyGoThenKill(IndexActivity.class);
-                                            } else {
-                                                CommonUtils.make(RegisterActivity.this, response.body().getErrorMessage());
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Throwable t) {
-                                            CommonUtils.dismiss(mDialog);
-                                        }
-                                    });
+                                    CommonUtils.make(BindingUserMobileActivity.this, "手机号绑定成功");
+                                    UserVo userVo = response.body();
+                                    AppPreferences.putString("userId", userVo.getUserId());
+                                    AppPreferences.putObject(userVo);
+                                    finish();
                                 } else {
                                     CommonUtils.dismiss(mDialog);
+                                    countTimer.onFinish();
                                     if (response.body() != null) {
                                         BaseInfoVo body = response.body();
-                                        CommonUtils.make(RegisterActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                                        CommonUtils.make(BindingUserMobileActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                                     } else {
-                                        CommonUtils.make(RegisterActivity.this, CommonUtils.getCodeToStr(response.code()));
+                                        CommonUtils.make(BindingUserMobileActivity.this, CommonUtils.getCodeToStr(response.code()));
                                     }
                                 }
                             }
@@ -145,7 +126,7 @@ public class RegisterActivity extends BaseActivity {
                         });
                     }
                 } else {
-                    CommonUtils.make(RegisterActivity.this, getString(R.string.no_network));
+                    CommonUtils.make(BindingUserMobileActivity.this, getString(R.string.no_network));
                 }
             }
         });
@@ -179,11 +160,11 @@ public class RegisterActivity extends BaseActivity {
 
     private boolean validateUserInfo() {
         if (TextUtils.isEmpty(ed_user_phone.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_phone_empty));
+            CommonUtils.make(BindingUserMobileActivity.this, getString(R.string.login_phone_empty));
             return true;
         }
         if (!CommonUtils.isMobile(ed_user_phone.getText().toString())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_phone_ok));
+            CommonUtils.make(BindingUserMobileActivity.this, getString(R.string.login_phone_ok));
             return true;
         }
         return false;
@@ -191,16 +172,8 @@ public class RegisterActivity extends BaseActivity {
 
     private boolean validateSubmit() {
         if (validateUserInfo()) return false;
-        if (TextUtils.isEmpty(ed_user_pwd.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_pwd_empty));
-            return false;
-        }
-        if (ed_user_pwd.getText().length() < 6) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_pwd_length));
-            return false;
-        }
         if (TextUtils.isEmpty(ed_verifyCode.getText())) {
-            CommonUtils.make(RegisterActivity.this, getString(R.string.login_reg_code_empty));
+            CommonUtils.make(BindingUserMobileActivity.this, getString(R.string.login_reg_code_empty));
             return false;
         }
         return true;
