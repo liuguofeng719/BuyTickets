@@ -14,11 +14,9 @@ import android.widget.TextView;
 
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
-import com.ticket.bean.FrequencyVo;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.common.Constants;
-import com.ticket.ui.adpater.StudentTripAdapter;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -189,7 +187,7 @@ public class StudentListActivity extends BaseActivity {
                         }
 
                         holder.tv_status.setText(getStatus(routingListVo.getState()));//平台类型
-                        holder.tv_goDateTime.setText(routingListVo.getGoDate());//出发日期
+                        holder.tv_goDateTime.setText(routingListVo.getGoTime());//出发日期
                         holder.tv_type_text.setText(routingListVo.getPublishedType());//平台类型
                         holder.tv_startStation.setText(routingListVo.getStartPlaceName());
                         holder.tv_endStation.setText(routingListVo.getStopPlaceName());

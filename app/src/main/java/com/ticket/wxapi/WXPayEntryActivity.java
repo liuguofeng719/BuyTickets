@@ -1,9 +1,7 @@
 package com.ticket.wxapi;
 
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,18 +15,27 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.ticket.R;
 import com.ticket.common.Constants;
 import com.ticket.ui.activity.IndexActivity;
+import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.TLog;
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
     private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 
     private IWXAPI api;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_success);
+    protected int getContentViewLayoutID() {
+        return R.layout.pay_success;
+    }
+
+    @Override
+    protected View getLoadingTargetView() {
+        return null;
+    }
+
+    @Override
+    protected void initViewsAndEvents() {
         findViewById(R.id.btn_back).setVisibility(View.GONE);
         ((Button) findViewById(R.id.btn_back_home)).setOnClickListener(new View.OnClickListener() {
             @Override

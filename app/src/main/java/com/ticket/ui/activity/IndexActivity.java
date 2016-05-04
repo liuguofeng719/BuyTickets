@@ -54,37 +54,6 @@ public class IndexActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         viewPager.setEnableScroll(false);
-//        this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                switch (position) {
-//                    case 0:
-//                        tv_header_title.setText(getString(R.string.home_header_title));
-//                        radioGroup.check(R.id.rdo_ticket);
-//                        break;
-//                    case 1:
-//                        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
-//                            tv_header_title.setText(getString(R.string.home_header_order));
-//                            radioGroup.check(R.id.rdo_order);
-//                        } else {
-//                            readyGo(LoginActivity.class);
-//                        }
-//                        break;
-//                    case 2:
-//                        tv_header_title.setText(getString(R.string.home_user_info));
-//                        radioGroup.check(R.id.rdo_my);
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//            }
-//        });
         this.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

@@ -250,9 +250,9 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     passengerAdpater.getDataList().addAll(passengerVos);
                     passengerAdpater.notifyDataSetChanged();
                     List<MessagesVo> messagesVos = detailVoResp.getMessages();
-                    if (messagesVos != null && messagesVos.size() == 0) {
-                        tv_msg_more.setVisibility(View.GONE);
-                    }
+//                    if (messagesVos != null && messagesVos.size() == 0) {
+//                        tv_msg_more.setVisibility(View.GONE);
+//                    }
                     messageDataAdapter.getDataList().clear();
                     messageDataAdapter.getDataList().addAll(messagesVos);
                     messageDataAdapter.notifyDataSetChanged();

@@ -106,6 +106,7 @@ public class RegisterActivity extends BaseActivity {
                             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
                                 countTimer.cancel();
                                 if (response.isSuccess() && response.body().isSuccessfully()) {
+
                                     //注册成功并且登陆
                                     Call<UserVo> callLogin = getApis().login(ed_user_phone.getText().toString(), ed_user_pwd.getText().toString()).clone();
                                     callLogin.enqueue(new Callback<UserVo>() {
@@ -115,6 +116,7 @@ public class RegisterActivity extends BaseActivity {
                                             if (response.isSuccess() && response.body().isSuccessfully()) {
                                                 AppPreferences.putString("userId", response.body().getUserId());
                                                 AppPreferences.putString("userPhone", ed_user_phone.getText().toString());
+                                                AppPreferences.putObject(response.body());
                                                 readyGoThenKill(IndexActivity.class);
                                             } else {
                                                 CommonUtils.make(RegisterActivity.this, response.body().getErrorMessage());

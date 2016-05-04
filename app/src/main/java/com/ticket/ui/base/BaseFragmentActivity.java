@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.ticket.R;
 import com.ticket.loading.VaryViewHelperController;
 import com.ticket.netstatus.NetChangeObserver;
 import com.ticket.netstatus.NetStateReceiver;
@@ -61,29 +60,11 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (toggleOverridePendingTransition()) {
-            switch (getOverridePendingTransitionMode()) {
-                case LEFT:
-                    overridePendingTransition(R.anim.left_in, R.anim.left_out);
-                    break;
-                case RIGHT:
-                    overridePendingTransition(R.anim.right_in, R.anim.right_out);
-                    break;
-                case TOP:
-                    overridePendingTransition(R.anim.top_in, R.anim.top_out);
-                    break;
-                case BOTTOM:
-                    overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out);
-                    break;
-                case SCALE:
-                    overridePendingTransition(R.anim.scale_in, R.anim.scale_out);
-                    break;
-                case FADE:
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    break;
-            }
-        }
         super.onCreate(savedInstanceState);
+
+        if(isFullScreen()){
+
+        }
 
         if (getContentViewLayoutID() != 0) {
             setContentViewId(getContentViewLayoutID());
@@ -128,6 +109,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
         NetStateReceiver.registerObserver(mNetChangeObserver);
         initViewsAndEvents();
     }
+
+    protected abstract boolean isFullScreen();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -90,4 +90,9 @@ public abstract class BaseActivity extends BaseFragmentActivity implements BaseV
     protected void onNetworkDisConnected() {
 
     }
+
+    @Override
+    protected boolean isFullScreen() {
+        return false;
+    }
 }

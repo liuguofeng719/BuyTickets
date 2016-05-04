@@ -1,5 +1,10 @@
 package com.ticket.ui.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +45,17 @@ public class MyFragment extends BaseFragment {
     TextView tv_my_balance;
     @InjectView(R.id.tv_account_safety)
     TextView tv_account_safety;
+    @InjectView(R.id.tv_hotline)
+    TextView tv_hotline;
+
+    @OnClick(R.id.tv_hotline)
+    public void hotLine() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:028-61039462"));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        getActivity().startActivity(intent);
+    }
 
     //我的余额
     @OnClick(R.id.tv_my_balance)
@@ -128,6 +144,8 @@ public class MyFragment extends BaseFragment {
                 tv_login_title.setVisibility(View.VISIBLE);
                 if (userVo.getHeadPicture() != null) {
                     imageLoader.displayImage(userVo.getHeadPicture(), iv_face);
+                } else {
+                    iv_face.setImageResource(R.drawable.face);
                 }
                 tv_login_title.setText(userVo.getPhoneNumber() == null ? userVo.getNickName() : userVo.getPhoneNumber());
             } else {

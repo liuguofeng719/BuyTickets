@@ -159,7 +159,8 @@
                     android:drawableRight="@drawable/normal_arrow"
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/common_padding"
-                    android:text="客服热线" />
+                    android:text="客服热线"
+                />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
