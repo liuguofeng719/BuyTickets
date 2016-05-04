@@ -65,7 +65,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
     private Dialog dialogDataInit;
     private ListViewDataAdapter companyQuoteAdapter;
     private ListViewDataAdapter tripDataAdapter;
-    private SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
+    private volatile SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
 
     @OnClick(R.id.btn_back)
     public void back() {
@@ -234,6 +234,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                     initTrip(tripList);
                     List<QuoteVo> companyQuote = detailsVoResp.getCompanyQuote();
                     companyQuoteAdapter.getDataList().addAll(companyQuote);
+                    companyQuoteAdapter.notifyDataSetChanged();
                 } else {
                     CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage().equals("") ? CommonUtils.getCodeToStr(response.code()) : response.body().getErrorMessage());
                 }
@@ -279,6 +280,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
             listTaskPlans.setTaskPlansList(value);
             tripDataAdapter.getDataList().add(listTaskPlans);
         }
+        tripDataAdapter.notifyDataSetChanged();
     }
 
     class ListTaskPlans {
