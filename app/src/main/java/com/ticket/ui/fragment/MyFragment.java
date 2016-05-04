@@ -142,7 +142,7 @@ public class MyFragment extends BaseFragment {
             UserVo userVo = AppPreferences.getObject(UserVo.class);
             if (userVo != null) {
                 tv_login_title.setVisibility(View.VISIBLE);
-                if (userVo.getHeadPicture() != null) {
+                if (!TextUtils.isEmpty(userVo.getHeadPicture())) {
                     imageLoader.displayImage(userVo.getHeadPicture(), iv_face);
                 } else {
                     iv_face.setImageResource(R.drawable.face);
