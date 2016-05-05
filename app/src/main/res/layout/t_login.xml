@@ -38,7 +38,6 @@
                 android:singleLine="true"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color_hint"
-                android:text="18030867236"
                 />
 
             <View
@@ -55,7 +54,6 @@
                 android:maxLength="16"
                 android:password="true"
                 android:singleLine="true"
-                android:text="123456"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color_hint" />
         </LinearLayout>
