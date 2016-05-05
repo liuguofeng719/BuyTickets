@@ -39,7 +39,6 @@
             android:layout_height="44dp"
             android:background="@null"
             android:inputType="number"
-            android:text="35"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
 

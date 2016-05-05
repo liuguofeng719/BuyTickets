@@ -1,6 +1,7 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -174,13 +175,19 @@ public class RechargeConfirmActivity extends BaseActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            CommonUtils.dismiss(mDialog);
             switch (msg.what) {
                 case 1:
-                    CommonUtils.dismiss(mDialog);
+                    Intent intent = new Intent(RechargeConfirmActivity.this,MyWalletActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                     break;
                 case 0:
-                    CommonUtils.dismiss(mDialog);
-                    CommonUtils.make(RechargeConfirmActivity.this, "错误订单，请重新下订单");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("status", "0");
+                    bundle.putString("msg", "微信充值支付失败");
+                    readyGo(PaySuccessActivity.class, bundle);
                     break;
             }
             super.handleMessage(msg);
@@ -216,6 +223,10 @@ public class RechargeConfirmActivity extends BaseActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         bundle.putString("status", "9000");
                         bundle.putString("msg", "支付成功");
+                        Intent intent = new Intent(RechargeConfirmActivity.this,MyWalletActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -225,10 +236,10 @@ public class RechargeConfirmActivity extends BaseActivity {
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                             bundle.putString("status", "0");
-                            bundle.putString("msg", "支付失败");
+                            bundle.putString("msg", "支付宝支付失败");
                         }
+                        readyGo(PaySuccessActivity.class, bundle);
                     }
-                    readyGo(PaySuccessActivity.class, bundle);
                     break;
                 case SDK_CHECK_FLAG:
                     Toast.makeText(RechargeConfirmActivity.this, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.ticket.ui.activity;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,6 +82,10 @@ public class ExpensesDetailsActivity extends BaseActivity {
 
                     @Override
                     public void showData(int position, BalanceChangeVo itemData) {
+                        String changePrice = itemData.getChangePrice();
+                        if (changePrice.indexOf("-") != -1) {
+                            tv_trade_amount.setTextColor(Color.parseColor("#fa5616"));
+                        }
                         tv_trade_type.setText(itemData.getDescription());
                         tv_trade_amount.setText(itemData.getChangePrice());
                         tv_trade_date.setText(itemData.getChangeDateTime());
