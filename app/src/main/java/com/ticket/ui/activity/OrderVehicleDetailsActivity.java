@@ -169,7 +169,7 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void showData(int position, QuoteVo itemData) {
+                    public void showData(final int position, final QuoteVo itemData) {
 //                        DisplayImageOptions options = new DisplayImageOptions
 //                                .Builder()
 //                                .showImageForEmptyUri(R.drawable.face)
@@ -187,22 +187,29 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
                         tv_choose_car.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Call<BaseInfoVo> companyQuote = getApis().chooseCompanyQuote(v.getTag().toString()).clone();
-                                companyQuote.enqueue(new Callback<BaseInfoVo>() {
-                                    @Override
-                                    public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
-                                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                                            CommonUtils.make(OrderVehicleDetailsActivity.this, "选择包车成功");
-                                        } else {
-                                            CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage());
+                                if (!itemData.isChoosed()) {
+                                    Call<BaseInfoVo> companyQuote = getApis().chooseCompanyQuote(v.getTag().toString()).clone();
+                                    companyQuote.enqueue(new Callback<BaseInfoVo>() {
+                                        @Override
+                                        public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
+                                            if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                                                QuoteVo quoteVo = (QuoteVo) companyQuoteAdapter.getDataList().get(position);
+                                                quoteVo.setIsChoosed(true);
+                                                companyQuoteAdapter.notifyDataSetChanged();
+                                                CommonUtils.make(OrderVehicleDetailsActivity.this, "选择包车成功");
+                                            } else {
+                                                CommonUtils.make(OrderVehicleDetailsActivity.this, response.body().getErrorMessage());
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Throwable t) {
+                                        @Override
+                                        public void onFailure(Throwable t) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                } else {
+                                    CommonUtils.make(OrderVehicleDetailsActivity.this, "你已经选择车辆!");
+                                }
                             }
                         });
                     }

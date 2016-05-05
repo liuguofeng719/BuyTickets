@@ -127,8 +127,7 @@
         android:listSelector="@color/transparent"
         android:scrollbars="none"
         android:transcriptMode="alwaysScroll"
-        android:stackFromBottom="true"
-        />
+    />
 
     <LinearLayout
         android:id="@+id/ly_footer"

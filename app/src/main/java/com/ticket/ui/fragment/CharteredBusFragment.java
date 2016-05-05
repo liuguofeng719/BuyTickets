@@ -14,6 +14,7 @@ import com.ticket.bean.LeasedVehicleOrder;
 import com.ticket.bean.ShareMessageVo;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderVehicleDetailsActivity;
+import com.ticket.ui.activity.PayMentChartedBusActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -96,12 +97,25 @@ public class CharteredBusFragment extends BaseFragment {
                         tv_goDateTime = ButterKnife.findById(view, R.id.tv_goDateTime);
                         btn_gopay = ButterKnife.findById(view, R.id.btn_gopay);
                         btn_text_share = ButterKnife.findById(view, R.id.btn_text_share);
+                        btn_gopay.setVisibility(View.GONE);
                         return view;
                     }
 
                     @Override
                     public void showData(int position,final LeasedVehicleOrder itemData) {
-                        btn_gopay.setVisibility(View.GONE);
+                        if (!itemData.isPaid()) {
+                            btn_gopay.setVisibility(View.VISIBLE);
+                            btn_gopay.setTag(itemData.getOrderId());
+                            btn_gopay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("money", itemData.getTotalPrice());
+                                    bundle.putString("orderId", v.getTag().toString());
+                                    readyGo(PayMentChartedBusActivity.class, bundle);
+                                }
+                            });
+                        }
                         tv_order_code.setText(itemData.getOrderNumber());
 //                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
                         tv_status.setText(getStatus(itemData.getState()));

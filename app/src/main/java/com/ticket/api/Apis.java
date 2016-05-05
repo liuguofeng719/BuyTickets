@@ -423,7 +423,7 @@ public interface Apis {
     );
 
     /**
-     * 获取包车签名
+     * 获取包车支付宝签名
      * @param orderID
      * @return
      */
@@ -438,7 +438,7 @@ public interface Apis {
      * @return
      */
     @GET("Orders/PayLeasedVehicleOrderByWeiChat.ashx")
-    Call<WXPayVo> PayLeasedVehicleOrderByWeiChat(
+    Call<WXPayVo> payLeasedVehicleOrderByWeiChat(
             @Query("orderID") String orderID
     );
 

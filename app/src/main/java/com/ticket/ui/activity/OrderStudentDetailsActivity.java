@@ -75,7 +75,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     private ListViewDataAdapter passengerAdpater;
     private Dialog dialogDataInit;
     private ListViewDataAdapter<MessagesVo> messageDataAdapter;
-
+    TravelOrderDetailVo orderDetails;
     private boolean isPaid;
 
     @OnClick(R.id.btn_back)
@@ -87,6 +87,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     public void msgMore() {
         Bundle bundle = new Bundle();
         bundle.putString("orderId", extras.getString("orderId"));
+        bundle.putSerializable("orderDetails",orderDetails);
         readyGo(ChatListActivity.class, bundle);
     }
 
@@ -221,6 +222,8 @@ public class OrderStudentDetailsActivity extends BaseActivity {
         getOrderDetails();
     }
 
+
+
     private void getOrderDetails() {
         dialogDataInit = CommonUtils.showDialog(OrderStudentDetailsActivity.this);
         dialogDataInit.show();
@@ -230,7 +233,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
             public void onResponse(Response<TravelOrderDetailVoResp> response, Retrofit retrofit) {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     TravelOrderDetailVoResp detailVoResp = response.body();
-                    TravelOrderDetailVo orderDetails = detailVoResp.getTravelOrderDetail();
+                    orderDetails = detailVoResp.getTravelOrderDetail();
                     isPaid = orderDetails.isPaid();
                     tv_order_code.setText(orderDetails.getOrderNumber());
                     tv_order_status_desc.setText(orderDetails.getOrderStatusString());

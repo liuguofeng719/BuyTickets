@@ -16,6 +16,7 @@ import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.MessageListResp;
 import com.ticket.bean.MessagesVo;
+import com.ticket.bean.TravelOrderDetailVo;
 import com.ticket.bean.UserVo;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
@@ -50,8 +51,20 @@ public class ChatListActivity extends BaseActivity {
     @InjectView(R.id.iv_reply)
     ImageView iv_reply;
 
+    @InjectView(R.id.tv_station_title)
+    TextView tv_station_title;
+    @InjectView(R.id.tv_startPoint)
+    TextView tv_startPoint;
+    @InjectView(R.id.tv_destination)
+    TextView tv_destination;
+    @InjectView(R.id.tv_startStation)
+    TextView tv_startStation;
+    @InjectView(R.id.tv_endStation)
+    TextView tv_endStation;
+
     private ListViewDataAdapter<MessagesVo> messageDataAdapter;
     private Call<MessageListResp<List<MessagesVo>>> messageListRespCall;
+    TravelOrderDetailVo orderDetails;
     private String orderId;
 
     @OnClick(R.id.btn_back)
@@ -96,6 +109,7 @@ public class ChatListActivity extends BaseActivity {
     @Override
     protected void getBundleExtras(Bundle extras) {
         orderId = extras.getString("orderId");
+        orderDetails = (TravelOrderDetailVo)extras.getSerializable("orderDetails");
     }
 
     @Override
@@ -110,6 +124,11 @@ public class ChatListActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
+        tv_station_title.setText(orderDetails.getGoDateTime() + "发车");
+        tv_startPoint.setText(orderDetails.getStartCity());
+        tv_destination.setText(orderDetails.getStopCity());
+        tv_startStation.setText(orderDetails.getStartCityPlace());
+        tv_endStation.setText(orderDetails.getStopCityPlace());
         this.messageDataAdapter = new ListViewDataAdapter<MessagesVo>(new ViewHolderCreator<MessagesVo>() {
             @Override
             public ViewHolderBase<MessagesVo> createViewHolder(int position) {

@@ -49,7 +49,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class PayMentModeActivity extends BaseActivity {
+public class PayMentChartedBusActivity extends BaseActivity {
 
     public static final int SDK_PAY_FLAG = 1;
     public static final int SDK_CHECK_FLAG = 2;
@@ -123,7 +123,7 @@ public class PayMentModeActivity extends BaseActivity {
                     readyGo(PaySuccessActivity.class, bundle);
                     break;
                 case SDK_CHECK_FLAG:
-                    Toast.makeText(PayMentModeActivity.this, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PayMentChartedBusActivity.this, "检查结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -132,13 +132,13 @@ public class PayMentModeActivity extends BaseActivity {
     };
 
 
+    List<PayTypeVo> payTypeVoList = new ArrayList<>();
     @Override
     protected void initViewsAndEvents() {
 
         tv_header_title.setText(getString(R.string.pay_mode_title));
         tv_total_price.setText("￥" + extras.getString("money") + "元");
 
-        final List<PayTypeVo> payTypeVoList = new ArrayList<>();
         payTypeVoList.add(new PayTypeVo(R.drawable.paybao, "支付宝", ALIPAY, Boolean.FALSE));
         payTypeVoList.add(new PayTypeVo(R.drawable.weixin, "微信钱包", WENXIN, Boolean.TRUE));
         payTypeVoList.add(new PayTypeVo(R.drawable.wallet_money, "余额支付", BALANCE, Boolean.FALSE));
@@ -195,12 +195,12 @@ public class PayMentModeActivity extends BaseActivity {
      * 微信支付
      */
     private void wenXinSubmit() {
-        mDialog = CommonUtils.showDialog(PayMentModeActivity.this, "正在加载微信支付");
+        mDialog = CommonUtils.showDialog(PayMentChartedBusActivity.this, "正在加载微信支付");
         mDialog.show();
-        api = WXAPIFactory.createWXAPI(PayMentModeActivity.this, Constants.wxpay.APPID);
+        api = WXAPIFactory.createWXAPI(PayMentChartedBusActivity.this, Constants.wxpay.APPID);
         api.registerApp(Constants.wxpay.APPID);
 
-        Call<WXPayVo> callWX = getApis().payOrderByWeiChat(extras.getString("orderId")).clone();
+        Call<WXPayVo> callWX = getApis().payLeasedVehicleOrderByWeiChat(extras.getString("orderId")).clone();
         callWX.enqueue(new Callback<WXPayVo>() {
             @Override
             public void onResponse(final Response<WXPayVo> response, Retrofit retrofit) {
@@ -245,9 +245,9 @@ public class PayMentModeActivity extends BaseActivity {
                 } else {
                     if (response.body() != null) {
                         WXPayVo body = response.body();
-                        CommonUtils.make(PayMentModeActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PayMentChartedBusActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
-                        CommonUtils.make(PayMentModeActivity.this, CommonUtils.getCodeToStr(response.code()));
+                        CommonUtils.make(PayMentChartedBusActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }
                 }
             }
@@ -267,7 +267,7 @@ public class PayMentModeActivity extends BaseActivity {
             @Override
             public void run() {
                 // 构造PayTask 对象
-                PayTask alipay = new PayTask(PayMentModeActivity.this);
+                PayTask alipay = new PayTask(PayMentChartedBusActivity.this);
                 // 调用支付接口，获取支付结果
                 String result = alipay.pay(partner);
                 Message msg = new Message();
@@ -297,7 +297,7 @@ public class PayMentModeActivity extends BaseActivity {
      * 余额支付
      */
     private void paymentByBanlance() {
-        Call<BaseInfoVo> infoVoCall = getApis().paymentByBanlance("ticket", extras.getString("orderId"), AppPreferences.getString("userId")).clone();
+        Call<BaseInfoVo> infoVoCall = getApis().paymentByBanlance("leasedVehicle", extras.getString("orderId"), AppPreferences.getString("userId")).clone();
         infoVoCall.enqueue(new Callback<BaseInfoVo>() {
             @Override
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
@@ -307,7 +307,7 @@ public class PayMentModeActivity extends BaseActivity {
                     bundle.putString("msg", "支付成功");
                     readyGoThenKill(PaySuccessActivity.class, bundle);
                 } else {
-                    CommonUtils.make(PayMentModeActivity.this, response.body().getErrorMessage());
+                    CommonUtils.make(PayMentChartedBusActivity.this, response.body().getErrorMessage());
                 }
             }
 
@@ -317,12 +317,11 @@ public class PayMentModeActivity extends BaseActivity {
             }
         });
     }
-
     /**
      * 获取支付宝签名
      */
     private void signAlipay() {
-        Call<AlipayVo> siginCall = getApis().signAlipay(extras.getString("orderId")).clone();
+        Call<AlipayVo> siginCall = getApis().payLeasedVehicleOrderByAlipay(extras.getString("orderId")).clone();
         siginCall.enqueue(new Callback<AlipayVo>() {
             @Override
             public void onResponse(Response<AlipayVo> response, Retrofit retrofit) {
@@ -332,9 +331,9 @@ public class PayMentModeActivity extends BaseActivity {
                 } else {
                     if (response.body() != null) {
                         AlipayVo body = response.body();
-                        CommonUtils.make(PayMentModeActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
+                        CommonUtils.make(PayMentChartedBusActivity.this, body.getErrorMessage() == null ? response.message() : body.getErrorMessage());
                     } else {
-                        CommonUtils.make(PayMentModeActivity.this, CommonUtils.getCodeToStr(response.code()));
+                        CommonUtils.make(PayMentChartedBusActivity.this, CommonUtils.getCodeToStr(response.code()));
                     }
                 }
             }

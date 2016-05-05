@@ -347,13 +347,19 @@ public class PayMentStudentActivity extends BaseActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            Bundle bundle = new Bundle();
             switch (msg.what) {
                 case 1:
+                    bundle.putString("status", "9000");
+                    bundle.putString("msg", "支付成功");
                     CommonUtils.dismiss(mDialog);
+                    readyGo(PaySuccessActivity.class, bundle);
                     break;
                 case 0:
                     CommonUtils.dismiss(mDialog);
-                    CommonUtils.make(PayMentStudentActivity.this, "错误订单，请重新下订单");
+                    bundle.putString("status", "0");
+                    bundle.putString("msg", "支付失败");
+                    readyGo(PaySuccessActivity.class, bundle);
                     break;
             }
             super.handleMessage(msg);
