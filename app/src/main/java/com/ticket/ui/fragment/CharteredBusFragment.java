@@ -54,11 +54,13 @@ public class CharteredBusFragment extends BaseFragment {
             return;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getStatusOrder();
     }
+
     @Override
     protected void onUserInvisible() {
     }
@@ -102,23 +104,25 @@ public class CharteredBusFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void showData(int position,final LeasedVehicleOrder itemData) {
-                        if (!itemData.isPaid()) {
-                            btn_gopay.setVisibility(View.VISIBLE);
-                            btn_gopay.setTag(itemData.getOrderId());
-                            btn_gopay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("money", itemData.getTotalPrice());
-                                    bundle.putString("orderId", v.getTag().toString());
-                                    readyGo(PayMentChartedBusActivity.class, bundle);
-                                }
-                            });
+                    public void showData(int position, final LeasedVehicleOrder itemData) {
+                        if (!"0".equals(itemData.getState())) {
+                            if (!itemData.isPaid()) {
+                                btn_gopay.setVisibility(View.VISIBLE);
+                                btn_gopay.setTag(itemData.getOrderId());
+                                btn_gopay.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("money", itemData.getTotalPrice());
+                                        bundle.putString("orderId", v.getTag().toString());
+                                        readyGo(PayMentChartedBusActivity.class, bundle);
+                                    }
+                                });
+                            }
                         }
                         tv_order_code.setText(itemData.getOrderNumber());
-//                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
-                        tv_status.setText(getStatus(itemData.getState()));
+                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
+                        tv_status.setText(getStatus(itemData.getState()) + payStr);
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getTotalPrice());
@@ -150,7 +154,7 @@ public class CharteredBusFragment extends BaseFragment {
                                             shareVo.setSiteUrl("");
                                             ShareUtils.showShare(getActivity(), shareVo);
                                         } else {
-                                            CommonUtils.make(getActivity(),"分享失败");
+                                            CommonUtils.make(getActivity(), "分享失败");
                                         }
                                     }
 

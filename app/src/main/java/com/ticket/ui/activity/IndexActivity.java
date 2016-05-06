@@ -67,6 +67,7 @@ public class IndexActivity extends BaseActivity {
                             tv_header_title.setText(getString(R.string.home_header_order));
                             viewPager.setCurrentItem(1,false);
                         } else {
+                            viewPager.setCurrentItem(0);
                             readyGo(LoginActivity.class);
                         }
                         break;

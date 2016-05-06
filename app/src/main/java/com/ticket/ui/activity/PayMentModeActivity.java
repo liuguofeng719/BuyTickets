@@ -348,15 +348,12 @@ public class PayMentModeActivity extends BaseActivity {
 
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            Bundle bundle = new Bundle();
+            CommonUtils.dismiss(mDialog);
             switch (msg.what) {
                 case 1:
-                    bundle.putString("status", "9000");
-                    bundle.putString("msg", "支付成功");
-                    CommonUtils.dismiss(mDialog);
-                    readyGo(PaySuccessActivity.class, bundle);
                     break;
                 case 0:
+                    Bundle bundle = new Bundle();
                     CommonUtils.dismiss(mDialog);
                     bundle.putString("status", "0");
                     bundle.putString("msg", "支付失败");

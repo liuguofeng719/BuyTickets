@@ -144,7 +144,7 @@ public class CarTicketFragment extends BaseFragment {
                                             shareVo.setSiteUrl("");
                                             ShareUtils.showShare(getActivity(), shareVo);
                                         } else {
-                                            CommonUtils.make(getActivity(),"分享失败");
+                                            CommonUtils.make(getActivity(), "分享失败");
                                         }
                                     }
 
@@ -165,7 +165,9 @@ public class CarTicketFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getStatusOrder();
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            getStatusOrder();
+        }
     }
 
     private void getStatusOrder() {
