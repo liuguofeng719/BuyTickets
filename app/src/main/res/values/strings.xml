@@ -25,8 +25,7 @@
                 2．	份数限制：每人每车最高可购买5份，未成年人限1份。\n
                 3．	保险有效期：当次客车有效，被保险人以乘客身份乘坐从事合法商业运营的客车期间；（自持有效车票进入车厢时起，至抵达车票载明的终点离开所乘车车厢时止）\n
                 4．	保险费：根据保险公司和车程行驶路程而定。\n
-                5．	保额：\n
-                6．	理赔：请致电中国平安保险公司客服（95511）办理\n
+                5．	理赔：请致电中国平安保险公司客服（95511）办理\n
     </string>
     <string name="notice_title">购票须知</string>
     <string name="notice">
@@ -39,7 +38,7 @@
                 6．	网上购票暂不支持网上改签，网上退票功能将在发车时刻前2小时关闭，关闭之后只能到始发站办理退票手续。\n
                 7．	请您预留充足的时间前往车站凭取票证件办理取票，如超过发车时间仍未取票，微风出行网不承担责任。\n
                 8．	班次信息由客运站提供，实际发车以客运站信息为准。\n
-                9．	购票成功后，请您尽早办理取票事宜。如无法正常取票，请及时拨打微风出行客服热线：\n 028-87675183
+                9．	购票成功后，请您尽早办理取票事宜。如无法正常取票，请及时拨打微风出行客服热线：\n 028-61039462
     </string>
     <string name="tips_info_content_service">
         服务费：服务费包括支付手续费，短信费，技术接入费；如产生退票，服务费不退。
@@ -48,7 +47,7 @@
     <!-- login -->
     <string name="header_title">登录</string>
     <string name="login_reg">注册</string>
-    <string name="login_fogot_pwd">找回密码</string>
+    <string name="login_fogot_pwd">重置密码</string>
     <string name="login_reg_fogot">忘记密码?</string>
     <string name="login_button_reg">注册并且登录</string>
     <string name="login_button_rest">确认</string>

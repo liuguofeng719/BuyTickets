@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -51,6 +52,20 @@ public class IndexActivity extends BaseActivity {
         return null;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (extras != null) {
+            int current = extras.getInt("current", 0);
+            if (current != 0) {
+                extras.remove("current");
+                viewPager.setCurrentItem(current, false);
+                ((RadioButton) this.radioGroup.getChildAt(current)).setChecked(true);
+            }
+        }
+    }
+
     @Override
     protected void initViewsAndEvents() {
         viewPager.setEnableScroll(false);
@@ -60,12 +75,12 @@ public class IndexActivity extends BaseActivity {
                 switch (checkedId) {
                     case R.id.rdo_ticket:
                         tv_header_title.setText(getString(R.string.home_header_title));
-                        viewPager.setCurrentItem(0,false);
+                        viewPager.setCurrentItem(0, false);
                         break;
                     case R.id.rdo_order:
                         if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
                             tv_header_title.setText(getString(R.string.home_header_order));
-                            viewPager.setCurrentItem(1,false);
+                            viewPager.setCurrentItem(1, false);
                         } else {
                             viewPager.setCurrentItem(0);
                             readyGo(LoginActivity.class);
@@ -73,7 +88,7 @@ public class IndexActivity extends BaseActivity {
                         break;
                     case R.id.rdo_my:
                         tv_header_title.setText(getString(R.string.home_user_info));
-                        viewPager.setCurrentItem(2,false);
+                        viewPager.setCurrentItem(2, false);
                         break;
                 }
             }

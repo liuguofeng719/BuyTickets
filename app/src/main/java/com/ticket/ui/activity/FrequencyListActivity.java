@@ -181,8 +181,8 @@ public class FrequencyListActivity extends BaseActivity {
                         tv_goDateTime.setText(itemData.getGoTime());
                         tv_startStation.setText(itemData.getStartStationName());
                         tv_endStation.setText(itemData.getStopStationName());
-                        tv_salePrice.setText(itemData.getTicketPrice());
-                        tv_tickets_amount.setText("剩票(" + itemData.getRemainingTicketsAmount() + ")张");
+                        tv_salePrice.setText("￥"+itemData.getTicketPrice());
+                        tv_tickets_amount.setText("余票：" + itemData.getRemainingTicketsAmount() + "张");
                         ly_fre_item.setTag(itemData);
                         ly_fre_item.setOnClickListener(new View.OnClickListener() {
                             @Override

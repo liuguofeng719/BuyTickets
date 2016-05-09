@@ -24,6 +24,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_below="@+id/topPanel">
 
         <LinearLayout
@@ -244,7 +245,12 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/tips" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"
+                android:background="@color/bg_line_color"
+            />
             <RelativeLayout
                 android:id="@+id/passenger_title"
                 android:layout_width="match_parent"
@@ -362,22 +368,25 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/bg_line_color" />
+                android:layout_height="1dp"
+                android:background="@color/bg_line_color"
+            />
 
             <TextView
                 android:id="@+id/tv_coupon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:drawableRight="@drawable/normal_arrow"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:text="优惠券功能" />
+                android:text="优惠券功能"
+            />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
                 android:background="@color/bg_line_color" />
 
             <RelativeLayout

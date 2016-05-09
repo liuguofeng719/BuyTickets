@@ -1,6 +1,7 @@
 package com.ticket.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -8,10 +9,12 @@ import com.ticket.R;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.PicturesVoResp;
 import com.ticket.ui.activity.CharteredBusActivity;
+import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.StudentTripActivity;
 import com.ticket.ui.activity.TicketActivity;
 import com.ticket.ui.activity.WebViewActivity;
 import com.ticket.ui.base.BaseFragment;
+import com.ticket.utils.AppPreferences;
 import com.ticket.widgets.SlideShowView;
 
 import java.util.List;
@@ -24,7 +27,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class HomeFragment extends BaseFragment implements SlideShowView.OnImageClickedListener{
+public class HomeFragment extends BaseFragment implements SlideShowView.OnImageClickedListener {
 
     @InjectView(R.id.ly_bus)
     LinearLayout ly_bus;
@@ -48,7 +51,7 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
 //    Button btn_qq_share;
 
     @OnClick(R.id.ly_student)
-    public void studentTips(){
+    public void studentTips() {
         readyGo(StudentTripActivity.class);
     }
 
@@ -74,8 +77,12 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
 //    }
 
     @OnClick(R.id.ly_travel)
-    public void travel(){
-        readyGo(CharteredBusActivity.class);
+    public void travel() {
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            readyGo(CharteredBusActivity.class);
+        } else {
+            readyGo(LoginActivity.class);
+        }
     }
 
 //    private void authorize(Platform plat) {

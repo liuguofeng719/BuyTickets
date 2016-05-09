@@ -2,6 +2,7 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,11 +94,11 @@ public class CharteredBusActivity extends BaseActivity {
         mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(startCity.getText().toString().trim())){
+                if (TextUtils.isEmpty(startCity.getText().toString().trim())) {
                     CommonUtils.make(CharteredBusActivity.this, "填写出发城市");
                     return;
                 }
-                if(TextUtils.isEmpty(endCity.getText().toString().trim())){
+                if (TextUtils.isEmpty(endCity.getText().toString().trim())) {
                     CommonUtils.make(CharteredBusActivity.this, "填写到达城市");
                     return;
                 }
@@ -178,6 +179,9 @@ public class CharteredBusActivity extends BaseActivity {
             @Override
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("current", 1);
+                    readyGoThenKill(IndexActivity.class, bundle);
                     CommonUtils.make(CharteredBusActivity.this, "发布包车成功");
                 } else {
                     CommonUtils.make(CharteredBusActivity.this, "发布包车失败");

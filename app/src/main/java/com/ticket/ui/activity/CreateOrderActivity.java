@@ -415,6 +415,7 @@ public class CreateOrderActivity extends BaseActivity {
                     public void showData(int position, PassengerVo itemData) {
                         holder.tv_pass_name.setText(itemData.getFullName());
                         holder.tv_id_card.setText(itemData.getIdCard());
+                        holder.tv_phone.setText(itemData.getMobileNumber());
                         holder.tv_delete.setTag(itemData);
                         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
 
@@ -452,6 +453,8 @@ public class CreateOrderActivity extends BaseActivity {
         TextView tv_pass_name;
         @InjectView(R.id.tv_id_card)
         TextView tv_id_card;
+        @InjectView(R.id.tv_phone)
+        TextView tv_phone;
         @InjectView(R.id.tv_delete)
         TextView tv_delete;
     }

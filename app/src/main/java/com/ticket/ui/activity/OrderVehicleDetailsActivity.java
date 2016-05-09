@@ -180,6 +180,9 @@ public class OrderVehicleDetailsActivity extends BaseActivity {
 //                                .bitmapConfig(Bitmap.Config.RGB_565)
 //                                .build();
                         ImageLoader.getInstance().displayImage(itemData.getCarPicture(), iv_car);
+                        if (itemData.isChoosed()) {
+                            tv_choose_car.setText("已选择");
+                        }
                         tv_subordinate.setText(itemData.getCompanyName());
                         tv_car_type.setText("车型：" + itemData.getCarTypeName());
                         tv_car_price.setText("承运价格：" + itemData.getQuotePrice());
