@@ -40,6 +40,7 @@ import com.ticket.bean.TravelRoutingVo;
 import com.ticket.bean.TravelRoutingVoResp;
 import com.ticket.bean.UserVo;
 import com.ticket.bean.VehicleOrdersDetailsVoResp;
+import com.ticket.bean.VersionVo;
 import com.ticket.bean.WXPayVo;
 
 import java.util.List;
@@ -282,6 +283,7 @@ public interface Apis {
 
     /**
      * 学生出行支付宝支付
+     *
      * @param orderID
      * @return
      */
@@ -292,6 +294,7 @@ public interface Apis {
 
     /**
      * 学生出行微信支付
+     *
      * @param orderID
      * @return
      */
@@ -302,6 +305,7 @@ public interface Apis {
 
     /**
      * 使用余额支付
+     *
      * @param orderType 订单类型（说明：汽车票传入字符串"ticket"，学生出行传入字符串"travel"，包车出行传入字符串"leasedVehicle"）
      * @return
      */
@@ -424,6 +428,7 @@ public interface Apis {
 
     /**
      * 获取包车支付宝签名
+     *
      * @param orderID
      * @return
      */
@@ -434,6 +439,7 @@ public interface Apis {
 
     /**
      * 获取包车微信签名
+     *
      * @param orderID
      * @return
      */
@@ -459,6 +465,7 @@ public interface Apis {
 
     /**
      * 提现API
+     *
      * @param userID
      * @param withdrawalPrice
      * @param bankName
@@ -477,6 +484,7 @@ public interface Apis {
 
     /**
      * 获取包车出行地市
+     *
      * @param cityID
      * @return
      */
@@ -485,6 +493,7 @@ public interface Apis {
 
     /**
      * 关联第三方登陆
+     *
      * @return
      */
     @GET("User/ExternalSystemAuthentication.ashx")
@@ -495,8 +504,10 @@ public interface Apis {
             @Query("openID") String openID,
             @Query("nickName") String nickName
     );
+
     /**
      * 关联手机号
+     *
      * @return
      */
     @GET("User/BindingUserMobileNumber.ashx")
@@ -504,13 +515,14 @@ public interface Apis {
             @Query("userID") String userID,
             @Query("mobileNumber") String mobileNumber
     );
+
     /**
+     * @return
      * @desc 创建包车出行订单
      * userID：用户ID
      * goDate：出发日期
      * passengerAmount：出发人数
      * trip：行程(格式: 1,成都-安岳|1,安岳-自贡|2,自贡-宜宾|2,宜宾-成都 )  1：代表出行的第几天，成都-安岳代表出行的目的地和到达地
-     * @return
      */
     @GET("LeasedVehicle/CreateLeasedVehicleOrder.ashx")
     Call<BaseInfoVo> CreateLeasedVehicleOrder(
@@ -522,6 +534,7 @@ public interface Apis {
 
     /**
      * 包车订单列表
+     *
      * @param userID
      * @return
      */
@@ -532,6 +545,7 @@ public interface Apis {
 
     /**
      * 包车订单详情
+     *
      * @param orderID
      * @return
      */
@@ -542,6 +556,7 @@ public interface Apis {
 
     /**
      * 学生创建订单
+     *
      * @param userID
      * @param travelID
      * @param passengers 乘客ID和是否为学生票（格式： passengerID,1|passengerID,0 passengerID:乘客ID，0和1 代表是否为学生）
@@ -550,12 +565,13 @@ public interface Apis {
     @GET("Orders/CreateTravelOrder.ashx")
     Call<OrderCreateVoResp> CreateTravelOrder(
             @Query("userID") String userID,
-            @Query("travelID") String travelID ,
+            @Query("travelID") String travelID,
             @Query("passengers") String passengers
     );
 
     /**
      * 学生出行订单列表
+     *
      * @param userID
      * @return
      */
@@ -566,6 +582,7 @@ public interface Apis {
 
     /**
      * 学生出行订单详情
+     *
      * @param orderID
      * @return
      */
@@ -576,6 +593,7 @@ public interface Apis {
 
     /**
      * 选择包车报价
+     *
      * @param quoteID
      * @return
      */
@@ -586,6 +604,7 @@ public interface Apis {
 
     /**
      * 学生出行退票
+     *
      * @param orderItemID
      * @return
      */
@@ -596,6 +615,7 @@ public interface Apis {
 
     /**
      * 学生出行订单详情留言板消息获取
+     *
      * @param orderID
      * @return
      */
@@ -606,6 +626,7 @@ public interface Apis {
 
     /**
      * 学生出行订单详情添加留言板消息
+     *
      * @param orderID
      * @return
      */
@@ -618,11 +639,19 @@ public interface Apis {
 
     /**
      * 订单分享
+     *
      * @param ordernumber
      * @return
      */
     @GET("orders/share.ashx")
     Call<ShareMessageVo> share(
-        @Query("ordernumber") String ordernumber
+            @Query("ordernumber") String ordernumber
     );
+
+    /**
+     * 获取版本信息
+     * @return
+     */
+    @GET("common/checkversion.ashx?platform=android")
+    Call<VersionVo> getVersion();
 }

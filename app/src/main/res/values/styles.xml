@@ -25,6 +25,19 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
+
+    <style name="seller_dialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@drawable/seller_dialog_round_corner</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊 -->
+    </style>
+
     <!--<style name="animation_translucent_translate" parent="@android:style/Animation.Translucent">-->
         <!--<item name="android:windowEnterAnimation">@anim/activity_open_in_anim</item>-->
         <!--<item name="android:windowExitAnimation">@anim/activity_open_out_anim</item>-->

@@ -15,7 +15,7 @@ android {
         applicationId "com.ticket"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 26
+        versionCode 27
         versionName "1.5"
         signingConfig signingConfigs.troycd
     }
