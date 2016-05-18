@@ -12,7 +12,6 @@ import com.ticket.R;
 import com.ticket.bean.OrderVo;
 import com.ticket.bean.OrderVoResp;
 import com.ticket.bean.ShareMessageVo;
-import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.OrderDetailsActivity;
 import com.ticket.ui.activity.PayMentModeActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
@@ -49,14 +48,12 @@ public class CarTicketFragment extends BaseFragment {
 
     @Override
     protected void onUserVisible() {
-        if (TextUtils.isEmpty(AppPreferences.getString("userId"))) {
-            readyGo(LoginActivity.class);
-            return;
-        }
+
     }
 
     @Override
     protected void onUserInvisible() {
+
     }
 
     @Override

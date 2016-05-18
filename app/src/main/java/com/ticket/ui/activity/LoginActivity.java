@@ -1,6 +1,7 @@
 package com.ticket.ui.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -185,7 +186,10 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            readyGo(IndexActivity.class);
+            Intent intent = new Intent(LoginActivity.this,IndexActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

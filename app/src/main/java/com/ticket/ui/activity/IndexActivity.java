@@ -111,7 +111,7 @@ public class IndexActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             ExitDoubleClick.getInstance(this).doDoubleClick(2000, null);
-            return false;
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
