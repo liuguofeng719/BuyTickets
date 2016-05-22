@@ -103,7 +103,6 @@
                 android:divider="@null"
                 android:listSelector="@color/transparent"
                 android:scrollbars="none" />
-
             <ImageView
                 android:id="@+id/iv_plus"
                 android:layout_width="wrap_content"
