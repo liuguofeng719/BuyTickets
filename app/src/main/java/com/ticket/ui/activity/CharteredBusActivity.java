@@ -2,8 +2,14 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +68,8 @@ public class CharteredBusActivity extends BaseActivity {
     TextView tv_enquiry;
     @InjectView(R.id.lv_scheduling)
     ListView lv_scheduling;
+    @InjectView(R.id.tv_text_info)
+    TextView tv_text_info;
 
     private String date_time;
     private Dialog mDialog;
@@ -221,6 +229,7 @@ public class CharteredBusActivity extends BaseActivity {
         return null;
     }
 
+
     @Override
     protected void initViewsAndEvents() {
         tv_header_title.setText("包车出行");
@@ -230,6 +239,16 @@ public class CharteredBusActivity extends BaseActivity {
                 readyGoForResult(PickerActivity.class, 1);
             }
         });
+
+        SpannableString sbs = new SpannableString("输入麻烦?028-61039462打电话给我，我帮您填");
+        String s = sbs.toString();
+        int start = s.indexOf("0");
+        int end = s.indexOf("打");
+        sbs.setSpan(new NoLineClickSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_text_info.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_text_info.setHighlightColor(getResources().getColor(R.color.transparent));
+        tv_text_info.setLinkTextColor(getResources().getColor(R.color.common_text_color));
+        tv_text_info.setText(sbs);
 
         this.viewDataAdapter = new ListViewDataAdapter<ListTaskPlans>(new ViewHolderCreator<ListTaskPlans>() {
 
@@ -299,6 +318,23 @@ public class CharteredBusActivity extends BaseActivity {
         });
         lv_scheduling.setAdapter(this.viewDataAdapter);
         setCurrentTime(new Date());
+    }
+
+    class NoLineClickSpan extends ClickableSpan {
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ds.linkColor);
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Uri data = Uri.parse("tel:028-61039462");
+            intent.setData(data);
+            startActivity(intent);
+        }
     }
 
     class ListTaskPlans {

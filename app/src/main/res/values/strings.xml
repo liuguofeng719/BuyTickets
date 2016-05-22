@@ -14,7 +14,7 @@
 
     <string name="wx_protocol">使用微风出行,同意我们的用户协议</string>
 
-    <string name="home_header_title">汽车票</string>
+    <string name="home_header_title">微风出行</string>
     <string name="home_header_order">我的订单</string>
     <string name="home_user_info">个人中心</string>
     <string name="pay_mode_title">支付选择</string>

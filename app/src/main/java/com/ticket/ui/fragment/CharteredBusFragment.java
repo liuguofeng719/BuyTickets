@@ -105,7 +105,7 @@ public class CharteredBusFragment extends BaseFragment {
 
                     @Override
                     public void showData(int position, final LeasedVehicleOrder itemData) {
-                        if (!"0".equals(itemData.getState())) {
+                        if ("2".equals(itemData.getState())) {
                             if (!itemData.isPaid()) {
                                 btn_gopay.setVisibility(View.VISIBLE);
                                 btn_gopay.setTag(itemData.getOrderId());
@@ -121,8 +121,8 @@ public class CharteredBusFragment extends BaseFragment {
                             }
                         }
                         tv_order_code.setText(itemData.getOrderNumber());
-                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
-                        tv_status.setText(getStatus(itemData.getState()) + payStr);
+//                        String payStr = itemData.isPaid() ? "已支付" : "未支付";
+                        tv_status.setText(getStatus(itemData.getState()));
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getTotalPrice());
@@ -169,11 +169,13 @@ public class CharteredBusFragment extends BaseFragment {
 
                     public String getStatus(String type) {
                         if ("0".equals(type)) {
-                            return "未询价";
+                            return "等待询价";
                         } else if ("1".equals(type)) {
-                            return "等待达成出行";
+                            return "询价完成";
                         } else if ("2".equals(type)) {
-                            return "达成出行";
+                            return "等待付款";
+                        } else if ("3".equals(type)) {
+                            return "交易成功";
                         }
                         return "";
                     }

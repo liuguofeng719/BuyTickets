@@ -68,9 +68,9 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_below="@+id/ly_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ly_header"
         android:scrollbars="none">
 
         <LinearLayout
@@ -79,6 +79,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_tips_scheduling"
                 android:layout_width="match_parent"
@@ -101,7 +102,7 @@
                 android:cacheColorHint="@color/transparent"
                 android:divider="@null"
                 android:listSelector="@color/transparent"
-                android:scrollbars="none"/>
+                android:scrollbars="none" />
 
             <ImageView
                 android:id="@+id/iv_plus"
@@ -125,6 +126,13 @@
                 android:text="提交询价"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_text_info"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
