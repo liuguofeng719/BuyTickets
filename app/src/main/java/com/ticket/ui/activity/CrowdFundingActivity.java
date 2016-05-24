@@ -2,8 +2,14 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -191,6 +197,15 @@ public class CrowdFundingActivity extends BaseActivity {
     protected void initViewsAndEvents() {
         dialog = CommonUtils.showDialog(this, "正在发布");
         tv_header_title.setText("众筹拼车发布");
+        SpannableString sbs = new SpannableString("输入麻烦?028-61039462打电话给我，我帮您填");
+        String s = sbs.toString();
+        int start = s.indexOf("0");
+        int end = s.indexOf("打");
+        sbs.setSpan(new NoLineClickSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_text_info.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_text_info.setHighlightColor(getResources().getColor(R.color.transparent));
+        tv_text_info.setLinkTextColor(getResources().getColor(R.color.common_text_color));
+        tv_text_info.setText(sbs);
         this.ly_start_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +235,22 @@ public class CrowdFundingActivity extends BaseActivity {
         });
         setCurrentTime(new Date());
     }
+    class NoLineClickSpan extends ClickableSpan {
 
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(ds.linkColor);
+            ds.setUnderlineText(false);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Uri data = Uri.parse("tel:028-61039462");
+            intent.setData(data);
+            startActivity(intent);
+        }
+    }
     @Override
     protected void onStop() {
         super.onStop();
