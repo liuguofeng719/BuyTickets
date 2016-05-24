@@ -183,7 +183,7 @@ public class StudentListActivity extends BaseActivity {
                             holder.btn_text_pay.setVisibility(View.VISIBLE);
                             holder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
                             holder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
-                            holder.tv_person_count.setText("已定" + routingListVo.getReachSeatAmount() + "人");
+                            holder.tv_person_count.setText("剩余" + routingListVo.getReachSeatAmount() + "座 ");
                         }
 
                         holder.tv_status.setText(getStatus(routingListVo.getState()));//平台类型
@@ -192,12 +192,12 @@ public class StudentListActivity extends BaseActivity {
                         holder.tv_startStation.setText(routingListVo.getStartPlaceName());
                         holder.tv_endStation.setText(routingListVo.getStopPlaceName());
 
-                        if ("平台发布".equals(routingListVo.getPublishedType())) {
+//                        if ("平台发布".equals(routingListVo.getPublishedType())) {
                             holder.tv_seat_amount.setText(routingListVo.getCarName());
-                            holder.tv_reachSeat_amount.setText("(达成出行满" + routingListVo.getReachSeatAmount() + "人)");
-                        } else if ("用户发布".equals(routingListVo.getPublishedType())) {
-                            holder.tv_seat_amount.setText("发起人:" + routingListVo.getCreateUser());
-                        }
+                            holder.tv_reachSeat_amount.setText("(达成出行还差" + routingListVo.getReachSeatAmount() + "人)");
+//                        } else if ("用户发布".equals(routingListVo.getPublishedType())) {
+//                            holder.tv_seat_amount.setText("发起人:" + routingListVo.getCreateUser());
+//                        }
                         holder.btn_text_share.setTag(routingListVo);
                         holder.btn_text_share.setOnClickListener(new View.OnClickListener() {
                             @Override

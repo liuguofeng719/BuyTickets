@@ -45,15 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:text="" />
+                android:gravity="right" />
 
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/common_text_color" />
+                android:textColor="@color/common_text_color"
+            />
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text=""
                 android:textColor="@color/text_color_hint_1"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -106,7 +104,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text=""
                 android:textColor="@color/text_color_hint_1"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -138,8 +135,8 @@
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/tv_seat_amount"
             android:gravity="center"
-            android:text=""
             android:textColor="@color/text_color_hint_1"
+            android:textStyle="bold"
             android:textSize="14sp" />
 
         <LinearLayout
