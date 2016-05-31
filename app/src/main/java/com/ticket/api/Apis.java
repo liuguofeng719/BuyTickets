@@ -371,6 +371,7 @@ public interface Apis {
      * @param stopPlaceID  到达城市ID
      * @param userID       用户ID
      * @param goDate       出发日期(格式:2015-11-12)
+     * @param goTime       出发时间 12:30
      * @return
      */
     @GET("Travel/CreateTravel.ashx")
@@ -378,7 +379,8 @@ public interface Apis {
             @Query("startPlaceID") String startPlaceID,
             @Query("stopPlaceID") String stopPlaceID,
             @Query("userID") String userID,
-            @Query("goDate") String goDate
+            @Query("goDate") String goDate,
+            @Query("goTime") String goTime
     );
 
     /**

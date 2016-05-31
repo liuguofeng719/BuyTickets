@@ -60,6 +60,8 @@ public class CrowdFundingActivity extends BaseActivity {
     TextView end_city;
     @InjectView(R.id.go_time)
     TextView go_time;
+    @InjectView(R.id.go_date)
+    TextView go_date;
     @InjectView(R.id.btn_submit)
     Button btn_submit;
     @InjectView(R.id.iv_car)
@@ -151,12 +153,16 @@ public class CrowdFundingActivity extends BaseActivity {
             CommonUtils.make(this, "出行人数不能为0");
             return;
         }
+        if (TextUtils.isEmpty(go_date.getText())) {
+            CommonUtils.make(this, "出发日期不能为空");
+            return;
+        }
         if (TextUtils.isEmpty(go_time.getText())) {
-            CommonUtils.make(this, getString(R.string.tip_start_time));
+            CommonUtils.make(this, "出发时间不能为空");
             return;
         }
         dialog.show();
-        infoVoCall = getApis().createTravel(startCityId, endCityId, AppPreferences.getString("userId"), go_time.getText().toString()).clone();
+        infoVoCall = getApis().createTravel(startCityId, endCityId, AppPreferences.getString("userId"),date_time, go_time.getText().toString()).clone();
         infoVoCall.enqueue(new Callback<BaseInfoVo>() {
             @Override
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
@@ -181,7 +187,7 @@ public class CrowdFundingActivity extends BaseActivity {
         Calendar rightNow = Calendar.getInstance();
         rightNow.setTime(dt);
         int day = rightNow.get(Calendar.DAY_OF_WEEK);//获取时间
-        go_time.setText(sdf.format(dt) + " " + str[day - 1]);
+        go_date.setText(sdf.format(dt) + " " + str[day - 1]);
         SimpleDateFormat sdfView = new SimpleDateFormat("yyyy-MM-dd");
         date_time = sdfView.format(dt);
     }
@@ -230,14 +236,19 @@ public class CrowdFundingActivity extends BaseActivity {
                 }
             }
         });
+        this.go_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGoForResult(PickerActivity.class, 1);
+            }
+        });
         this.go_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                readyGoForResult(PickerActivity.class, 1);
                 pvTime.show();
             }
         });
-//        setCurrentTime(new Date());
+        setCurrentTime(new Date());
         //时间选择器
         pvTime = new TimePickerView(this, TimePickerView.Type.HOURS_MINS);
         pvTime.setTime(new Date());
