@@ -25,6 +25,7 @@ import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
 import com.ticket.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
@@ -264,7 +265,7 @@ public class StudentTripActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Throwable t){
+            public void onFailure(Throwable t) {
             }
         });
         lv_recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -291,7 +292,11 @@ public class StudentTripActivity extends BaseActivity {
 
         @Override
         public void onClick(View widget) {
-            readyGo(CrowdFundingActivity.class);
+            if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+                readyGo(CrowdFundingActivity.class);
+            } else {
+                readyGo(LoginActivity.class);
+            }
         }
     }
 

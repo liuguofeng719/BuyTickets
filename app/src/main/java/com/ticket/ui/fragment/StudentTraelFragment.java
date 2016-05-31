@@ -165,7 +165,7 @@ public class StudentTraelFragment extends BaseFragment {
                         if ("0".equals(type)) {
                             return "未询价";
                         } else if ("1".equals(type)) {
-                            return "等待达成出行";
+                            return "支付完成,等待达成出行";
                         } else if ("2".equals(type)) {
                             return "达成出行";
                         }

@@ -104,6 +104,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     TextView tv_id_card;
                     TextView tv_delete;
                     TextView tv_phone;
+                    TextView tv_ticket_number;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
@@ -112,6 +113,7 @@ public class OrderDetailsActivity extends BaseActivity {
                         tv_id_card = ButterKnife.findById(view, R.id.tv_id_card);
                         tv_delete = ButterKnife.findById(view, R.id.tv_delete);
                         tv_phone = ButterKnife.findById(view, R.id.tv_phone);
+                        tv_ticket_number = ButterKnife.findById(view, R.id.tv_ticket_number);
                         tv_delete.setVisibility(View.INVISIBLE);
                         return view;
                     }
@@ -122,6 +124,7 @@ public class OrderDetailsActivity extends BaseActivity {
                         tv_pass_name.setText(itemData.getPassengerName());
                         tv_id_card.setText(itemData.getIdCard());
                         tv_phone.setText(itemData.getMobileNumber());
+                        tv_ticket_number.setText(itemData.getTicketNumber());
                         if (itemData.isCanbeRefund()) {
                             tv_delete.setVisibility(View.VISIBLE);
                             tv_delete.setTag(itemData.getOrderDetailID());

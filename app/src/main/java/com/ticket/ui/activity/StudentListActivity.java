@@ -183,7 +183,7 @@ public class StudentListActivity extends BaseActivity {
                             holder.btn_text_pay.setVisibility(View.VISIBLE);
                             holder.tv_student_ticket.setText("学生票：" + routingListVo.getStudentPrice() + "元");
                             holder.tv_adult_ticket.setText("成人票：" + routingListVo.getNormalPrice() + "元");
-                            holder.tv_person_count.setText("剩余" + routingListVo.getReachSeatAmount() + "座 ");
+                            holder.tv_person_count.setText("剩余" + routingListVo.getSurplusSeat() + "座 ");
                         }
 
                         holder.tv_status.setText(getStatus(routingListVo.getState()));//平台类型

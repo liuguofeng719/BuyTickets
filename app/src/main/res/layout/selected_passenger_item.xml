@@ -38,14 +38,51 @@
                 android:text="13888888888"
                 />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_id_card"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="身份证 62034519900307288x"
-            android:textColor="@color/text_color_hint"
-            android:textSize="14sp" />
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="身份证"
+                android:textColor="@color/text_color_hint"
+                android:textSize="14sp"
+            />
+            <TextView
+                android:id="@+id/tv_id_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="62034519900307288x"
+                android:textColor="@color/text_color_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="票号"
+                android:textColor="@color/text_color"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/tv_ticket_number"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="13888888888"
+            />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
@@ -56,5 +93,5 @@
         android:textColor="@color/text_price_color"
         android:textSize="14sp"
         android:text="删除"
-        />
+    />
 </LinearLayout>

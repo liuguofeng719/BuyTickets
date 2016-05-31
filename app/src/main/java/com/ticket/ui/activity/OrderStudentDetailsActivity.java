@@ -87,7 +87,7 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     public void msgMore() {
         Bundle bundle = new Bundle();
         bundle.putString("orderId", extras.getString("orderId"));
-        bundle.putSerializable("orderDetails",orderDetails);
+        bundle.putSerializable("orderDetails", orderDetails);
         readyGo(ChatListActivity.class, bundle);
     }
 
@@ -223,7 +223,6 @@ public class OrderStudentDetailsActivity extends BaseActivity {
     }
 
 
-
     private void getOrderDetails() {
         dialogDataInit = CommonUtils.showDialog(OrderStudentDetailsActivity.this);
         dialogDataInit.show();
@@ -253,9 +252,11 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     passengerAdpater.getDataList().addAll(passengerVos);
                     passengerAdpater.notifyDataSetChanged();
                     List<MessagesVo> messagesVos = detailVoResp.getMessages();
-//                    if (messagesVos != null && messagesVos.size() == 0) {
-//                        tv_msg_more.setVisibility(View.GONE);
-//                    }
+                    if (messagesVos != null && messagesVos.size() == 0) {
+                        tv_msg_more.setText("去留言");
+                    } else {
+                        tv_msg_more.setText("更多消息");
+                    }
                     messageDataAdapter.getDataList().clear();
                     messageDataAdapter.getDataList().addAll(messagesVos);
                     messageDataAdapter.notifyDataSetChanged();

@@ -168,5 +168,6 @@
         android:layout_height="55dp"
         android:background="@color/white"
         android:gravity="center"
+        android:layout_alignParentBottom="true"
     />
 </RelativeLayout>

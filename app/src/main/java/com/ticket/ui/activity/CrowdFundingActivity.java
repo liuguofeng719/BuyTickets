@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.common.Constants;
@@ -71,6 +72,8 @@ public class CrowdFundingActivity extends BaseActivity {
     private String endCityId;
     private Call<BaseInfoVo> infoVoCall;
     private Dialog dialog;
+
+    TimePickerView pvTime;
 
     @OnClick(R.id.btn_back)
     public void btnBack() {
@@ -153,7 +156,7 @@ public class CrowdFundingActivity extends BaseActivity {
             return;
         }
         dialog.show();
-        infoVoCall = getApis().createTravel(startCityId, endCityId, AppPreferences.getString("userId"), date_time).clone();
+        infoVoCall = getApis().createTravel(startCityId, endCityId, AppPreferences.getString("userId"), go_time.getText().toString()).clone();
         infoVoCall.enqueue(new Callback<BaseInfoVo>() {
             @Override
             public void onResponse(Response<BaseInfoVo> response, Retrofit retrofit) {
@@ -230,10 +233,26 @@ public class CrowdFundingActivity extends BaseActivity {
         this.go_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGoForResult(PickerActivity.class, 1);
+//                readyGoForResult(PickerActivity.class, 1);
+                pvTime.show();
             }
         });
-        setCurrentTime(new Date());
+//        setCurrentTime(new Date());
+        //时间选择器
+        pvTime = new TimePickerView(this, TimePickerView.Type.HOURS_MINS);
+        pvTime.setTime(new Date());
+        pvTime.setCyclic(false);
+        pvTime.setCancelable(true);
+        //时间选择后回调
+        pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+
+            @Override
+            public void onTimeSelect(Date date) {
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+                String format = sdf.format(date);
+                go_time.setText(format);
+            }
+        });
     }
     class NoLineClickSpan extends ClickableSpan {
 
