@@ -31,7 +31,8 @@ public class TicketsApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
         //TODO 禁用和启用Log
-        TLog.enableLog();
+//        TLog.enableLog();
+        TLog.disableLog();
         //百度地图定位
 //        SDKInitializer.initialize(getApplicationContext());
     }
