@@ -42,7 +42,7 @@ public class PaySuccessActivity extends BaseActivity {
 
     @Override
     protected void initViewsAndEvents() {
-        ((TextView) findViewById(R.id.tv_header_title)).setText("支付宝支付");
+        ((TextView) findViewById(R.id.tv_header_title)).setText("支付结果");
         String msg = extras.getString("msg");
         tv_pay_message.setText(msg);
         String status = extras.getString("status");

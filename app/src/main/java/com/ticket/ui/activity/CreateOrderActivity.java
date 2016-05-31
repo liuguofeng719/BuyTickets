@@ -407,6 +407,7 @@ public class CreateOrderActivity extends BaseActivity {
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
                         View convertView = layoutInflater.inflate(R.layout.selected_passenger_item, null);
+                        ButterKnife.findById(convertView,R.id.ly_ticket_number).setVisibility(View.GONE);
                         ButterKnife.inject(holder, convertView);
                         return convertView;
                     }

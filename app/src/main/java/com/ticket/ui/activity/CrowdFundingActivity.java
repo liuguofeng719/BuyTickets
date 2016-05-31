@@ -169,6 +169,7 @@ public class CrowdFundingActivity extends BaseActivity {
                 CommonUtils.dismiss(dialog);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     CommonUtils.make(CrowdFundingActivity.this, "发布众筹成功");
+                    readyGoThenKill(StudentTripActivity.class);
                 }else{
                     CommonUtils.make(CrowdFundingActivity.this, "发布众筹失败，请稍后重试");
                 }

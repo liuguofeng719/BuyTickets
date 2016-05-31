@@ -17,6 +17,16 @@ public class StudentPassengerVo {
     private String orderItemId;
     @SerializedName("IsRefund")
     private boolean isRefund;//是否可退票（当值为true时，表示可以退票）
+    @SerializedName("IsStudent")
+    private boolean isStudent;
+
+    public boolean isStudent() {
+        return isStudent;
+    }
+
+    public void setStudent(boolean student) {
+        isStudent = student;
+    }
 
     public boolean isRefund() {
         return isRefund;

@@ -97,13 +97,13 @@ public class StudentTraelFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void showData(int position,final TravelOrdersVo itemData) {
+                    public void showData(int position, final TravelOrdersVo itemData) {
                         if (itemData.isPaid()) {
                             btn_gopay.setVisibility(View.GONE);
                         }
                         tv_order_code.setText(itemData.getOrderNumber());
                         String payStr = itemData.isPaid() ? "已支付" : "未支付";
-                        tv_status.setText(getStatus(itemData.getTravelStatus()) + " " + payStr);
+                        tv_status.setText(getStatus(itemData.getTravelStatus()));
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getOrderTotalPrice());
@@ -148,7 +148,7 @@ public class StudentTraelFragment extends BaseFragment {
                                             shareVo.setSiteUrl("");
                                             ShareUtils.showShare(getActivity(), shareVo);
                                         } else {
-                                            CommonUtils.make(getActivity(),"分享失败");
+                                            CommonUtils.make(getActivity(), "分享失败");
                                         }
                                     }
 
@@ -168,6 +168,8 @@ public class StudentTraelFragment extends BaseFragment {
                             return "支付完成,等待达成出行";
                         } else if ("2".equals(type)) {
                             return "达成出行";
+                        } else if ("3".equals(type)) {
+                            return "未能达成出行";
                         }
                         return "";
                     }
@@ -176,6 +178,7 @@ public class StudentTraelFragment extends BaseFragment {
         });
         this.lv_order.setAdapter(this.listViewDataAdapter);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -214,6 +217,7 @@ public class StudentTraelFragment extends BaseFragment {
             }
         });
     }
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.my_order;

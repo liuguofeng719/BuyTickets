@@ -36,7 +36,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     protected void initViewsAndEvents() {
-        findViewById(R.id.btn_back).setVisibility(View.GONE);
+        ((ImageView)findViewById(R.id.btn_back)).setVisibility(View.GONE);
         ((Button) findViewById(R.id.btn_back_home)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

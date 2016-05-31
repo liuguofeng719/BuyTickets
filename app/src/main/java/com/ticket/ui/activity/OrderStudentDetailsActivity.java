@@ -136,10 +136,11 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                     @Override
                     public void showData(int position, StudentPassengerVo itemData) {
                         TLog.d(TAG_LOG, itemData.toString());
-                        tv_pass_name.setText(itemData.getPassengerName());
+                        String stuType = itemData.isStudent() ? "(学生)" : "(成人)";
+                        tv_pass_name.setText(itemData.getPassengerName() + stuType);
                         tv_id_card.setText(itemData.getIdCard());
                         tv_phone.setText(itemData.getPhoneNumber());
-                        if (itemData.isRefund()) {
+                        if (!itemData.isRefund()) {
                             tv_delete.setVisibility(View.VISIBLE);
                             tv_delete.setTag(itemData.getOrderItemId());
                             tv_delete.setText(getString(R.string.refund_ticket));
@@ -171,6 +172,9 @@ public class OrderStudentDetailsActivity extends BaseActivity {
                                     });
                                 }
                             });
+                        } else {
+                            tv_delete.setVisibility(View.VISIBLE);
+                            tv_delete.setText(getString(R.string.already_refund_ticket));
                         }
                     }
                 };
