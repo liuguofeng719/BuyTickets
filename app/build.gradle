@@ -15,7 +15,7 @@ android {
         applicationId "com.ticket"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 27
+        versionCode 28
         versionName "1.5"
         signingConfig signingConfigs.troycd
     }
@@ -59,6 +59,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     //注解
     compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.bigkoo:pickerview:2.0.8'
     //动画库
     compile 'com.nineoldandroids:library:2.4.0'
     compile files('libs/alipaySdk-20151112.jar')
