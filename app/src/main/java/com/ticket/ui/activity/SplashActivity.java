@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity {
     protected void initViewsAndEvents() {
         final ImageView iv_bg = (ImageView) findViewById(R.id.splash_image);
 
-        Call<VersionVo> versionVoCall = getApis().getVersion();
+        Call<VersionVo> versionVoCall = getApis().getVersion().clone();
         versionVoCall.enqueue(new Callback<VersionVo>() {
             @Override
             public void onResponse(Response<VersionVo> response, Retrofit retrofit) {

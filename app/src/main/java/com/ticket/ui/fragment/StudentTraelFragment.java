@@ -103,7 +103,11 @@ public class StudentTraelFragment extends BaseFragment {
                         }
                         tv_order_code.setText(itemData.getOrderNumber());
                         String payStr = itemData.isPaid() ? "已支付" : "未支付";
-                        tv_status.setText(getStatus(itemData.getTravelStatus()));
+                        if (itemData.isPaid()) {
+                            tv_status.setText(getStatus(itemData.getTravelStatus()));
+                        } else {
+                            tv_status.setText(payStr);
+                        }
                         tv_station.setText(itemData.getTrip());
                         tv_person_count.setText(itemData.getPassengerAmount() + "人");
                         tv_total_price.setText("￥" + itemData.getOrderTotalPrice());

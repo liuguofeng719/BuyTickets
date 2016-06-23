@@ -30,6 +30,7 @@ import java.util.Date;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+@Deprecated
 public class TicketFragment extends BaseFragment {
 
     @InjectView(R.id.ly_start_city)
