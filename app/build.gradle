@@ -10,12 +10,12 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
     defaultConfig {
         applicationId "com.ticket"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 28
+        versionCode 30
         versionName "1.5"
         signingConfig signingConfigs.troycd
     }

@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="新用户首次订票8折"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="10sp" />
                 <!--<Button-->
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="回家不排队 假期更优惠"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="10sp" />
 
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="春节国庆期间可享受9折优惠"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="10sp" />
 
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="定制专属您的用车"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="10sp" />
 
