@@ -16,6 +16,9 @@
   -->
 
 <resources>
+    <declare-styleable name="SlideFigure">
+        <attr name="autoPlay" format="boolean"/>
+    </declare-styleable>
 
     <!-- CircularProgressBar -->
     <declare-styleable name="CircularProgressBar">

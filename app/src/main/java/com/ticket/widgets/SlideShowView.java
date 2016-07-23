@@ -1,6 +1,7 @@
 package com.ticket.widgets;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -48,7 +49,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
     //自动轮播的时间间隔
     private final static int TIME_INTERVAL = 5;
     //自动轮播启用开关
-    private final static boolean isAutoPlay = true;
+    private boolean isAutoPlay;
 
     //自定义轮播图的资源
     private List<PicturesVo> imageUrls = new ArrayList<PicturesVo>();
@@ -68,6 +69,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
     private boolean isInited = false;
 
     private OnImageClickedListener mListener;
+    private OnImageSelectedListener onImageSelectedListener;
 
     public class ImageViewTag {
         public ImageViewTag(int position, String url, String navUrl) {
@@ -105,6 +107,14 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
         public void onImageClicked(int position, ImageViewTag imageViewTag);
     }
 
+    public interface OnImageSelectedListener {
+        public void onImageSelected(int position);
+    }
+
+    public void setOnImageSelectedListener(OnImageSelectedListener onImageSelectedListener) {
+        this.onImageSelectedListener = onImageSelectedListener;
+    }
+
     public void setOnImageClickedListener(OnImageClickedListener listener) {
         this.mListener = listener;
     }
@@ -117,7 +127,6 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
             super.handleMessage(msg);
             viewPager.setCurrentItem(currentItem);
         }
-
     };
 
     public SlideShowView(Context context) {
@@ -131,14 +140,14 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
     public SlideShowView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SlideFigure);
+        isAutoPlay = typedArray.getBoolean(R.styleable.SlideFigure_autoPlay, true);
+        typedArray.recycle();
         initImageLoader(context);
-
         initData();
         if (isAutoPlay) {
             startPlay();
         }
-
     }
 
     /**
@@ -255,26 +264,30 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
      */
     private class MyPageChangeListener implements OnPageChangeListener {
 
-        boolean isAutoPlay = false;
+        boolean autoPlay = false;
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
             switch (arg0) {
                 case 1:// 手势滑动，空闲中
-                    stopPlay();
-                    isAutoPlay = false;
+                    if (isAutoPlay) {
+                        stopPlay();
+                    }
+                    autoPlay = false;
                     break;
                 case 2:// 界面切换中
-                    isAutoPlay = true;
+                    autoPlay = true;
                     break;
                 case 0:// 滑动结束，即切换完毕或者加载完毕
                     // 当前为最后一张，此时从右向左滑，则切换到第一张
-                    startPlay();
-                    if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1 && !isAutoPlay) {
+                    if (isAutoPlay) {
+                        startPlay();
+                    }
+                    if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1 && !autoPlay) {
                         viewPager.setCurrentItem(0, false);
                     }
                     // 当前为第一张，此时从左向右滑，则切换到最后一张
-                    else if (viewPager.getCurrentItem() == 0 && !isAutoPlay) {
+                    else if (viewPager.getCurrentItem() == 0 && !autoPlay) {
                         viewPager.setCurrentItem(viewPager.getAdapter().getCount() - 1, false);
                     }
                     break;
@@ -288,8 +301,11 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
 
         @Override
         public void onPageSelected(int pos) {
-
             currentItem = pos;
+            //选择的回调函数
+            if (onImageSelectedListener != null) {
+                onImageSelectedListener.onImageSelected(currentItem);
+            }
             //ILogger.d(TAG, pos + "");
             for (int i = 0; i < dotViewsList.size(); i++) {
                 if (i == pos) {

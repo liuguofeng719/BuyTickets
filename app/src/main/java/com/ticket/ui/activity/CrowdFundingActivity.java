@@ -38,6 +38,7 @@ import retrofit.Retrofit;
 
 /**
  * Created by liuguofeng719 on 2016/4/2.
+ * 发布众筹
  */
 public class CrowdFundingActivity extends BaseActivity {
 

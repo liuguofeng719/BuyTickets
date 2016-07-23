@@ -3,6 +3,7 @@ package com.ticket;
 import android.app.Application;
 import android.content.Context;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -31,10 +32,10 @@ public class TicketsApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
         //TODO 禁用和启用Log
-//        TLog.enableLog();
-        TLog.disableLog();
+        TLog.enableLog();
+//        TLog.disableLog();
         //百度地图定位
-//        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     public static void initImageLoader(Context context) {

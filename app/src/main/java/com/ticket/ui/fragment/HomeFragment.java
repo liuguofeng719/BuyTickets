@@ -12,6 +12,7 @@ import com.ticket.ui.activity.CharteredBusActivity;
 import com.ticket.ui.activity.LoginActivity;
 import com.ticket.ui.activity.StudentTripActivity;
 import com.ticket.ui.activity.TicketActivity;
+import com.ticket.ui.activity.TravelCharteredActivity;
 import com.ticket.ui.activity.WebViewActivity;
 import com.ticket.ui.base.BaseFragment;
 import com.ticket.utils.AppPreferences;
@@ -78,6 +79,13 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
 
     @OnClick(R.id.ly_travel)
     public void travel() {
+        readyGo(TravelCharteredActivity.class);
+    }
+
+    /**
+     * 老的包车页面
+     */
+    private void oldTravel() {
         if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
             readyGo(CharteredBusActivity.class);
         } else {
