@@ -6,3 +6,9 @@
 .DS_Store
 /build
 /captures
+.idea/
+*/target/
+*.iml
+.DS_Store
+materials/
+

@@ -227,9 +227,20 @@
             android:name=".ui.activity.PayMentChartedBusActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.activity.TravelCharteredActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TravelOrderCharteredActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SuggestionActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SuggestionCityActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 

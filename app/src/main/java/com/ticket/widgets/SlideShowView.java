@@ -211,7 +211,7 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setFocusable(true);
-
+        getDotViewsList(0);
         viewPager.setAdapter(new MyPagerAdapter());
         viewPager.addOnPageChangeListener(new MyPageChangeListener());
     }
@@ -307,15 +307,19 @@ public class SlideShowView extends FrameLayout implements View.OnClickListener {
                 onImageSelectedListener.onImageSelected(currentItem);
             }
             //ILogger.d(TAG, pos + "");
-            for (int i = 0; i < dotViewsList.size(); i++) {
-                if (i == pos) {
-                    ((View) dotViewsList.get(pos)).setBackgroundResource(R.drawable.dot_focus);
-                } else {
-                    ((View) dotViewsList.get(i)).setBackgroundResource(R.drawable.dot_blur);
-                }
-            }
+            getDotViewsList(pos);
         }
 
+    }
+
+    private void getDotViewsList(int pos) {
+        for (int i = 0; i < dotViewsList.size(); i++) {
+            if (i == pos) {
+                ((View) dotViewsList.get(pos)).setBackgroundResource(R.drawable.dot_focus);
+            } else {
+                ((View) dotViewsList.get(i)).setBackgroundResource(R.drawable.dot_blur);
+            }
+        }
     }
 
     /**

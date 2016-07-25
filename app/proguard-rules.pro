@@ -190,3 +190,12 @@
 ##v4
 -dontwarn android.support.v4.**
 -keep class android.support.v4.** { *; }
+
+##okhttp okio
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.** { *;}
+-dontwarn okio.**
+
+#timessquare
+-dontwarn com.squareup.timessquare.**
+-keep class com.squareup.timessquare.** { *; }

@@ -1,12 +1,18 @@
 package com.ticket.api;
 
 import com.ticket.bean.AlipayVo;
+import com.ticket.bean.AssignedCarDetailResp;
+import com.ticket.bean.AssignedCarVo;
 import com.ticket.bean.BalanceChangeVo;
 import com.ticket.bean.BalanceChangeVoResp;
 import com.ticket.bean.BalanceVo;
 import com.ticket.bean.BankAccountVo;
 import com.ticket.bean.BankAccountVoResp;
 import com.ticket.bean.BaseInfoVo;
+import com.ticket.bean.CalculatePriceResp;
+import com.ticket.bean.CalculatePriceVo;
+import com.ticket.bean.CarTypeListResp;
+import com.ticket.bean.CarTypeVo;
 import com.ticket.bean.CityInfoResp;
 import com.ticket.bean.CityListResp;
 import com.ticket.bean.CityVo;
@@ -652,8 +658,54 @@ public interface Apis {
 
     /**
      * 获取版本信息
+     *
      * @return
      */
     @GET("common/checkversion.ashx?platform=android")
     Call<VersionVo> getVersion();
+
+    /**
+     * 车型列表
+     *
+     * @return
+     */
+    @GET("LeasedVehicle/GetCarTypes.ashx")
+    Call<CarTypeListResp<List<CarTypeVo>>> getCarTypes();
+
+    /**
+     * 计算包车价格
+     * @param carTypeID 车型编码
+     * @param Days 出发天数
+     * @param goDate 出发时间
+     * @param Kilometers 公里数
+     * @param startCityName 出发城市名称
+     * @param startPosition 出发位置经纬度
+     * @param startPositionName 出发位置名称
+     * @param stopCityName 到达城市名称
+     * @param stopPosition 到达位置经纬度
+     * @param stopPositionName 到达位置名称
+     * @return
+     */
+    @GET("LeasedVehicle/CalculatePrice.ashx")
+    Call<CalculatePriceResp<CalculatePriceVo>> calculatePrice(
+            @Query("carTypeID") String carTypeID, //车型编码
+            @Query("Days") int Days, //出发天数
+            @Query("goDate") String goDate,  //出发时间
+            @Query("Kilometers") String Kilometers,  //公里数
+            @Query("startCityName") String startCityName,  //出发城市名称
+            @Query("startPosition") String startPosition, //出发位置经纬度
+            @Query("startPositionName") String startPositionName, // 出发位置名称
+            @Query("stopCityName") String stopCityName, // 到达城市名称
+            @Query("stopPosition") String stopPosition, //到达位置经纬度
+            @Query("stopPositionName") String stopPositionName // 到达位置名称
+    );
+
+    /**
+     * 分配车辆
+     *
+     * @param carTypeID
+     * @return
+     */
+    @GET("LeasedVehicle/AssignedCar.ashx")
+    Call<AssignedCarDetailResp<AssignedCarVo>> assignedCar(@Query("carTypeID") String carTypeID);
 }
