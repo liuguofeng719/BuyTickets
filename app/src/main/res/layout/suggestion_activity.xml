@@ -30,7 +30,6 @@
             android:layout_weight="1"
             android:background="@drawable/suggestion"
             android:paddingLeft="10dp"
-            android:text="天府新谷"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

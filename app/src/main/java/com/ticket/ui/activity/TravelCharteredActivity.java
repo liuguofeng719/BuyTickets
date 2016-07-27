@@ -253,7 +253,7 @@ public class TravelCharteredActivity extends BaseActivity {
                         TextView tv_calculate_course_total = (TextView) mDialog.findViewById(R.id.tv_calculate_course_total);
 //                        BigDecimal b1 = new BigDecimal(priceDetails.getTravelCost());
 //                        double f11 = b1.setScale(0, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        tv_calculate_course_total.setText(priceDetails.getTravelCost().substring(0,priceDetails.getTravelCost().lastIndexOf(".")) + "元");
+                        tv_calculate_course_total.setText(priceDetails.getTravelCost().substring(0, priceDetails.getTravelCost().lastIndexOf(".")) + "元");
 
                         ImageView iv_close = (ImageView) mDialog.findViewById(R.id.iv_close);
                         iv_close.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +425,7 @@ public class TravelCharteredActivity extends BaseActivity {
                 sb.append(location.getLocationDescribe());
                 sb.append("\nDirection(not all devices have value): ");
                 sb.append(location.getDirection());
-                List<Poi> list = location.getPoiList();// POI数据
+                final List<Poi> list = location.getPoiList();// POI数据
                 if (list != null) {
                     sb.append("\npoilist size = : ");
                     sb.append(list.size());
@@ -433,9 +433,16 @@ public class TravelCharteredActivity extends BaseActivity {
                         sb.append("\npoi= : ");
                         sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
                     }
+                    if (list.size() > 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startPoi = list.get(new Random().nextInt(list.size())).getName();
+                                editStartLocation.setText(list.get(new Random().nextInt(list.size())).getName());
+                            }
+                        });
+                    }
                 }
-                startPoi = list.get(new Random().nextInt(list.size())).getName();
-                editStartLocation.setText(list.get(new Random().nextInt(list.size())).getName());
                 if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
                     sb.append("\nspeed : ");
                     sb.append(location.getSpeed());// 单位：km/h

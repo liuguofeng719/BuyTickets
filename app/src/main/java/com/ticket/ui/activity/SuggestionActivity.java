@@ -154,17 +154,19 @@ public class SuggestionActivity extends BaseActivity implements OnGetSuggestionR
             suggestionInfoVo.setCity(allSuggestion.city);
             suggestionInfoVo.setDistrict(allSuggestion.district);
             suggestionInfoVo.setKey(allSuggestion.key);
-            com.ticket.bean.LatLng latLng = new com.ticket.bean.LatLng();
-            latLng.setLatitude(allSuggestion.pt.latitude);
-            latLng.setLongitude(allSuggestion.pt.longitude);
-            suggestionInfoVo.setPt(latLng);
-            suggestionInfoVo.setUid(allSuggestion.uid);
-            infoVoList.add(suggestionInfoVo);
-            LatLng pt = allSuggestion.pt;
-            if (pt != null) {
-                TLog.d(TAG_LOG, allSuggestion.district + "==" +
-                        allSuggestion.key + "==" +
-                        pt.longitude + "," + pt.latitude);
+            if (allSuggestion.pt != null) {
+                com.ticket.bean.LatLng latLng = new com.ticket.bean.LatLng();
+                latLng.setLatitude(allSuggestion.pt.latitude);
+                latLng.setLongitude(allSuggestion.pt.longitude);
+                suggestionInfoVo.setPt(latLng);
+                suggestionInfoVo.setUid(allSuggestion.uid);
+                infoVoList.add(suggestionInfoVo);
+                LatLng pt = allSuggestion.pt;
+                if (pt != null) {
+                    TLog.d(TAG_LOG, allSuggestion.district + "==" +
+                            allSuggestion.key + "==" +
+                            pt.longitude + "," + pt.latitude);
+                }
             }
         }
         dataList.addAll(infoVoList);
