@@ -15,222 +15,207 @@
         <include layout="@layout/header" />
     </FrameLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <ImageView
-            android:id="@+id/iv_travel_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
-            android:src="@drawable/travel_arrow" />
-
-        <TextView
-            android:id="@+id/edit_start_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="28dp"
-            android:layout_toRightOf="@+id/iv_travel_image"
-            android:background="@null"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:hint="请输入出发地"
-            android:textColor="@color/text_color"
-            android:textSize="18sp" />
-
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/edit_start_location"
-            android:layout_toLeftOf="@+id/iv_change_location"
-            android:layout_toRightOf="@+id/iv_travel_image"
-            android:background="@color/bg_line_color" />
-
-        <ImageView
-            android:id="@+id/iv_change_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/change_location" />
-
-        <TextView
-            android:id="@+id/edit_end_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_start_location"
-            android:layout_marginRight="28dp"
-            android:layout_toRightOf="@+id/iv_travel_image"
-            android:background="@null"
-            android:hint="请输入目的地"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/text_color"
-            android:textColorHint="@color/text_color_hint"
-            android:textSize="18sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/edit_end_location"
-            android:layout_toRightOf="@+id/iv_travel_image"
-            android:background="@color/bg_line_color" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/date" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ly_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_tips_scheduling"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/ly_header"
+                    android:background="@color/normal_bg_color"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/common_padding"
+                    android:text="行程安排"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="14sp" />
+
+                <com.ticket.widgets.ListViewForScrollView
+                    android:id="@+id/lv_scheduling"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tv_tips_scheduling"
+                    android:background="@color/bg_line_color"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@null"
+                    android:listSelector="@color/transparent"
+                    android:scrollbars="none" />
+                <ImageView
+                    android:id="@+id/iv_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:src="@drawable/plus" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/date" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="28dp"
+                        android:background="@null"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:hint="请输入出发日期"
+                        android:textColor="@color/text_color"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bg_line_color" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/number" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edit_days"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="28dp"
+                        android:background="@null"
+                        android:hint="请输入包车天数"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color_hint"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bg_line_color" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/edit_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="28dp"
-                android:background="@null"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="2016-07-22 12:20"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:layout_marginTop="@dimen/common_padding"
+                android:drawableLeft="@drawable/travel_bus"
+                android:drawablePadding="6dp"
+                android:text="车型(左右滑动选择)"
+                android:textColor="@color/text_color_hint"
+                android:textSize="18sp" />
+
+            <com.ticket.widgets.SlideShowView
+                android:id="@+id/slideShowView"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/no_banner"
+                android:padding="0dp"
+                app:autoPlay="false" />
+
+            <TextView
+                android:id="@+id/tv_car_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="商务类型"
                 android:textColor="@color/text_color"
                 android:textSize="18sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_line_color" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/number" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/edit_days"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="28dp"
-                android:background="@null"
-                android:hint="请输入包车天数"
-                android:singleLine="true"
-                android:inputType="number"
-                android:maxLength="4"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/text_color"
-                android:textColorHint="@color/text_color_hint"
-                android:textSize="18sp" />
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingRight="@dimen/common_padding">
 
-            <View
+                <TextView
+                    android:id="@+id/tv_price_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_price_rule"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_valuation_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="计价规则"
+                    android:textColor="@color/text_price_rule"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_key_charted"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_line_color" />
+                android:layout_height="44dp"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:layout_marginRight="@dimen/common_padding"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/my_ok_button"
+                android:text="一键包车"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginTop="@dimen/common_padding"
-        android:drawableLeft="@drawable/travel_bus"
-        android:drawablePadding="6dp"
-        android:text="车型(左右滑动选择)"
-        android:textColor="@color/text_color_hint"
-        android:textSize="18sp" />
-
-    <com.ticket.widgets.SlideShowView
-        android:id="@+id/slideShowView"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/no_banner"
-        android:padding="0dp"
-        app:autoPlay="false" />
-
-    <TextView
-        android:id="@+id/tv_car_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:text="商务类型"
-        android:textColor="@color/text_color"
-        android:textSize="18sp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding">
-
-        <TextView
-            android:id="@+id/tv_price_rule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/text_price_rule"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_valuation_rule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="计价规则"
-            android:textColor="@color/text_price_rule"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_key_charted"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginRight="@dimen/common_padding"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/my_ok_button"
-        android:text="一键包车"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    </ScrollView>
 </LinearLayout>

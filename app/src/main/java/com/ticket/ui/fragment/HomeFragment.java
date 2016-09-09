@@ -32,8 +32,8 @@ public class HomeFragment extends BaseFragment implements SlideShowView.OnImageC
 
     @InjectView(R.id.ly_bus)
     LinearLayout ly_bus;
-    @InjectView(R.id.ly_bus_long)
-    LinearLayout ly_bus_long;
+//    @InjectView(R.id.ly_bus_long)
+//    LinearLayout ly_bus_long;
     @InjectView(R.id.ly_student)
     LinearLayout ly_student;
     @InjectView(R.id.ly_travel)

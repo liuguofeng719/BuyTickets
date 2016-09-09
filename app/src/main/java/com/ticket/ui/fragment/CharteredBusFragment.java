@@ -13,8 +13,8 @@ import com.ticket.bean.LeasedVehicleListResp;
 import com.ticket.bean.LeasedVehicleOrder;
 import com.ticket.bean.ShareMessageVo;
 import com.ticket.ui.activity.LoginActivity;
-import com.ticket.ui.activity.OrderVehicleDetailsActivity;
 import com.ticket.ui.activity.PayMentChartedBusActivity;
+import com.ticket.ui.activity.TravelOrderDetailsActivity;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -95,6 +95,7 @@ public class CharteredBusFragment extends BaseFragment {
                         tv_status = ButterKnife.findById(view, R.id.tv_status);
                         tv_station = ButterKnife.findById(view, R.id.tv_station);
                         tv_person_count = ButterKnife.findById(view, R.id.tv_person_count);
+                        tv_person_count.setVisibility(View.GONE);
                         tv_total_price = ButterKnife.findById(view, R.id.tv_total_price);
                         tv_goDateTime = ButterKnife.findById(view, R.id.tv_goDateTime);
                         btn_gopay = ButterKnife.findById(view, R.id.btn_gopay);
@@ -133,7 +134,7 @@ public class CharteredBusFragment extends BaseFragment {
                             public void onClick(View v) {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("orderId", v.getTag().toString());
-                                readyGo(OrderVehicleDetailsActivity.class, bundle);
+                                readyGo(TravelOrderDetailsActivity.class, bundle);
                             }
                         });
                         btn_text_share.setOnClickListener(new View.OnClickListener() {

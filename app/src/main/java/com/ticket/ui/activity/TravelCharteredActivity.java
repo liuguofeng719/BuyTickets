@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -27,18 +31,29 @@ import com.ticket.bean.CarTypeVo;
 import com.ticket.bean.PicturesVo;
 import com.ticket.bean.SuggestionInfoVo;
 import com.ticket.common.Constants;
+import com.ticket.ui.adpater.base.ListViewDataAdapter;
+import com.ticket.ui.adpater.base.ViewHolderBase;
+import com.ticket.ui.adpater.base.ViewHolderCreator;
 import com.ticket.ui.base.BaseActivity;
 import com.ticket.utils.CommonUtils;
 import com.ticket.utils.LocationService;
 import com.ticket.utils.TLog;
 import com.ticket.widgets.SlideShowView;
 
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.Call;
@@ -57,12 +72,10 @@ public class TravelCharteredActivity extends BaseActivity {
     TextView tvHeaderTitle;
     @InjectView(R.id.tv_price_rule)
     TextView tvPriceRule;
-    @InjectView(R.id.edit_start_location)
-    TextView editStartLocation;
-    @InjectView(R.id.iv_change_location)
-    ImageView ivChangeLocation;
-    @InjectView(R.id.edit_end_location)
-    TextView editEndLocation;
+    //    @InjectView(R.id.edit_start_location)
+//    TextView editStartLocation;
+//    @InjectView(R.id.edit_end_location)
+//    TextView editEndLocation;
     @InjectView(R.id.edit_date)
     TextView editDate;
     @InjectView(R.id.edit_days)
@@ -71,10 +84,8 @@ public class TravelCharteredActivity extends BaseActivity {
     SlideShowView slideShowView;
     @InjectView(R.id.tv_car_type)
     TextView tvCarType;
-    @InjectView(R.id.tv_valuation_rule)
-    TextView tvValuationRule;
-    @InjectView(R.id.btn_key_charted)
-    Button btnKeyCharted;
+    @InjectView(R.id.lv_scheduling)
+    ListView lv_scheduling;
 
     private TimePickerView pvTime;
     private LocationService locationService;
@@ -94,13 +105,21 @@ public class TravelCharteredActivity extends BaseActivity {
     private List<CarTypeVo> carTypeList;
     private CalculatePriceResp<CalculatePriceVo> calculatePriceResp;
 
+    private String date_time;
+    private ListViewDataAdapter<ListTaskPlans> viewDataAdapter;
+    private ArrayList dataList;
+    private SortedMap<String, List<TaskPlans>> taskMap = new TreeMap<>();
+    private TextView startCity;
+    private TextView endCity;
+    private Dialog dialogDataInit;
+
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
     }
 
     //开始出发地点
-    @OnClick(R.id.edit_start_location)
+//    @OnClick(R.id.edit_start_location)
     public void editStartLocation() {
         Bundle bundle = new Bundle();
         bundle.putString("cityName", cityStartName);
@@ -108,8 +127,8 @@ public class TravelCharteredActivity extends BaseActivity {
         readyGoForResult(SuggestionActivity.class, 1, bundle);
     }
 
-    //开始出发地点
-    @OnClick(R.id.edit_end_location)
+    //开始结束地点
+//    @OnClick(R.id.edit_end_location)
     public void editEndLocation() {
         Bundle bundle = new Bundle();
         bundle.putString("cityName", cityStartName);
@@ -121,24 +140,28 @@ public class TravelCharteredActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.comm.START_CITY_SUCCESS) {
             SuggestionInfoVo suggestionInfo = (SuggestionInfoVo) data.getSerializableExtra("suggestionInfo");
+            startCity.setTag(suggestionInfo);
+            startCity.setText(suggestionInfo.getKey());
             startLatitude = suggestionInfo.getPt().latitude;
             startLongitude = suggestionInfo.getPt().longitude;
             startPoi = suggestionInfo.getKey();
             cityStartName = suggestionInfo.getCity();
-            editStartLocation.setText(startPoi);
+//            editStartLocation.setText(startPoi);
         } else if (resultCode == Constants.comm.END_CITY_SUCCESS) {
             SuggestionInfoVo suggestionInfo = (SuggestionInfoVo) data.getSerializableExtra("suggestionInfo");
+            endCity.setTag(suggestionInfo);
+            endCity.setText(suggestionInfo.getKey());
             endLatitude = suggestionInfo.getPt().latitude;
             endLongitude = suggestionInfo.getPt().longitude;
             endPoi = suggestionInfo.getKey();
             cityEndName = suggestionInfo.getCity();
-            editEndLocation.setText(endPoi);
+//            editEndLocation.setText(endPoi);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     //切换开始和结束地点
-    @OnClick(R.id.iv_change_location)
+//    @OnClick(R.id.iv_change_location)
     public void ivChangeLocation() {
         swapCity();
     }
@@ -167,33 +190,72 @@ public class TravelCharteredActivity extends BaseActivity {
         cityStartName = cityEndName;
         cityEndName = tempCityName;
 
-        editStartLocation.setText(startPoi);
-        editEndLocation.setText(endPoi);
+//        editStartLocation.setText(startPoi);
+//        editEndLocation.setText(endPoi);
     }
 
     //一键包车
     @OnClick(R.id.btn_key_charted)
     public void btnKeyCharted() {
-        if (calculatePriceResp != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("totalPrice", calculatePriceResp.getTotalPrice() + "");
-            bundle.putString("carType", tvCarType.getTag().toString());
-            readyGo(TravelOrderCharteredActivity.class, bundle);
-        } else {
-            CommonUtils.make(this, "请选择出发地和目的，在选择计价规则");
+        if (validate()) {
+            Set<String> stringSet = taskMap.keySet();
+            double totalDistance = 0.0;
+            StringBuilder stringBuilder = new StringBuilder();
+            int day = 1;
+            for (String s : stringSet) {
+                List<TaskPlans> taskPlanses = taskMap.get(s);
+                stringBuilder.append(day).append(",");
+                double distanceV = 0.0;
+                StringBuilder sb = new StringBuilder();
+                for (TaskPlans taskPlanse : taskPlanses) {
+                    sb.append(taskPlanse.startCity).append(",").append(taskPlanse.endCity).append("|");
+                    Location startLocation = taskPlanse.getStartLocation();
+                    Location endLocation = taskPlanse.getEndLocation();
+                    //计算p1、p2两点之间的直线距离，单位：米
+                    LatLng p1 = new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
+                    LatLng p2 = new LatLng(endLocation.getLatitude(), endLocation.getLongitude());
+                    double distance = DistanceUtil.getDistance(p1, p2);//单位米
+                    distanceV += Math.round(distance / 100d) / 10d;//米转换成公里
+                }
+                totalDistance += distanceV;
+                day++;
+                stringBuilder.append(sb.toString());
+            }
+
+            String substring = stringBuilder.substring(0, stringBuilder.lastIndexOf("|"));
+
+            try {
+                String utf8 = URLEncoder.encode(substring, "utf8");
+                Bundle bundle = new Bundle();
+                bundle.putString("totalPrice", calculatePriceResp.getTotalPrice() + "");
+                bundle.putString("carType", tvCarType.getTag().toString());
+                bundle.putString("days", editDays.getText().toString());
+                bundle.putString("date", editDate.getText().toString());
+                bundle.putString("totalDistance", totalDistance+"");
+                bundle.putString("trip", utf8);
+                readyGo(TravelOrderCharteredActivity.class, bundle);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     //校验信息
     private boolean validate() {
-        if (TextUtils.isEmpty(editStartLocation.getText())) {
-            CommonUtils.make(this, "请输入出发地");
+//        if (TextUtils.isEmpty(editStartLocation.getText())) {
+//            CommonUtils.make(this, "请输入出发地");
+//            return false;
+//        }
+//        if (TextUtils.isEmpty(editEndLocation.getText())) {
+//            CommonUtils.make(this, "请输入目的地");
+//            return false;
+//        }
+        if (taskMap.isEmpty()) {
+            CommonUtils.make(this, "请添加行程");
             return false;
         }
-        if (TextUtils.isEmpty(editEndLocation.getText())) {
-            CommonUtils.make(this, "请输入目的地");
-            return false;
-        }
+
         if (TextUtils.isEmpty(editDate.getText())) {
             CommonUtils.make(this, "请输入出发日期");
             return false;
@@ -211,67 +273,91 @@ public class TravelCharteredActivity extends BaseActivity {
     public void tvValuationRule() {
         mDialog = CommonUtils.createDialog(this);
         mDialog.setContentView(R.layout.travel_chartered_dialog);
+
         if (validate()) {
+            Set<String> stringSet = taskMap.keySet();
+            double totalDistance = 0.0;
+            StringBuilder stringBuilder = new StringBuilder();
+            int day = 1;
+            for (String s : stringSet) {
+                List<TaskPlans> taskPlanses = taskMap.get(s);
+                stringBuilder.append(day).append(",");
+                double distanceV = 0.0;
+                StringBuilder sb = new StringBuilder();
+                for (TaskPlans taskPlanse : taskPlanses) {
+                    sb.append(taskPlanse.startCity).append(",").append(taskPlanse.endCity).append("|");
+                    Location startLocation = taskPlanse.getStartLocation();
+                    Location endLocation = taskPlanse.getEndLocation();
+                    //计算p1、p2两点之间的直线距离，单位：米
+                    LatLng p1 = new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
+                    LatLng p2 = new LatLng(endLocation.getLatitude(), endLocation.getLongitude());
+                    double distance = DistanceUtil.getDistance(p1, p2);//单位米
+                    distanceV += Math.round(distance / 100d) / 10d;//米转换成公里
+                }
+                totalDistance += distanceV;
+                day++;
+                stringBuilder.append(sb.toString());
+            }
+
             //计算p1、p2两点之间的直线距离，单位：米
-            LatLng p1 = new LatLng(startLatitude, startLongitude);
-            LatLng p2 = new LatLng(endLatitude, endLongitude);
-            double distance = DistanceUtil.getDistance(p1, p2);//单位米
-            double distanceV = Math.round(distance / 100d) / 10d;//米转换成公里
+//            LatLng p1 = new LatLng(startLatitude, startLongitude);
+//            LatLng p2 = new LatLng(endLatitude, endLongitude);
+//            double distance = DistanceUtil.getDistance(p1, p2);//单位米
+//            double distanceV = Math.round(distance / 100d) / 10d;//米转换成公里
             final String carType = tvCarType.getTag().toString();//车的类型
+            String substring = stringBuilder.substring(0, stringBuilder.lastIndexOf("|"));
+            try {
+                String utf8 = URLEncoder.encode(substring, "utf8");
+                Call<CalculatePriceResp<CalculatePriceVo>> respCall =
+                        getApis().calculatePrice(carType,
+                                Integer.parseInt(editDays.getText().toString()),
+                                editDate.getText().toString(),
+                                totalDistance + "",
+                                utf8
+                        ).clone();
+                respCall.enqueue(new Callback<CalculatePriceResp<CalculatePriceVo>>() {
+                    @Override
+                    public void onResponse(Response<CalculatePriceResp<CalculatePriceVo>> response, Retrofit retrofit) {
 
-            Call<CalculatePriceResp<CalculatePriceVo>> respCall = getApis().calculatePrice(
-                    carType,
-                    Integer.parseInt(editDays.getText().toString()),
-                    editDate.getText().toString(),
-                    distanceV + "",
-                    cityStartName,
-                    startLatitude + "," + startLongitude,
-                    startPoi,
-                    cityEndName,
-                    endLatitude + "," + endLongitude,
-                    endPoi
-            ).clone();
+                        if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
+                            calculatePriceResp = response.body();
+                            CalculatePriceVo priceDetails = calculatePriceResp.getPriceDetails();
+                            ImageView iv_car_image = (ImageView) mDialog.findViewById(R.id.iv_car_image);
+                            ImageLoader.getInstance().displayImage(priceDetails.getCarTypePicture(), iv_car_image);
+                            TextView tv_calculate_time = (TextView) mDialog.findViewById(R.id.tv_calculate_time);
+                            TextView tv_car_type = (TextView) mDialog.findViewById(R.id.tv_car_type);
+                            tv_car_type.setText(priceDetails.getCarTypeName());
+                            tv_calculate_time.setText(priceDetails.getAppearanceFeeContent());
+                            TextView tv_calculate_time_total = (TextView) mDialog.findViewById(R.id.tv_calculate_time_total);
+                            tv_calculate_time_total.setText(Integer.parseInt(priceDetails.getAppearanceFee()) + "元");
 
-            respCall.enqueue(new Callback<CalculatePriceResp<CalculatePriceVo>>() {
-                @Override
-                public void onResponse(Response<CalculatePriceResp<CalculatePriceVo>> response, Retrofit retrofit) {
-
-                    if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
-                        calculatePriceResp = response.body();
-                        CalculatePriceVo priceDetails = calculatePriceResp.getPriceDetails();
-                        ImageView iv_car_image = (ImageView) mDialog.findViewById(R.id.iv_car_image);
-                        ImageLoader.getInstance().displayImage(priceDetails.getCarTypePicture(), iv_car_image);
-                        TextView tv_calculate_time = (TextView) mDialog.findViewById(R.id.tv_calculate_time);
-                        TextView tv_car_type = (TextView) mDialog.findViewById(R.id.tv_car_type);
-                        tv_car_type.setText(priceDetails.getCarTypeName());
-                        tv_calculate_time.setText(priceDetails.getAppearanceFeeContent());
-                        TextView tv_calculate_time_total = (TextView) mDialog.findViewById(R.id.tv_calculate_time_total);
-                        tv_calculate_time_total.setText(Integer.parseInt(priceDetails.getAppearanceFee()) + "元");
-
-                        TextView tv_course_time = (TextView) mDialog.findViewById(R.id.tv_course_time);
-                        tv_course_time.setText(priceDetails.getTravelCostContent());
-                        TextView tv_calculate_course_total = (TextView) mDialog.findViewById(R.id.tv_calculate_course_total);
+                            TextView tv_course_time = (TextView) mDialog.findViewById(R.id.tv_course_time);
+                            tv_course_time.setText(priceDetails.getTravelCostContent());
+                            TextView tv_calculate_course_total = (TextView) mDialog.findViewById(R.id.tv_calculate_course_total);
 //                        BigDecimal b1 = new BigDecimal(priceDetails.getTravelCost());
 //                        double f11 = b1.setScale(0, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        tv_calculate_course_total.setText(priceDetails.getTravelCost().substring(0, priceDetails.getTravelCost().lastIndexOf(".")) + "元");
+                            tv_calculate_course_total.setText(priceDetails.getTravelCost().substring(0, priceDetails.getTravelCost().lastIndexOf(".")) + "元");
 
-                        ImageView iv_close = (ImageView) mDialog.findViewById(R.id.iv_close);
-                        iv_close.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                tvPriceRule.setText("约" + (int) calculatePriceResp.getTotalPrice() + "元");
-                                CommonUtils.dismiss(mDialog);
-                            }
-                        });
-                        mDialog.show();
+                            ImageView iv_close = (ImageView) mDialog.findViewById(R.id.iv_close);
+                            iv_close.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    tvPriceRule.setText("约" + (int) calculatePriceResp.getTotalPrice() + "元");
+                                    CommonUtils.dismiss(mDialog);
+                                }
+                            });
+                            mDialog.show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Throwable t) {
+                    @Override
+                    public void onFailure(Throwable t) {
 
-                }
-            });
+                    }
+                });
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -304,7 +390,7 @@ public class TravelCharteredActivity extends BaseActivity {
         tvHeaderTitle.setText("包车出行");
 
         //选择出发日期
-        pvTime = new TimePickerView(this, TimePickerView.Type.ALL);
+        pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
         pvTime.setTime(new Date());
         pvTime.setCyclic(false);
         pvTime.setCancelable(true);
@@ -313,7 +399,7 @@ public class TravelCharteredActivity extends BaseActivity {
 
             @Override
             public void onTimeSelect(Date date) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String format = sdf.format(date);
                 editDate.setText(format);
             }
@@ -337,8 +423,261 @@ public class TravelCharteredActivity extends BaseActivity {
             }
         });
         getCarTypes();
+
+        viewDataAdapter = new ListViewDataAdapter<>(new ViewHolderCreator<ListTaskPlans>() {
+
+            @Override
+            public ViewHolderBase createViewHolder(int position) {
+                return new ViewHolderBase<ListTaskPlans>() {
+                    TextView tv_day_number;
+                    ListView lv_scheduling_items;
+                    ListViewDataAdapter itemListViewData;
+
+                    @Override
+                    public View createView(LayoutInflater layoutInflater) {
+                        View view = getLayoutInflater().inflate(R.layout.chartered_bus_scheduling, null);
+                        tv_day_number = ButterKnife.findById(view, R.id.tv_day_number);
+                        lv_scheduling_items = ButterKnife.findById(view, R.id.lv_scheduling_items);
+                        return view;
+                    }
+
+                    @Override
+                    public void showData(final int ps, final ListTaskPlans taskPlans) {
+                        tv_day_number.setText(taskPlans.getDays());
+                        itemListViewData = new ListViewDataAdapter<TaskPlans>(new ViewHolderCreator<TaskPlans>() {
+                            @Override
+                            public ViewHolderBase<TaskPlans> createViewHolder(int position) {
+                                return new ViewHolderBase<TaskPlans>() {
+                                    TextView start_city;
+                                    TextView end_city;
+                                    ImageView iv_minus;
+
+                                    @Override
+                                    public View createView(LayoutInflater layoutInflater) {
+                                        View view = getLayoutInflater().inflate(R.layout.chartered_bus_item, null);
+                                        start_city = ButterKnife.findById(view, R.id.start_city);
+                                        end_city = ButterKnife.findById(view, R.id.end_city);
+                                        iv_minus = ButterKnife.findById(view, R.id.iv_minus);
+                                        return view;
+                                    }
+
+                                    @Override
+                                    public void showData(final int position, TaskPlans itemData) {
+                                        start_city.setText(itemData.getStartCity());
+                                        end_city.setText(itemData.getEndCity());
+                                        iv_minus.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                taskMap.get(taskPlans.getDays()).remove(position);
+                                                itemListViewData.getDataList().remove(position);
+                                                if (itemListViewData.getDataList().isEmpty()) {
+                                                    viewDataAdapter.getDataList().remove(ps);
+                                                    taskMap.remove(taskPlans.getDays());
+                                                    itemListViewData.notifyDataSetChanged();
+                                                    viewDataAdapter.notifyDataSetChanged();
+                                                } else {
+                                                    itemListViewData.notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                                    }
+                                };
+                            }
+                        });
+                        itemListViewData.getDataList().addAll(taskPlans.getTaskPlansList());
+                        lv_scheduling_items.setAdapter(itemListViewData);
+                    }
+                };
+            }
+        });
+        lv_scheduling.setAdapter(this.viewDataAdapter);
     }
 
+    class ListTaskPlans {
+
+        private String days;
+
+        private List<TaskPlans> taskPlansList;
+
+        public void setTaskPlansList(List<TaskPlans> taskPlansList) {
+            this.taskPlansList = taskPlansList;
+        }
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
+
+        public List<TaskPlans> getTaskPlansList() {
+            return taskPlansList;
+        }
+    }
+
+    class TaskPlans implements Serializable {
+
+        private String startCity;
+        private String endCity;
+        private Location startLocation;
+        private Location endLocation;
+
+        public String getStartCity() {
+            return startCity;
+        }
+
+        public void setStartCity(String startCity) {
+            this.startCity = startCity;
+        }
+
+        public String getEndCity() {
+            return endCity;
+        }
+
+        public void setEndCity(String endCity) {
+            this.endCity = endCity;
+        }
+
+        public Location getStartLocation() {
+            return startLocation;
+        }
+
+        public void setStartLocation(Location startLocation) {
+            this.startLocation = startLocation;
+        }
+
+        public Location getEndLocation() {
+            return endLocation;
+        }
+
+        public void setEndLocation(Location endLocation) {
+            this.endLocation = endLocation;
+        }
+    }
+
+    class Location implements Serializable {
+
+        private double latitude;
+        private double longitude;
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+    }
+
+    /**
+     * 添加行程
+     */
+    @OnClick(R.id.iv_plus)
+    public void plus() {
+        mDialog = CommonUtils.createDialog(this);
+        mDialog.setContentView(R.layout.chartered_bus_dialog);
+        mDialog.setCancelable(true);
+        mDialog.setCanceledOnTouchOutside(true);
+        startCity = (TextView) mDialog.findViewById(R.id.start_city);
+        startCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("cityName", cityStartName);
+                bundle.putString("city", "start");
+                readyGoForResult(SuggestionActivity.class, 1, bundle);
+            }
+        });
+        endCity = (TextView) mDialog.findViewById(R.id.end_city);
+        endCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("cityName", cityStartName);
+                bundle.putString("city", "end");
+                readyGoForResult(SuggestionActivity.class, 2, bundle);
+            }
+        });
+        final Spinner spinner_days = (Spinner) mDialog.findViewById(R.id.spinner_days);
+        String[] mItems = getResources().getStringArray(R.array.spinedays);
+        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drop_down_item, mItems);
+        //第三步：为适配器设置下拉列表下拉时的菜单样式。
+        adapter.setDropDownViewResource(R.layout.drop_down_item);
+        //第四步：将适配器添加到下拉列表上
+        spinner_days.setAdapter(adapter);
+        mDialog.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (TextUtils.isEmpty(startCity.getText().toString().trim())) {
+                    CommonUtils.make(TravelCharteredActivity.this, "选择出发城市");
+                    return;
+                }
+                if (TextUtils.isEmpty(endCity.getText().toString().trim())) {
+                    CommonUtils.make(TravelCharteredActivity.this, "选择到达城市");
+                    return;
+                }
+
+                TaskPlans taskPlans = new TaskPlans();
+                Location startLocationInfo = new Location();
+                startLocationInfo.setLatitude(startLatitude);
+                startLocationInfo.setLongitude(endLongitude);
+
+                Location endLocationInfo = new Location();
+                endLocationInfo.setLatitude(endLatitude);
+                endLocationInfo.setLongitude(endLongitude);
+
+                taskPlans.setStartCity(startCity.getText().toString());
+                taskPlans.setEndCity(endCity.getText().toString());
+                taskPlans.setStartLocation(startLocationInfo);
+                taskPlans.setEndLocation(endLocationInfo);
+
+                if (taskMap.get(spinner_days.getSelectedItem()) != null) {
+                    List<TaskPlans> taskPlanses = taskMap.get(spinner_days.getSelectedItem().toString().trim());
+                    taskPlanses.add(taskPlans);
+                } else {
+                    List<TaskPlans> taskPlanses = new ArrayList<>();
+                    taskPlanses.add(taskPlans);
+                    taskMap.put(spinner_days.getSelectedItem().toString().trim(), taskPlanses);
+                }
+
+                Set<Map.Entry<String, List<TaskPlans>>> entries = taskMap.entrySet();
+                viewDataAdapter.getDataList().clear();
+                for (Map.Entry<String, List<TaskPlans>> entry : entries) {
+                    ListTaskPlans listTaskPlans = new ListTaskPlans();
+                    String key = entry.getKey();
+                    List<TaskPlans> value = entry.getValue();
+                    listTaskPlans.setDays(key);
+                    listTaskPlans.setTaskPlansList(value);
+                    viewDataAdapter.getDataList().add(listTaskPlans);
+                }
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewDataAdapter.notifyDataSetChanged();
+                    }
+                });
+                //隐藏键盘
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
+
+    /**
+     * 获取汽车类型
+     */
     private void getCarTypes() {
         Call<CarTypeListResp<List<CarTypeVo>>> carTypeListRespCall = getApis().getCarTypes().clone();
         carTypeListRespCall.enqueue(new Callback<CarTypeListResp<List<CarTypeVo>>>() {
@@ -438,7 +777,7 @@ public class TravelCharteredActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 startPoi = list.get(new Random().nextInt(list.size())).getName();
-                                editStartLocation.setText(list.get(new Random().nextInt(list.size())).getName());
+//                                editStartLocation.setText(list.get(new Random().nextInt(list.size())).getName());
                             }
                         });
                     }

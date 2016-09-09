@@ -64,7 +64,7 @@ public class PaySuccessActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PaySuccessActivity.this, IndexActivity.class);
-                intent.putExtra("order", 1);
+                intent.putExtra("current", 1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

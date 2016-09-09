@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
-    android:padding="@dimen/common_padding">
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -87,11 +87,24 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_qcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/text_price_color"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:text="二维码票号"
+        android:layout_marginRight="8dp"
+        android:visibility="invisible"
+    />
+    <TextView
         android:id="@+id/tv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textColor="@color/text_price_color"
+        android:textColor="@color/white"
+        android:background="@color/text_price_color"
         android:textSize="14sp"
         android:text="删除"
     />

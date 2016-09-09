@@ -230,6 +230,7 @@
         <activity
             android:name=".ui.activity.TravelCharteredActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TravelOrderCharteredActivity"
@@ -243,6 +244,11 @@
             android:name=".ui.activity.SuggestionCityActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TravelOrderDetailsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+
 
         <!-- 分享和第三方登陆 -->
         <activity

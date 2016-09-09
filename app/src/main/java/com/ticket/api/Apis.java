@@ -36,14 +36,17 @@ import com.ticket.bean.PlaceListResp;
 import com.ticket.bean.PlaceVo;
 import com.ticket.bean.ProvincesResp;
 import com.ticket.bean.ProvincesVo;
+import com.ticket.bean.QRCodeVo;
 import com.ticket.bean.ShareMessageVo;
 import com.ticket.bean.TravelOrderDetailVoResp;
+import com.ticket.bean.TravelOrderVo;
 import com.ticket.bean.TravelOrdersVo;
 import com.ticket.bean.TravelOrdersVoResp;
 import com.ticket.bean.TravelRoutingListVo;
 import com.ticket.bean.TravelRoutingListVoResp;
 import com.ticket.bean.TravelRoutingVo;
 import com.ticket.bean.TravelRoutingVoResp;
+import com.ticket.bean.TravelVehicleOrdersDetailsVoResp;
 import com.ticket.bean.UserVo;
 import com.ticket.bean.VehicleOrdersDetailsVoResp;
 import com.ticket.bean.VersionVo;
@@ -541,6 +544,27 @@ public interface Apis {
     );
 
     /**
+     * @desc 创建包车出行订单
+     * userID：用户ID
+     * carID：车型
+     * days：出发天数
+     * goDate：出发时间
+     * kilometers：公里数
+     * trip：行程(格式:  1,成都-安岳,四川理工大学-安岳人民广场|1,安岳-自贡,安岳人民广场-自贡恐龙博物馆|2,自贡-宜宾,自贡恐龙博物馆-宜宾长江大桥)
+     * orderTotalPrice：订单总价格
+     */
+    @GET("LeasedVehicle/CreateLeasedVehicleOrder.ashx")
+    Call<TravelOrderVo> createLeasedVehicleOrder(
+            @Query("userID") String userID,
+            @Query("carID") String CarID,
+            @Query("days") String days,
+            @Query("goDate") String goDate,
+            @Query("kilometers") String kilometers,
+            @Query("trip") String trip,
+            @Query("orderTotalPrice") String orderTotalPrice
+    );
+
+    /**
      * 包车订单列表
      *
      * @param userID
@@ -561,7 +585,16 @@ public interface Apis {
     Call<VehicleOrdersDetailsVoResp> getLeasedVehicleOrdersDetails(
             @Query("orderID") String orderID
     );
-
+    /**
+     * 包车订单详情
+     *
+     * @param orderID
+     * @return
+     */
+    @GET("Orders/GetLeasedVehicleOrdersDetails.ashx")
+    Call<TravelVehicleOrdersDetailsVoResp> getLeasedVehicleOrdersNewsDetails(
+            @Query("orderID") String orderID
+    );
     /**
      * 学生创建订单
      *
@@ -657,6 +690,17 @@ public interface Apis {
     );
 
     /**
+     * 获取扫描二维码
+     *
+     * @param ticketNumber
+     * @return
+     */
+    @GET("orders/GetTicketQRCode.ashx")
+    Call<QRCodeVo> getTicketQRCode(
+            @Query("ticketNumber") String ticketNumber
+    );
+
+    /**
      * 获取版本信息
      *
      * @return
@@ -675,29 +719,19 @@ public interface Apis {
     /**
      * 计算包车价格
      * @param carTypeID 车型编码
-     * @param Days 出发天数
+     * @param days 出发天数
      * @param goDate 出发时间
      * @param Kilometers 公里数
-     * @param startCityName 出发城市名称
-     * @param startPosition 出发位置经纬度
-     * @param startPositionName 出发位置名称
-     * @param stopCityName 到达城市名称
-     * @param stopPosition 到达位置经纬度
-     * @param stopPositionName 到达位置名称
+     * @param trip 公里数
      * @return
      */
     @GET("LeasedVehicle/CalculatePrice.ashx")
     Call<CalculatePriceResp<CalculatePriceVo>> calculatePrice(
             @Query("carTypeID") String carTypeID, //车型编码
-            @Query("Days") int Days, //出发天数
+            @Query("days") int days, //出发天数
             @Query("goDate") String goDate,  //出发时间
             @Query("Kilometers") String Kilometers,  //公里数
-            @Query("startCityName") String startCityName,  //出发城市名称
-            @Query("startPosition") String startPosition, //出发位置经纬度
-            @Query("startPositionName") String startPositionName, // 出发位置名称
-            @Query("stopCityName") String stopCityName, // 到达城市名称
-            @Query("stopPosition") String stopPosition, //到达位置经纬度
-            @Query("stopPositionName") String stopPositionName // 到达位置名称
+            @Query("trip") String trip  //行程
     );
 
     /**

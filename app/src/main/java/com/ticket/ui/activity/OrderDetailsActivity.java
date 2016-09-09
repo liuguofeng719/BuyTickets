@@ -2,6 +2,7 @@ package com.ticket.ui.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -9,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.BaseInfoVo;
 import com.ticket.bean.OrderDeatilResp;
 import com.ticket.bean.OrderDetailVo;
 import com.ticket.bean.PassengerDetailVo;
+import com.ticket.bean.QRCodeVo;
 import com.ticket.ui.adpater.base.ListViewDataAdapter;
 import com.ticket.ui.adpater.base.ViewHolderBase;
 import com.ticket.ui.adpater.base.ViewHolderCreator;
@@ -69,6 +72,7 @@ public class OrderDetailsActivity extends BaseActivity {
 
     ListViewDataAdapter listViewDataAdapter;
     private Dialog dialogDataInit;
+    private String orderStatusCode;
 
     @OnClick(R.id.btn_back)
     public void back() {
@@ -105,6 +109,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     TextView tv_delete;
                     TextView tv_phone;
                     TextView tv_ticket_number;
+                    TextView tv_qcode;
 
                     @Override
                     public View createView(LayoutInflater layoutInflater) {
@@ -114,6 +119,7 @@ public class OrderDetailsActivity extends BaseActivity {
                         tv_delete = ButterKnife.findById(view, R.id.tv_delete);
                         tv_phone = ButterKnife.findById(view, R.id.tv_phone);
                         tv_ticket_number = ButterKnife.findById(view, R.id.tv_ticket_number);
+                        tv_qcode = ButterKnife.findById(view, R.id.tv_qcode);
                         tv_delete.setVisibility(View.INVISIBLE);
                         return view;
                     }
@@ -125,6 +131,49 @@ public class OrderDetailsActivity extends BaseActivity {
                         tv_id_card.setText(itemData.getIdCard());
                         tv_phone.setText(itemData.getMobileNumber());
                         tv_ticket_number.setText(itemData.getTicketNumber());
+                        if (orderStatusCode.toUpperCase().equals("SUCCESS")) {
+                            tv_qcode.setVisibility(View.VISIBLE);
+                            tv_qcode.setTag(itemData.getTicketNumber());
+                            tv_qcode.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    final Dialog dialog = CommonUtils.showDialog(OrderDetailsActivity.this);
+                                    dialog.show();
+
+                                    final Dialog qrCodeDialog = CommonUtils.createDialog(OrderDetailsActivity.this);
+                                    qrCodeDialog.setContentView(R.layout.qrcode_dialog);
+                                    qrCodeDialog.setCancelable(true);
+                                    qrCodeDialog.setCanceledOnTouchOutside(true);
+                                    final ImageView qrCodeView = (ImageView) qrCodeDialog.findViewById(R.id.iv_qrcode);
+
+                                    Call<QRCodeVo> orderNumber = getApis().getTicketQRCode(tv_qcode.getTag().toString()).clone();
+                                    orderNumber.enqueue(new Callback<QRCodeVo>() {
+                                        @Override
+                                        public void onResponse(Response<QRCodeVo> response, Retrofit retrofit) {
+                                            CommonUtils.dismiss(dialog);
+                                            final QRCodeVo body = response.body();
+                                            if (response.isSuccess() && body != null && body.isSuccessfully()) {
+                                                ImageLoader.getInstance().displayImage(body.getQrCodeUrl(),qrCodeView);
+                                                new Handler().post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        qrCodeDialog.show();
+                                                    }
+                                                });
+                                            } else {
+                                                CommonUtils.make(OrderDetailsActivity.this,body.getErrorMessage());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            CommonUtils.dismiss(dialog);
+                                        }
+                                    });
+                                }
+                            });
+                        }
                         if (itemData.isCanbeRefund()) {
                             tv_delete.setVisibility(View.VISIBLE);
                             tv_delete.setTag(itemData.getOrderDetailID());
@@ -178,6 +227,7 @@ public class OrderDetailsActivity extends BaseActivity {
                 CommonUtils.dismiss(dialogDataInit);
                 if (response.isSuccess() && response.body() != null && response.body().isSuccessfully()) {
                     OrderDetailVo orderDetails = response.body().getOrderDetailMessage();
+                    orderStatusCode = orderDetails.getOrderStatusCode();
                     tv_order_code.setText(orderDetails.getOrderNumber());
                     tv_pay_time.setText(orderDetails.getPayDateTime());
                     tv_pay_mode.setText(orderDetails.getPayFuncation());

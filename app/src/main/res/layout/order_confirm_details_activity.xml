@@ -15,9 +15,94 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/ly_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单号："
+                android:textColor="@color/text_color_c"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_order_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456789"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_order_status_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="等待出行"
+                android:textColor="@color/common_text_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付时间："
+                android:textColor="@color/text_color_c"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_pay_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-12-15 06:30"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付方式："
+                android:textColor="@color/text_color_c"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_pay_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_line_color" />
 
     <ImageView
         android:id="@+id/iv_car_image"
@@ -40,7 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="赵师傅"
         android:textColor="@color/text_color"
@@ -68,7 +153,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@color/normal_bg_color" />
+            android:background="@color/bg_line_color" />
     </FrameLayout>
 
     <FrameLayout
@@ -94,7 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@color/normal_bg_color" />
+            android:background="@color/bg_line_color" />
     </FrameLayout>
 
     <FrameLayout
@@ -120,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@color/normal_bg_color" />
+            android:background="@color/bg_line_color" />
     </FrameLayout>
 
     <FrameLayout
@@ -135,7 +220,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="6dp"
             android:gravity="center"
-            android:text="订单总金额:666元"
+            android:text="总金额:666元"
             android:textColor="@color/text_price_rule"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -146,18 +231,4 @@
             android:layout_gravity="bottom"
             android:background="@color/normal_bg_color" />
     </FrameLayout>
-
-    <Button
-        android:id="@+id/btn_pay"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginRight="@dimen/common_padding"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/my_ok_button"
-        android:text="立即支付"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-    </LinearLayout>
 </LinearLayout>

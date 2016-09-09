@@ -2,6 +2,7 @@ package com.ticket.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,32 +145,39 @@ public class SuggestionActivity extends BaseActivity implements OnGetSuggestionR
     }
 
     @Override
-    public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-        infoVoList.clear();
-        ArrayList dataList = listViewDataAdapter.getDataList();
-        dataList.clear();
-        List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
-        for (SuggestionResult.SuggestionInfo allSuggestion : allSuggestions) {
-            SuggestionInfoVo suggestionInfoVo = new SuggestionInfoVo();
-            suggestionInfoVo.setCity(allSuggestion.city);
-            suggestionInfoVo.setDistrict(allSuggestion.district);
-            suggestionInfoVo.setKey(allSuggestion.key);
-            if (allSuggestion.pt != null) {
-                com.ticket.bean.LatLng latLng = new com.ticket.bean.LatLng();
-                latLng.setLatitude(allSuggestion.pt.latitude);
-                latLng.setLongitude(allSuggestion.pt.longitude);
-                suggestionInfoVo.setPt(latLng);
-                suggestionInfoVo.setUid(allSuggestion.uid);
-                infoVoList.add(suggestionInfoVo);
-                LatLng pt = allSuggestion.pt;
-                if (pt != null) {
-                    TLog.d(TAG_LOG, allSuggestion.district + "==" +
-                            allSuggestion.key + "==" +
-                            pt.longitude + "," + pt.latitude);
+    public void onGetSuggestionResult(final SuggestionResult suggestionResult) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    infoVoList.clear();
+                    ArrayList dataList = listViewDataAdapter.getDataList();
+                    dataList.clear();
+                    List<SuggestionResult.SuggestionInfo> allSuggestions = suggestionResult.getAllSuggestions();
+                    if (allSuggestions != null && !allSuggestions.isEmpty()) {
+                        for (SuggestionResult.SuggestionInfo allSuggestion : allSuggestions) {
+                            SuggestionInfoVo suggestionInfoVo = new SuggestionInfoVo();
+                            suggestionInfoVo.setCity(allSuggestion.city);
+                            suggestionInfoVo.setDistrict(allSuggestion.district);
+                            suggestionInfoVo.setKey(allSuggestion.key);
+                            if (allSuggestion.pt != null) {
+                                com.ticket.bean.LatLng latLng = new com.ticket.bean.LatLng();
+                                latLng.setLatitude(allSuggestion.pt.latitude);
+                                latLng.setLongitude(allSuggestion.pt.longitude);
+                                suggestionInfoVo.setPt(latLng);
+                                suggestionInfoVo.setUid(allSuggestion.uid);
+                                infoVoList.add(suggestionInfoVo);
+                                LatLng pt = allSuggestion.pt;
+                                if (pt != null) {
+                                    TLog.d(TAG_LOG, allSuggestion.district + "==" +
+                                            allSuggestion.key + "==" +
+                                            pt.longitude + "," + pt.latitude);
+                                }
+                            }
+                        }
+                        dataList.addAll(infoVoList);
+                    listViewDataAdapter.notifyDataSetChanged();
                 }
             }
-        }
-        dataList.addAll(infoVoList);
-        listViewDataAdapter.notifyDataSetChanged();
+        });
     }
 }

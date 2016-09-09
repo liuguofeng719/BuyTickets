@@ -100,8 +100,8 @@ public class IndexActivity extends BaseActivity {
         ViewPageAdpater viewPageAdpater = new ViewPageAdpater(getSupportFragmentManager(), fragmentList);
         this.viewPager.setAdapter(viewPageAdpater);
         if (extras != null) {
-            TLog.d(TAG_LOG, extras.getInt("order") + "");
-            this.viewPager.setCurrentItem(extras.getInt("order"));
+            TLog.d(TAG_LOG, extras.getInt("current") + "");
+            this.viewPager.setCurrentItem(extras.getInt("current"));
         } else {
             this.viewPager.setCurrentItem(0);
         }

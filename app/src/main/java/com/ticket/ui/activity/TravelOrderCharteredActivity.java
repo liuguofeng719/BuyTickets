@@ -1,16 +1,21 @@
 package com.ticket.ui.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ticket.R;
 import com.ticket.bean.AssignedCarDetailResp;
 import com.ticket.bean.AssignedCarVo;
+import com.ticket.bean.TravelOrderVo;
 import com.ticket.ui.base.BaseActivity;
+import com.ticket.utils.AppPreferences;
+import com.ticket.utils.CommonUtils;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -42,14 +47,56 @@ public class TravelOrderCharteredActivity extends BaseActivity {
     TextView tvCartNumber;
     @InjectView(R.id.tv_order_total)
     TextView tvOrderTotal;
-    @InjectView(R.id.btn_pay)
-    Button btnPay;
+    @InjectView(R.id.ly_content)
+    LinearLayout ly_content;
+    private String carID;
+    private Dialog dialogDataInit;
+
+    @OnClick(R.id.btn_pay)
+    public void btnPay() {
+        if (!TextUtils.isEmpty(AppPreferences.getString("userId"))) {
+            dialogDataInit = CommonUtils.showDialog(TravelOrderCharteredActivity.this);
+            dialogDataInit.show();
+            Call<TravelOrderVo> baseInfoVoCall = getApis().createLeasedVehicleOrder(
+                    AppPreferences.getString("userId"),
+                    carID,
+                    extras.getString("days"),
+                    extras.getString("date"),
+                    extras.getString("totalDistance"),
+                    extras.getString("trip"),
+                    extras.getString("totalPrice")
+            ).clone();
+
+            baseInfoVoCall.enqueue(new Callback<TravelOrderVo>() {
+                @Override
+                public void onResponse(Response<TravelOrderVo> response, Retrofit retrofit) {
+                    CommonUtils.dismiss(dialogDataInit);
+                    TravelOrderVo body = response.body();
+                    if (response.isSuccess() && body != null && body.isSuccessfully()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("money", extras.getString("totalPrice"));
+                        bundle.putString("orderId", body.getOrderId());
+                        readyGo(PayMentChartedBusActivity.class, bundle);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    CommonUtils.dismiss(dialogDataInit);
+                }
+            });
+        } else {
+            readyGo(LoginActivity.class);
+        }
+    }
 
     private Bundle extras;
+
     @OnClick(R.id.btn_back)
     public void btnBack() {
         finish();
     }
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.order_confirm_activity;
@@ -57,7 +104,7 @@ public class TravelOrderCharteredActivity extends BaseActivity {
 
     @Override
     protected View getLoadingTargetView() {
-        return null;
+        return ly_content;
     }
 
     @Override
@@ -68,6 +115,7 @@ public class TravelOrderCharteredActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
         tvHeaderTitle.setText("确认订单");
+        showLoading(getString(R.string.common_loading_message));
         orderDetail(extras.getString("carType"));
     }
 
@@ -76,9 +124,11 @@ public class TravelOrderCharteredActivity extends BaseActivity {
         assignedCarDetailRespCall.enqueue(new Callback<AssignedCarDetailResp<AssignedCarVo>>() {
             @Override
             public void onResponse(Response<AssignedCarDetailResp<AssignedCarVo>> response, Retrofit retrofit) {
+                hideLoading();
                 if (response.isSuccess() && response.body() != null) {
                     AssignedCarDetailResp<AssignedCarVo> assignedCarDetailResp = response.body();
                     AssignedCarVo assignedCarDetail = assignedCarDetailResp.getAssignedCarDetail();
+                    carID = assignedCarDetail.getCarID();
                     ImageLoader.getInstance().displayImage(assignedCarDetail.getCarTypePicture(), ivCarImage);
                     tvCarType.setText(assignedCarDetail.getCarTypeName());
                     tvDriverName.setText(assignedCarDetail.getFullName());
@@ -91,7 +141,7 @@ public class TravelOrderCharteredActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-
+                hideLoading();
             }
         });
     }

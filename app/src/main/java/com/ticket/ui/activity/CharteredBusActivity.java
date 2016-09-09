@@ -89,8 +89,8 @@ public class CharteredBusActivity extends BaseActivity {
         mDialog.setContentView(R.layout.chartered_bus_dialog);
         mDialog.setCancelable(true);
         mDialog.setCanceledOnTouchOutside(true);
-        final EditText startCity = (EditText) mDialog.findViewById(R.id.start_city);
-        final EditText endCity = (EditText) mDialog.findViewById(R.id.end_city);
+        final TextView startCity = (TextView) mDialog.findViewById(R.id.start_city);
+        final TextView endCity = (TextView) mDialog.findViewById(R.id.end_city);
         final Spinner spinner_days = (Spinner) mDialog.findViewById(R.id.spinner_days);
         String[] mItems = getResources().getStringArray(R.array.spinedays);
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
